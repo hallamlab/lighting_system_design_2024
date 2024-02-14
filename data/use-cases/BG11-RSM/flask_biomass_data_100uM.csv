@@ -1,0 +1,19 @@
+strain,experiment,condition,condition2,replicate,biomass
+UTEX2973,gossypetin,Gos (-),-,1,0.0037
+UTEX2973,gossypetin,Gos (-),-,2,0.003
+UTEX2973,gossypetin,Gos (-),-,3,0.0079
+UTEX2973,gossypetin,Gos (+),+,1,0.0072
+UTEX2973,gossypetin,Gos (+),+,2,0.0051
+UTEX2973,gossypetin,Gos (+),+,3,0.0048
+UTEX90,optimization,BG11,BG11,1,0.0051
+UTEX90,optimization,BG11,BG11,2,0.0063
+UTEX90,optimization,BG11,BG11,3,0.0058
+UTEX90,optimization,BG11-opt,BG11-UTEX90,1,0.0098
+UTEX90,optimization,BG11-opt,BG11-UTEX90,2,0.0106
+UTEX90,optimization,BG11-opt,BG11-UTEX90,3,0.0074
+Nostoc sp.,optimization,BG11,BG11,1,0.004
+Nostoc sp.,optimization,BG11,BG11,2,0.0063
+Nostoc sp.,optimization,BG11,BG11,3,0.0087
+Nostoc sp.,optimization,BG11-opt,BG11-nostoc,1,0.0083
+Nostoc sp.,optimization,BG11-opt,BG11-nostoc,2,0.0096
+Nostoc sp.,optimization,BG11-opt,BG11-nostoc,3,0.0084

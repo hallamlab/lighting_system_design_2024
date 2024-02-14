@@ -1,0 +1,309 @@
+Source Plate Name,Source Well,Destination Plate Name,Destination Well,Transfer Volume,Type,Chemical name
+1230,A06,Destination[1],B03,75,Hit,PHENYLMERCURIC ACETATE
+1209,H11,Destination[1],B04,25,Hit,Hydrastinine hydrochloride
+1258,A20,Destination[1],B13,75,Hit,Remerine HCl
+1236,L13,Destination[1],B15,75,Hit,COUMOPHOS
+1230,A06,Destination[1],B18,25,Hit,PHENYLMERCURIC ACETATE
+1258,A20,Destination[1],B19,25,Hit,Remerine HCl
+1212,P10,Destination[1],B20,75,Hit,Riboflavine
+1212,F20,Destination[1],B21,50,Hit,Bicuculline (+)
+1255,J09,Destination[1],C02,50,Hit,Tetraethylthiuram disulfide
+1255,J21,Destination[1],C05,100,Hit,Pifithrin-mu
+1258,O11,Destination[1],C06,25,Hit,Gliotoxin
+1212,P10,Destination[1],C07,50,Hit,Riboflavine
+1255,J09,Destination[1],C09,75,Hit,Tetraethylthiuram disulfide
+1224,G11,Destination[1],C10,25,Hit,BICUCULLINE (+)
+1224,H20,Destination[1],C12,25,Hit,HYDRASTININE HYDROCHLORIDE
+1255,N18,Destination[1],C14,75,Hit,WB 64
+1255,J09,Destination[1],C16,100,Hit,Tetraethylthiuram disulfide
+1224,H20,Destination[1],C17,100,Hit,HYDRASTININE HYDROCHLORIDE
+1236,B10,Destination[1],C20,50,Hit,METHYL 7-DESHYDROXYPYROGALLIN-4-CARBOXYLATE
+1224,H11,Destination[1],C23,100,Hit,GOSSYPETIN
+1224,H11,Destination[1],D09,50,Hit,GOSSYPETIN
+1215,F04,Destination[1],D11,100,Hit,Hymecromone
+1258,O11,Destination[1],D12,100,Hit,Gliotoxin
+1258,I14,Destination[1],D13,50,Hit,Tunicamycin B
+1227,F22,Destination[1],D19,100,Hit,NAFCILLIN SODIUM
+1227,F22,Destination[1],D23,75,Hit,NAFCILLIN SODIUM
+1255,N18,Destination[1],E10,100,Hit,WB 64
+1224,G11,Destination[1],E16,75,Hit,BICUCULLINE (+)
+1236,E12,Destination[1],E17,75,Hit,PUERARIN
+1209,C16,Destination[1],F04,25,Hit,Disulfiram
+1255,J21,Destination[1],F09,25,Hit,Pifithrin-mu
+1209,H11,Destination[1],F11,75,Hit,Hydrastinine hydrochloride
+1227,F22,Destination[1],F15,50,Hit,NAFCILLIN SODIUM
+1239,E09,Destination[1],F21,100,Hit,BEPHENIUM HYDROXYNAPTHOATE
+1243,A03,Destination[1],F22,50,Hit,DL-alpha-Methyl-p-tyrosine
+1236,B10,Destination[1],G03,100,Hit,METHYL 7-DESHYDROXYPYROGALLIN-4-CARBOXYLATE
+1227,H15,Destination[1],G10,75,Hit,GENTIAN VIOLET
+1236,L13,Destination[1],G13,25,Hit,COUMOPHOS
+1236,M12,Destination[1],G15,50,Hit,BICUCULLINE(-) METHIODIDE
+1239,E09,Destination[1],G18,25,Hit,BEPHENIUM HYDROXYNAPTHOATE
+1230,A06,Destination[1],G22,100,Hit,PHENYLMERCURIC ACETATE
+1215,F04,Destination[1],H10,25,Hit,Hymecromone
+1236,M12,Destination[1],H12,25,Hit,BICUCULLINE(-) METHIODIDE
+1215,F04,Destination[1],H16,75,Hit,Hymecromone
+1258,O11,Destination[1],H17,75,Hit,Gliotoxin
+1236,M12,Destination[1],H22,75,Hit,BICUCULLINE(-) METHIODIDE
+1227,G21,Destination[1],H23,50,Hit,RIBOFLAVIN
+1243,A03,Destination[1],I02,25,Hit,DL-alpha-Methyl-p-tyrosine
+1243,A03,Destination[1],I03,75,Hit,DL-alpha-Methyl-p-tyrosine
+1224,G11,Destination[1],I07,100,Hit,BICUCULLINE (+)
+1209,C16,Destination[1],I08,100,Hit,Disulfiram
+1212,F20,Destination[1],I12,100,Hit,Bicuculline (+)
+1236,E12,Destination[1],I13,100,Hit,PUERARIN
+1224,H11,Destination[1],I14,75,Hit,GOSSYPETIN
+1255,J21,Destination[1],I15,50,Hit,Pifithrin-mu
+1255,J21,Destination[1],I18,75,Hit,Pifithrin-mu
+1227,H15,Destination[1],I19,50,Hit,GENTIAN VIOLET
+1236,E12,Destination[1],I20,25,Hit,PUERARIN
+1227,G21,Destination[1],I21,75,Hit,RIBOFLAVIN
+1224,H11,Destination[1],I22,25,Hit,GOSSYPETIN
+1221,M08,Destination[1],J09,75,Hit,IRIDIN
+1212,P10,Destination[1],J15,100,Hit,Riboflavine
+1236,E12,Destination[1],J16,50,Hit,PUERARIN
+1215,F04,Destination[1],J17,50,Hit,Hymecromone
+1258,I14,Destination[1],J18,25,Hit,Tunicamycin B
+1230,I09,Destination[1],K02,100,Hit,THIMEROSAL
+1227,H15,Destination[1],K03,100,Hit,GENTIAN VIOLET
+1224,H20,Destination[1],K04,50,Hit,HYDRASTININE HYDROCHLORIDE
+1239,E09,Destination[1],K07,50,Hit,BEPHENIUM HYDROXYNAPTHOATE
+1224,H20,Destination[1],K11,75,Hit,HYDRASTININE HYDROCHLORIDE
+1227,F22,Destination[1],K13,25,Hit,NAFCILLIN SODIUM
+1230,A06,Destination[1],K16,50,Hit,PHENYLMERCURIC ACETATE
+1258,O11,Destination[1],K17,50,Hit,Gliotoxin
+1255,J09,Destination[1],K23,25,Hit,Tetraethylthiuram disulfide
+1209,H11,Destination[1],L02,100,Hit,Hydrastinine hydrochloride
+1255,N18,Destination[1],L10,50,Hit,WB 64
+1239,E09,Destination[1],L13,75,Hit,BEPHENIUM HYDROXYNAPTHOATE
+1236,M12,Destination[1],L14,100,Hit,BICUCULLINE(-) METHIODIDE
+1212,P10,Destination[1],L15,25,Hit,Riboflavine
+1230,I09,Destination[1],L17,50,Hit,THIMEROSAL
+1255,N18,Destination[1],L23,25,Hit,WB 64
+1227,G21,Destination[1],M07,100,Hit,RIBOFLAVIN
+1209,H11,Destination[1],M14,50,Hit,Hydrastinine hydrochloride
+1236,L13,Destination[1],M15,100,Hit,COUMOPHOS
+1212,F20,Destination[1],M17,25,Hit,Bicuculline (+)
+1230,I09,Destination[1],M21,25,Hit,THIMEROSAL
+1258,A20,Destination[1],M22,100,Hit,Remerine HCl
+1258,I14,Destination[1],N02,75,Hit,Tunicamycin B
+1212,F20,Destination[1],N03,75,Hit,Bicuculline (+)
+1221,M08,Destination[1],N05,25,Hit,IRIDIN
+1258,I14,Destination[1],N07,100,Hit,Tunicamycin B
+1227,H15,Destination[1],N10,25,Hit,GENTIAN VIOLET
+1243,A03,Destination[1],N11,100,Hit,DL-alpha-Methyl-p-tyrosine
+1230,I09,Destination[1],N14,75,Hit,THIMEROSAL
+1236,B10,Destination[1],N17,75,Hit,METHYL 7-DESHYDROXYPYROGALLIN-4-CARBOXYLATE
+1258,A20,Destination[1],N20,50,Hit,Remerine HCl
+1236,L13,Destination[1],O03,50,Hit,COUMOPHOS
+1236,B10,Destination[1],O04,25,Hit,METHYL 7-DESHYDROXYPYROGALLIN-4-CARBOXYLATE
+1224,G11,Destination[1],O07,50,Hit,BICUCULLINE (+)
+1209,C16,Destination[1],O08,50,Hit,Disulfiram
+1209,C16,Destination[1],O12,75,Hit,Disulfiram
+1227,G21,Destination[1],O18,25,Hit,RIBOFLAVIN
+1221,M08,Destination[1],O20,100,Hit,IRIDIN
+1221,M08,Destination[1],O23,50,Hit,IRIDIN
+Source[1],A01,Destination[1],B02,75,Control,DMSO
+Source[1],A01,Destination[1],B05,75,Control,DMSO
+Source[1],A01,Destination[1],B06,75,Control,DMSO
+Source[1],A01,Destination[1],B07,75,Control,DMSO
+Source[1],A01,Destination[1],B08,75,Control,DMSO
+Source[1],A01,Destination[1],B09,75,Control,DMSO
+Source[1],A01,Destination[1],B10,75,Control,DMSO
+Source[1],A01,Destination[1],B11,75,Control,DMSO
+Source[1],A01,Destination[1],B12,75,Control,DMSO
+Source[1],A01,Destination[1],B14,75,Control,DMSO
+Source[1],A01,Destination[1],B16,75,Control,DMSO
+Source[1],A01,Destination[1],B17,75,Control,DMSO
+Source[1],A01,Destination[1],B22,75,Control,DMSO
+Source[1],A01,Destination[1],B23,75,Control,DMSO
+Source[1],A01,Destination[1],C03,75,Control,DMSO
+Source[1],A01,Destination[1],C04,75,Control,DMSO
+Source[1],A01,Destination[1],C08,75,Control,DMSO
+Source[1],A01,Destination[1],C11,75,Control,DMSO
+Source[1],A01,Destination[1],C13,75,Control,DMSO
+Source[1],A01,Destination[1],C15,75,Control,DMSO
+Source[1],A01,Destination[1],C18,75,Control,DMSO
+Source[1],A01,Destination[1],C19,75,Control,DMSO
+Source[1],A01,Destination[1],C21,75,Control,DMSO
+Source[1],A01,Destination[1],C22,75,Control,DMSO
+Source[1],A01,Destination[1],D02,75,Control,DMSO
+Source[1],A01,Destination[1],D03,75,Control,DMSO
+Source[1],A01,Destination[1],D04,75,Control,DMSO
+Source[1],A01,Destination[1],D05,75,Control,DMSO
+Source[1],A01,Destination[1],D06,75,Control,DMSO
+Source[1],A01,Destination[1],D07,75,Control,DMSO
+Source[1],A01,Destination[1],D08,75,Control,DMSO
+Source[1],A01,Destination[1],D10,75,Control,DMSO
+Source[1],A01,Destination[1],D14,75,Control,DMSO
+Source[1],A01,Destination[1],D15,75,Control,DMSO
+Source[1],A01,Destination[1],D16,75,Control,DMSO
+Source[1],A01,Destination[1],D17,75,Control,DMSO
+Source[1],A01,Destination[1],D18,75,Control,DMSO
+Source[1],A01,Destination[1],D20,75,Control,DMSO
+Source[1],A01,Destination[1],D21,75,Control,DMSO
+Source[1],A01,Destination[1],D22,75,Control,DMSO
+Source[1],A01,Destination[1],E02,75,Control,DMSO
+Source[1],A01,Destination[1],E03,75,Control,DMSO
+Source[1],A01,Destination[1],E04,75,Control,DMSO
+Source[1],A01,Destination[1],E05,75,Control,DMSO
+Source[1],A01,Destination[1],E06,75,Control,DMSO
+Source[1],A01,Destination[1],E07,75,Control,DMSO
+Source[1],A01,Destination[1],E08,75,Control,DMSO
+Source[1],A01,Destination[1],E09,75,Control,DMSO
+Source[1],A01,Destination[1],E11,75,Control,DMSO
+Source[1],A01,Destination[1],E12,75,Control,DMSO
+Source[1],A01,Destination[1],E13,75,Control,DMSO
+Source[1],A01,Destination[1],E14,75,Control,DMSO
+Source[1],A01,Destination[1],E15,75,Control,DMSO
+Source[1],A01,Destination[1],E18,75,Control,DMSO
+Source[1],A01,Destination[1],E19,75,Control,DMSO
+Source[1],A01,Destination[1],E20,75,Control,DMSO
+Source[1],A01,Destination[1],E21,75,Control,DMSO
+Source[1],A01,Destination[1],E22,75,Control,DMSO
+Source[1],A01,Destination[1],E23,75,Control,DMSO
+Source[1],A01,Destination[1],F02,75,Control,DMSO
+Source[1],A01,Destination[1],F03,75,Control,DMSO
+Source[1],A01,Destination[1],F05,75,Control,DMSO
+Source[1],A01,Destination[1],F06,75,Control,DMSO
+Source[1],A01,Destination[1],F07,75,Control,DMSO
+Source[1],A01,Destination[1],F08,75,Control,DMSO
+Source[1],A01,Destination[1],F10,75,Control,DMSO
+Source[1],A01,Destination[1],F12,75,Control,DMSO
+Source[1],A01,Destination[1],F13,75,Control,DMSO
+Source[1],A01,Destination[1],F14,75,Control,DMSO
+Source[1],A01,Destination[1],F16,75,Control,DMSO
+Source[1],A01,Destination[1],F17,75,Control,DMSO
+Source[1],A01,Destination[1],F18,75,Control,DMSO
+Source[1],A01,Destination[1],F19,75,Control,DMSO
+Source[1],A01,Destination[1],F20,75,Control,DMSO
+Source[1],A01,Destination[1],F23,75,Control,DMSO
+Source[1],A01,Destination[1],G02,75,Control,DMSO
+Source[1],A01,Destination[1],G04,75,Control,DMSO
+Source[1],A01,Destination[1],G05,75,Control,DMSO
+Source[1],A01,Destination[1],G06,75,Control,DMSO
+Source[1],A01,Destination[1],G07,75,Control,DMSO
+Source[1],A01,Destination[1],G08,75,Control,DMSO
+Source[1],A01,Destination[1],G09,75,Control,DMSO
+Source[1],A01,Destination[1],G11,75,Control,DMSO
+Source[1],A01,Destination[1],G12,75,Control,DMSO
+Source[1],A01,Destination[1],G14,75,Control,DMSO
+Source[1],A01,Destination[1],G16,75,Control,DMSO
+Source[1],A01,Destination[1],G17,75,Control,DMSO
+Source[1],A01,Destination[1],G19,75,Control,DMSO
+Source[1],A01,Destination[1],G20,75,Control,DMSO
+Source[1],A01,Destination[1],G21,75,Control,DMSO
+Source[1],A01,Destination[1],G23,75,Control,DMSO
+Source[1],A01,Destination[1],H02,75,Control,DMSO
+Source[1],A01,Destination[1],H03,75,Control,DMSO
+Source[1],A01,Destination[1],H04,75,Control,DMSO
+Source[1],A01,Destination[1],H05,75,Control,DMSO
+Source[1],A01,Destination[1],H06,75,Control,DMSO
+Source[1],A01,Destination[1],H07,75,Control,DMSO
+Source[1],A01,Destination[1],H08,75,Control,DMSO
+Source[1],A01,Destination[1],H09,75,Control,DMSO
+Source[1],A01,Destination[1],H11,75,Control,DMSO
+Source[1],A01,Destination[1],H13,75,Control,DMSO
+Source[1],A01,Destination[1],H14,75,Control,DMSO
+Source[1],A01,Destination[1],H15,75,Control,DMSO
+Source[1],A01,Destination[1],H18,75,Control,DMSO
+Source[1],A01,Destination[1],H19,75,Control,DMSO
+Source[1],A01,Destination[1],H20,75,Control,DMSO
+Source[1],A01,Destination[1],H21,75,Control,DMSO
+Source[1],A01,Destination[1],I04,75,Control,DMSO
+Source[1],A01,Destination[1],I05,75,Control,DMSO
+Source[1],A01,Destination[1],I06,75,Control,DMSO
+Source[1],A01,Destination[1],I09,75,Control,DMSO
+Source[1],A01,Destination[1],I10,75,Control,DMSO
+Source[1],A01,Destination[1],I11,75,Control,DMSO
+Source[1],A01,Destination[1],I16,75,Control,DMSO
+Source[1],A01,Destination[1],I17,75,Control,DMSO
+Source[1],A01,Destination[1],I23,75,Control,DMSO
+Source[1],A01,Destination[1],J02,75,Control,DMSO
+Source[1],A01,Destination[1],J03,75,Control,DMSO
+Source[1],A01,Destination[1],J04,75,Control,DMSO
+Source[1],A01,Destination[1],J05,75,Control,DMSO
+Source[1],A01,Destination[1],J06,75,Control,DMSO
+Source[1],A01,Destination[1],J07,75,Control,DMSO
+Source[1],A01,Destination[1],J08,75,Control,DMSO
+Source[1],A01,Destination[1],J10,75,Control,DMSO
+Source[1],A01,Destination[1],J11,75,Control,DMSO
+Source[1],A01,Destination[1],J12,75,Control,DMSO
+Source[1],A01,Destination[1],J13,75,Control,DMSO
+Source[1],A01,Destination[1],J14,75,Control,DMSO
+Source[1],A01,Destination[1],J19,75,Control,DMSO
+Source[1],A01,Destination[1],J20,75,Control,DMSO
+Source[1],A01,Destination[1],J21,75,Control,DMSO
+Source[1],A01,Destination[1],J22,75,Control,DMSO
+Source[1],A01,Destination[1],J23,75,Control,DMSO
+Source[1],A01,Destination[1],K05,75,Control,DMSO
+Source[1],A01,Destination[1],K06,75,Control,DMSO
+Source[1],A01,Destination[1],K08,75,Control,DMSO
+Source[1],A01,Destination[1],K09,75,Control,DMSO
+Source[1],A01,Destination[1],K10,75,Control,DMSO
+Source[1],A01,Destination[1],K12,75,Control,DMSO
+Source[1],A01,Destination[1],K14,75,Control,DMSO
+Source[1],A01,Destination[1],K15,75,Control,DMSO
+Source[1],A01,Destination[1],K18,75,Control,DMSO
+Source[1],A01,Destination[1],K19,75,Control,DMSO
+Source[1],A01,Destination[1],K20,75,Control,DMSO
+Source[1],A01,Destination[1],K21,75,Control,DMSO
+Source[1],A01,Destination[1],K22,75,Control,DMSO
+Source[1],A01,Destination[1],L03,75,Control,DMSO
+Source[1],A01,Destination[1],L04,75,Control,DMSO
+Source[1],A01,Destination[1],L05,75,Control,DMSO
+Source[1],A01,Destination[1],L06,75,Control,DMSO
+Source[1],A01,Destination[1],L07,75,Control,DMSO
+Source[1],A01,Destination[1],L08,75,Control,DMSO
+Source[1],A01,Destination[1],L09,75,Control,DMSO
+Source[1],A01,Destination[1],L11,75,Control,DMSO
+Source[1],A01,Destination[1],L12,75,Control,DMSO
+Source[1],A01,Destination[1],L16,75,Control,DMSO
+Source[1],A01,Destination[1],L18,75,Control,DMSO
+Source[1],A01,Destination[1],L19,75,Control,DMSO
+Source[1],A01,Destination[1],L20,75,Control,DMSO
+Source[1],A01,Destination[1],L21,75,Control,DMSO
+Source[1],A01,Destination[1],L22,75,Control,DMSO
+Source[1],A01,Destination[1],M02,75,Control,DMSO
+Source[1],A01,Destination[1],M03,75,Control,DMSO
+Source[1],A01,Destination[1],M04,75,Control,DMSO
+Source[1],A01,Destination[1],M05,75,Control,DMSO
+Source[1],A01,Destination[1],M06,75,Control,DMSO
+Source[1],A01,Destination[1],M08,75,Control,DMSO
+Source[1],A01,Destination[1],M09,75,Control,DMSO
+Source[1],A01,Destination[1],M10,75,Control,DMSO
+Source[1],A01,Destination[1],M11,75,Control,DMSO
+Source[1],A01,Destination[1],M12,75,Control,DMSO
+Source[1],A01,Destination[1],M13,75,Control,DMSO
+Source[1],A01,Destination[1],M16,75,Control,DMSO
+Source[1],A01,Destination[1],M18,75,Control,DMSO
+Source[1],A01,Destination[1],M19,75,Control,DMSO
+Source[1],A01,Destination[1],M20,75,Control,DMSO
+Source[1],A01,Destination[1],M23,75,Control,DMSO
+Source[1],A01,Destination[1],N04,75,Control,DMSO
+Source[1],A01,Destination[1],N06,75,Control,DMSO
+Source[1],A01,Destination[1],N08,75,Control,DMSO
+Source[1],A01,Destination[1],N09,75,Control,DMSO
+Source[1],A01,Destination[1],N12,75,Control,DMSO
+Source[1],A01,Destination[1],N13,75,Control,DMSO
+Source[1],A01,Destination[1],N15,75,Control,DMSO
+Source[1],A01,Destination[1],N16,75,Control,DMSO
+Source[1],A01,Destination[1],N18,75,Control,DMSO
+Source[1],A01,Destination[1],N19,75,Control,DMSO
+Source[1],A01,Destination[1],N21,75,Control,DMSO
+Source[1],A01,Destination[1],N22,75,Control,DMSO
+Source[1],A01,Destination[1],N23,75,Control,DMSO
+Source[1],A01,Destination[1],O02,75,Control,DMSO
+Source[1],A01,Destination[1],O05,75,Control,DMSO
+Source[1],A01,Destination[1],O06,75,Control,DMSO
+Source[1],A01,Destination[1],O09,75,Control,DMSO
+Source[1],A01,Destination[1],O10,75,Control,DMSO
+Source[1],A01,Destination[1],O11,75,Control,DMSO
+Source[1],A01,Destination[1],O13,75,Control,DMSO
+Source[1],A01,Destination[1],O14,75,Control,DMSO
+Source[1],A01,Destination[1],O15,75,Control,DMSO
+Source[1],A01,Destination[1],O16,75,Control,DMSO
+Source[1],A01,Destination[1],O17,75,Control,DMSO
+Source[1],A01,Destination[1],O19,75,Control,DMSO
+Source[1],A01,Destination[1],O21,75,Control,DMSO
+Source[1],A01,Destination[1],O22,75,Control,DMSO

@@ -1,0 +1,34 @@
+strain,experiment,condition,condition2,carbon,replicate,biomass,volume,T0,strain_order
+UTEX 90,optimization,Standard,BG11,+ Ci,1,0.0051,25,0,2
+UTEX 90,optimization,Standard,BG11,+ Ci,2,0.0063,25,0,2
+UTEX 90,optimization,Standard,BG11,+ Ci,3,0.0058,25,0,2
+UTEX 90,optimization,Optimized,BG11-UTEX90,+ Ci,1,0.0098,25,0,2
+UTEX 90,optimization,Optimized,BG11-UTEX90,+ Ci,2,0.0106,25,0,2
+UTEX 90,optimization,Optimized,BG11-UTEX90,+ Ci,3,0.0074,25,0,2
+Nostoc sp.,optimization,Standard,BG11,+ Ci,1,0.004,25,0,3
+Nostoc sp.,optimization,Standard,BG11,+ Ci,2,0.0063,25,0,3
+Nostoc sp.,optimization,Standard,BG11,+ Ci,3,0.0087,25,0,3
+Nostoc sp.,optimization,Optimized,BG11-nostoc,+ Ci,1,0.0083,25,0,3
+Nostoc sp.,optimization,Optimized,BG11-nostoc,+ Ci,2,0.0096,25,0,3
+Nostoc sp.,optimization,Optimized,BG11-nostoc,+ Ci,3,0.0084,25,0,3
+UTEX 2973,optimization,Standard,BG11,+ Ci,1,0.0035,10,0.000467,1
+UTEX 2973,optimization,Standard,BG11,+ Ci,2,0.0037,10,0.000467,1
+UTEX 2973,optimization,Standard,BG11,+ Ci,3,0.0039,10,0.000467,1
+UTEX 2973,optimization,Standard,BG11 (-C),- Ci,1,0.0037,10,0.000467,4
+UTEX 2973,optimization,Standard,BG11 (-C),- Ci,2,0.003,10,0.000467,4
+UTEX 2973,optimization,Standard,BG11 (-C),- Ci,3,0.0032,10,0.000467,4
+UTEX 2973,optimization,Optimized,BG11-UTEX2973,+ Ci,1,0.0056,10,0.000467,1
+UTEX 2973,optimization,Optimized,BG11-UTEX2973,+ Ci,2,0.0053,10,0.000467,1
+UTEX 2973,optimization,Optimized,BG11-UTEX2973,+ Ci,3,0.0054,10,0.000467,1
+UTEX 2973,optimization,Optimized,BG11-UTEX2973 (-C),- Ci,1,0.0045,10,0.000467,4
+UTEX 2973,optimization,Optimized,BG11-UTEX2973 (-C),- Ci,2,0.0044,10,0.000467,4
+UTEX 2973,optimization,Optimized,BG11-UTEX2973 (-C),- Ci,3,0.0041,10,0.000467,4
+UTEX 2973,gossypetin,BG-11,BG11,,1,0.0035,10,0.000467,
+UTEX 2973,gossypetin,BG-11,BG11,,2,0.0037,10,0.000467,
+UTEX 2973,gossypetin,BG-11,BG11,,3,0.0039,10,0.000467,
+UTEX 2973,gossypetin,Gos (10 uM),10uM,,1,0.0042,10,0.000467,
+UTEX 2973,gossypetin,Gos (10 uM),10uM,,2,0.0044,10,0.000467,
+UTEX 2973,gossypetin,Gos (10 uM),10uM,,3,0.0041,10,0.000467,
+UTEX 2973,gossypetin,Gos (20 uM),20uM,,1,0.0062,10,0.000467,
+UTEX 2973,gossypetin,Gos (20 uM),20uM,,2,0.0056,10,0.000467,
+UTEX 2973,gossypetin,Gos (20 uM),20uM,,3,0.0059,10,0.000467,

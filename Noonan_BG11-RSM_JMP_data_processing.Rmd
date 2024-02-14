@@ -1,0 +1,52 @@
+---
+title: "HTP BG11 Screening - Optimization Round 1"
+author: "Avery Noonan"
+date: "`r format(Sys.time(), '%A %d %B %Y')`"
+header-includes:
+- \usepackage{pdflscape}
+- \newcommand{\blandscape}{\begin{landscape}}
+- \newcommand{\elandscape}{\end{landscape}}
+- \usepackage{fontspec}
+output:
+  pdf_document:
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(knitr)
+
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+knitr::opts_knit$set(root.dir = '.')
+```
+
+```{r BG11_opt_picklist}
+JMP_picklist <- read_csv("data/use-cases/BG11-RSM/BG11_JMP_Echo_picklist.csv") %>%
+  filter(`Destination Plate Name` == 'Destination[1]') %>%
+  rename(transfer_vol = `Transfer Volume`, well = `Destination Well`) %>%
+  mutate(transfer_vol = case_when(transfer_vol == 1500 ~ 150,
+                                  transfer_vol == 750 ~ 75,
+                                  TRUE ~ transfer_vol)) %>%
+  mutate(JMP_value = case_when(transfer_vol == 0 ~ -1,
+                               transfer_vol == 75 ~ 0,
+                               transfer_vol == 150 ~ 1)) %>%
+  select(JMP_value, well, compound) %>%
+  pivot_wider(names_from = "compound", values_from = "JMP_value")
+
+OD_data_output <- read_csv("data/use-cases/BG11-RSM/BG11_opt_data_export.csv") %>%
+  mutate(time = ymd_hms(time), timepoint = factor(timepoint, levels = c('T0', 'T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12', 'T13', 'T14', 'T15', 'T16', 'T17', 'T18'))) %>%
+  select(-c(datetime, measurement_ID)) %>%
+  pivot_longer(-c(plate_ID, timepoint, time, wavelength, well), names_to = 'quadrant', values_to = 'OD') %>%
+  mutate(OD = as.numeric(OD)) %>%
+  filter(wavelength == 750) %>%
+  group_by(plate_ID, timepoint, well) %>%
+  summarise(OD = min(OD)) %>%
+  ungroup() %>%
+  pivot_wider(names_from = timepoint, values_from = OD) %>%
+  mutate(OD = T3-T0) %>%
+  select(plate_ID, well, OD) %>%
+  right_join(JMP_picklist, by = "well") %>%
+  select(plate_ID, NaNO3, K2HPO4, MgSO4, CaCl2, EDTA, Na2CO3, Citrate, `Trace elements`, OD)
+
+write_csv(OD_data_output, "BG11_opt_JMP_input_data.csv")
+```

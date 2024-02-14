@@ -1,0 +1,10 @@
+plate_location,experiment,replicate,destination
+deckDeck118,BG11,1,Destination[1]
+deckDeck117,BG11,1,Destination[2]
+deckDeck116,BG11,2,Destination[3]
+deckDeck115,BG11,2,Destination[4]
+deckDeck114,JMP,1,Destination[5]
+deckDeck113,DMSO,1,Destination[6]
+deckDeck112,OD,1,NA
+deckDeck111,OD,2,NA
+deckDeck110,OD,3,NA

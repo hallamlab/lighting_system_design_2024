@@ -1,0 +1,835 @@
+measurement_ID,plate_ID,timepoint,wavelength,well,value_ID,well_type,Chemical name,OD
+rescreen1_750,rescreen1,T2,750,A02,rescreen1_750.A02,Experimental,Metronidazole,0.6857
+rescreen1_750,rescreen1,T2,750,A03,rescreen1_750.A03,Experimental,Disulfiram,0.21234999999999998
+rescreen1_750,rescreen1,T2,750,A04,rescreen1_750.A04,Control,DMSO,1.26525
+rescreen1_750,rescreen1,T2,750,A05,rescreen1_750.A05,Experimental,Naphazoline hydrochloride,0.69155
+rescreen1_750,rescreen1,T2,750,A06,rescreen1_750.A06,Experimental,Sulindac,0.7075
+rescreen1_750,rescreen1,T2,750,A07,rescreen1_750.A07,Control,DMSO,0.8692
+rescreen1_750,rescreen1,T2,750,A08,rescreen1_750.A08,Experimental,Ifenprodil tartrate,0.9175
+rescreen1_750,rescreen1,T2,750,A09,rescreen1_750.A09,Control,DMSO,0.9455
+rescreen1_750,rescreen1,T2,750,A10,rescreen1_750.A10,Control,DMSO,0.84095
+rescreen1_750,rescreen1,T2,750,A11,rescreen1_750.A11,Experimental,Metampicillin sodium salt,0.29025
+rescreen1_750,rescreen1,T2,750,A12,rescreen1_750.A12,Experimental,Terconazole,0.442
+rescreen1_750,rescreen1,T2,750,A13,rescreen1_750.A13,Experimental,Methionine sulfoximine (L),0.83595
+rescreen1_750,rescreen1,T2,750,A14,rescreen1_750.A14,Experimental,Dequalinium dichloride,0.11745
+rescreen1_750,rescreen1,T2,750,A15,rescreen1_750.A15,Control,DMSO,0.7730999999999999
+rescreen1_750,rescreen1,T2,750,A16,rescreen1_750.A16,Experimental,Ketoconazole,0.61545
+rescreen1_750,rescreen1,T2,750,A17,rescreen1_750.A17,Control,DMSO,0.7756000000000001
+rescreen1_750,rescreen1,T2,750,A18,rescreen1_750.A18,Control,DMSO,0.8615999999999999
+rescreen1_750,rescreen1,T2,750,A19,rescreen1_750.A19,Control,DMSO,0.8776
+rescreen1_750,rescreen1,T2,750,A20,rescreen1_750.A20,Experimental,Niridazole,0.2976
+rescreen1_750,rescreen1,T2,750,A21,rescreen1_750.A21,Experimental,Ceforanide,0.2837
+rescreen1_750,rescreen1,T2,750,A22,rescreen1_750.A22,Control,DMSO,1.51075
+rescreen1_750,rescreen1,T2,750,A23,rescreen1_750.A23,Experimental,Tobramycin,0.37865000000000004
+rescreen1_750,rescreen1,T2,750,B02,rescreen1_750.B02,Experimental,Riboflavine,0.14379999999999998
+rescreen1_750,rescreen1,T2,750,B03,rescreen1_750.B03,Control,DMSO,0.8522000000000001
+rescreen1_750,rescreen1,T2,750,B04,rescreen1_750.B04,Experimental,Clioquinol,0.57775
+rescreen1_750,rescreen1,T2,750,B05,rescreen1_750.B05,Control,DMSO,1.21375
+rescreen1_750,rescreen1,T2,750,B06,rescreen1_750.B06,Experimental,Moxalactam disodium salt,0.31435
+rescreen1_750,rescreen1,T2,750,B07,rescreen1_750.B07,Control,DMSO,0.97835
+rescreen1_750,rescreen1,T2,750,B08,rescreen1_750.B08,Experimental,2-Aminobenzenesulfonamide,0.9262999999999999
+rescreen1_750,rescreen1,T2,750,B09,rescreen1_750.B09,Experimental,Nimodipine,0.98105
+rescreen1_750,rescreen1,T2,750,B10,rescreen1_750.B10,Experimental,Sulfameter,0.5665
+rescreen1_750,rescreen1,T2,750,B11,rescreen1_750.B11,Experimental,Nafcillin sodium salt monohydrate,0.2768
+rescreen1_750,rescreen1,T2,750,B12,rescreen1_750.B12,Experimental,Alexidine dihydrochloride,0.37145
+rescreen1_750,rescreen1,T2,750,B13,rescreen1_750.B13,Experimental,Cefmetazole sodium salt,0.3196
+rescreen1_750,rescreen1,T2,750,B14,rescreen1_750.B14,Control,DMSO,0.7925
+rescreen1_750,rescreen1,T2,750,B15,rescreen1_750.B15,Experimental,Paroxetine Hydrochloride,0.93005
+rescreen1_750,rescreen1,T2,750,B16,rescreen1_750.B16,Experimental,Cephalothin sodium salt,0.42685
+rescreen1_750,rescreen1,T2,750,B17,rescreen1_750.B17,Control,DMSO,0.9545
+rescreen1_750,rescreen1,T2,750,B18,rescreen1_750.B18,Control,DMSO,0.9075500000000001
+rescreen1_750,rescreen1,T2,750,B19,rescreen1_750.B19,Experimental,Cefuroxime sodium salt,0.24059999999999998
+rescreen1_750,rescreen1,T2,750,B20,rescreen1_750.B20,Control,DMSO,0.7806500000000001
+rescreen1_750,rescreen1,T2,750,B21,rescreen1_750.B21,Experimental,ANDIROBIN,0.73465
+rescreen1_750,rescreen1,T2,750,B22,rescreen1_750.B22,Experimental,ISOROTENONE,0.6287
+rescreen1_750,rescreen1,T2,750,B23,rescreen1_750.B23,Experimental,DEOXYKHIVORIN,0.7093499999999999
+rescreen1_750,rescreen1,T2,750,C02,rescreen1_750.C02,Experimental,VULPINIC ACID,0.96135
+rescreen1_750,rescreen1,T2,750,C03,rescreen1_750.C03,Experimental,12a-HYDROXY-5-DEOXYDEHYDROMUNDUSERONE,0.8969499999999999
+rescreen1_750,rescreen1,T2,750,C04,rescreen1_750.C04,Experimental,ERGOSTEROL,0.9333
+rescreen1_750,rescreen1,T2,750,C05,rescreen1_750.C05,Control,DMSO,0.8732
+rescreen1_750,rescreen1,T2,750,C06,rescreen1_750.C06,Experimental,IRIDIN,0.83365
+rescreen1_750,rescreen1,T2,750,C07,rescreen1_750.C07,Experimental,DIHYDROROTENONE,0.5861000000000001
+rescreen1_750,rescreen1,T2,750,C08,rescreen1_750.C08,Experimental,PERILLIC ACID (-),1.0678999999999998
+rescreen1_750,rescreen1,T2,750,C09,rescreen1_750.C09,Experimental,STRYCHNINE METHIODIDE,0.8633500000000001
+rescreen1_750,rescreen1,T2,750,C10,rescreen1_750.C10,Control,DMSO,0.92845
+rescreen1_750,rescreen1,T2,750,C11,rescreen1_750.C11,Experimental,BENZYL ISOTHIOCYANATE,0.57065
+rescreen1_750,rescreen1,T2,750,C12,rescreen1_750.C12,Control,DMSO,0.8528
+rescreen1_750,rescreen1,T2,750,C13,rescreen1_750.C13,Experimental,ARTEMISININ,0.36839999999999995
+rescreen1_750,rescreen1,T2,750,C14,rescreen1_750.C14,Experimental,PLUMBAGIN,0.22725
+rescreen1_750,rescreen1,T2,750,C15,rescreen1_750.C15,Experimental,GOSSYPETIN,0.9813000000000001
+rescreen1_750,rescreen1,T2,750,C16,rescreen1_750.C16,Experimental,DEGUELIN(-),0.67635
+rescreen1_750,rescreen1,T2,750,C17,rescreen1_750.C17,Experimental,SANGUINARINE SULFATE,0.26895
+rescreen1_750,rescreen1,T2,750,C18,rescreen1_750.C18,Experimental,PYRITHIONE ZINC,0.1892
+rescreen1_750,rescreen1,T2,750,C19,rescreen1_750.C19,Control,DMSO,0.8639
+rescreen1_750,rescreen1,T2,750,C20,rescreen1_750.C20,Experimental,DISULFIRAM,0.2113
+rescreen1_750,rescreen1,T2,750,C21,rescreen1_750.C21,Experimental,RIBOFLAVIN,0.11374999999999999
+rescreen1_750,rescreen1,T2,750,C22,rescreen1_750.C22,Experimental,GENTIAN VIOLET,0.2084
+rescreen1_750,rescreen1,T2,750,C23,rescreen1_750.C23,Control,DMSO,0.97645
+rescreen1_750,rescreen1,T2,750,D02,rescreen1_750.D02,Control,DMSO,0.9575
+rescreen1_750,rescreen1,T2,750,D03,rescreen1_750.D03,Experimental,TOBRAMYCIN,1.0314999999999999
+rescreen1_750,rescreen1,T2,750,D04,rescreen1_750.D04,Experimental,BLEOMYCIN (bleomycin B2 shown),0.1842
+rescreen1_750,rescreen1,T2,750,D05,rescreen1_750.D05,Experimental,PIPERACILLIN SODIUM,0.50025
+rescreen1_750,rescreen1,T2,750,D06,rescreen1_750.D06,Control,DMSO,0.9657
+rescreen1_750,rescreen1,T2,750,D07,rescreen1_750.D07,Control,DMSO,0.94
+rescreen1_750,rescreen1,T2,750,D08,rescreen1_750.D08,Experimental,PHENYLMERCURIC ACETATE,0.17775000000000002
+rescreen1_750,rescreen1,T2,750,D09,rescreen1_750.D09,Experimental,PSEUDOEPHEDRINE HYDROCHLORIDE,0.7768
+rescreen1_750,rescreen1,T2,750,D10,rescreen1_750.D10,Experimental,PYRVINIUM PAMOATE,0.8203
+rescreen1_750,rescreen1,T2,750,D11,rescreen1_750.D11,Experimental,CISPLATIN,0.8162499999999999
+rescreen1_750,rescreen1,T2,750,D12,rescreen1_750.D12,Experimental,THIMEROSAL,0.10775
+rescreen1_750,rescreen1,T2,750,D13,rescreen1_750.D13,Experimental,AZITHROMYCIN,0.4078
+rescreen1_750,rescreen1,T2,750,D14,rescreen1_750.D14,Experimental,BACAMPICILLIN HYDROCHLORIDE,0.32025000000000003
+rescreen1_750,rescreen1,T2,750,D15,rescreen1_750.D15,Experimental,DEMECLOCYCLINE HYDROCHLORIDE,0.3295
+rescreen1_750,rescreen1,T2,750,D16,rescreen1_750.D16,Control,DMSO,0.92465
+rescreen1_750,rescreen1,T2,750,D17,rescreen1_750.D17,Experimental,METHYL 7-DESHYDROXYPYROGALLIN-4-CARBOXYLATE,1.0350000000000001
+rescreen1_750,rescreen1,T2,750,D18,rescreen1_750.D18,Control,DMSO,0.7851
+rescreen1_750,rescreen1,T2,750,D19,rescreen1_750.D19,Experimental,ACETAMINOSALOL,0.8895
+rescreen1_750,rescreen1,T2,750,D20,rescreen1_750.D20,Experimental,2-THIOURACIL,0.49775
+rescreen1_750,rescreen1,T2,750,D21,rescreen1_750.D21,Control,DMSO,0.6578
+rescreen1_750,rescreen1,T2,750,D22,rescreen1_750.D22,Control,DMSO,0.7244
+rescreen1_750,rescreen1,T2,750,D23,rescreen1_750.D23,Experimental,TADALAFIL,0.7627999999999999
+rescreen1_750,rescreen1,T2,750,E02,rescreen1_750.E02,Experimental,METAMPICILLIN SODIUM,0.45635000000000003
+rescreen1_750,rescreen1,T2,750,E03,rescreen1_750.E03,Experimental,DICHLOROPHENE,0.34585
+rescreen1_750,rescreen1,T2,750,E04,rescreen1_750.E04,Control,DMSO,0.96505
+rescreen1_750,rescreen1,T2,750,E05,rescreen1_750.E05,Experimental,PENTACHLOROPHENOL,0.36929999999999996
+rescreen1_750,rescreen1,T2,750,E06,rescreen1_750.E06,Experimental,CARMOFUR,0.2625
+rescreen1_750,rescreen1,T2,750,E07,rescreen1_750.E07,Control,DMSO,0.8991
+rescreen1_750,rescreen1,T2,750,E08,rescreen1_750.E08,Control,DMSO,0.94175
+rescreen1_750,rescreen1,T2,750,E09,rescreen1_750.E09,Control,DMSO,0.8859
+rescreen1_750,rescreen1,T2,750,E10,rescreen1_750.E10,Experimental,CEFACLOR,0.6736
+rescreen1_750,rescreen1,T2,750,E11,rescreen1_750.E11,Experimental,PROPAZINE,0.5257499999999999
+rescreen1_750,rescreen1,T2,750,E12,rescreen1_750.E12,Experimental,FLOXURIDINE,0.2558
+rescreen1_750,rescreen1,T2,750,E13,rescreen1_750.E13,Control,DMSO,0.9052
+rescreen1_750,rescreen1,T2,750,E14,rescreen1_750.E14,Experimental,COUMOPHOS,1.1869
+rescreen1_750,rescreen1,T2,750,E15,rescreen1_750.E15,Experimental,PROMETRYN,0.28325
+rescreen1_750,rescreen1,T2,750,E16,rescreen1_750.E16,Control,DMSO,0.7905
+rescreen1_750,rescreen1,T2,750,E17,rescreen1_750.E17,Control,DMSO,0.84705
+rescreen1_750,rescreen1,T2,750,E18,rescreen1_750.E18,Experimental,DIURON,0.2616
+rescreen1_750,rescreen1,T2,750,E19,rescreen1_750.E19,Control,DMSO,0.8368500000000001
+rescreen1_750,rescreen1,T2,750,E20,rescreen1_750.E20,Control,DMSO,1.0868499999999999
+rescreen1_750,rescreen1,T2,750,E21,rescreen1_750.E21,Control,DMSO,0.67885
+rescreen1_750,rescreen1,T2,750,E22,rescreen1_750.E22,Experimental,TRIFLURALIN,0.8264
+rescreen1_750,rescreen1,T2,750,E23,rescreen1_750.E23,Experimental,HYGROMYCIN B,0.22644999999999998
+rescreen1_750,rescreen1,T2,750,F02,rescreen1_750.F02,Experimental,RETINYL ACETATE,0.93365
+rescreen1_750,rescreen1,T2,750,F03,rescreen1_750.F03,Control,DMSO,0.8944000000000001
+rescreen1_750,rescreen1,T2,750,F04,rescreen1_750.F04,Control,DMSO,1.0743
+rescreen1_750,rescreen1,T2,750,F05,rescreen1_750.F05,Experimental,GLIPIZIDE,0.909
+rescreen1_750,rescreen1,T2,750,F06,rescreen1_750.F06,Experimental,CEFTAZIDIME,0.2998
+rescreen1_750,rescreen1,T2,750,F07,rescreen1_750.F07,Experimental,DICHLORISONE ACETATE,1.05655
+rescreen1_750,rescreen1,T2,750,F08,rescreen1_750.F08,Experimental,BEPHENIUM HYDROXYNAPTHOATE,1.2692
+rescreen1_750,rescreen1,T2,750,F09,rescreen1_750.F09,Experimental,AURANOFIN,0.2722
+rescreen1_750,rescreen1,T2,750,F10,rescreen1_750.F10,Experimental,ENDRIN,1.06915
+rescreen1_750,rescreen1,T2,750,F11,rescreen1_750.F11,Control,DMSO,1.0098500000000001
+rescreen1_750,rescreen1,T2,750,F12,rescreen1_750.F12,Experimental,DL-alpha-Methyl-p-tyrosine,1.153
+rescreen1_750,rescreen1,T2,750,F13,rescreen1_750.F13,Experimental,N-Acetyl-L-Cysteine,0.9368000000000001
+rescreen1_750,rescreen1,T2,750,F14,rescreen1_750.F14,Experimental,Bay 11-7085,0.25005
+rescreen1_750,rescreen1,T2,750,F15,rescreen1_750.F15,Experimental,4-Chloromercuribenzoic acid,0.91155
+rescreen1_750,rescreen1,T2,750,F16,rescreen1_750.F16,Experimental,ML-9,0.6892499999999999
+rescreen1_750,rescreen1,T2,750,F17,rescreen1_750.F17,Experimental,R(+)-6-Bromo-APB hydrobromide,0.5727500000000001
+rescreen1_750,rescreen1,T2,750,F18,rescreen1_750.F18,Control,DMSO,0.982
+rescreen1_750,rescreen1,T2,750,F19,rescreen1_750.F19,Experimental,Apomorphine hydrochloride hemihydrate,0.2707
+rescreen1_750,rescreen1,T2,750,F20,rescreen1_750.F20,Experimental,Clotrimazole,0.7173
+rescreen1_750,rescreen1,T2,750,F21,rescreen1_750.F21,Experimental,Cyclothiazide,0.8284499999999999
+rescreen1_750,rescreen1,T2,750,F22,rescreen1_750.F22,Experimental,(±)-CPP,0.7421
+rescreen1_750,rescreen1,T2,750,F23,rescreen1_750.F23,Experimental,"(S)-3,5-Dihydroxyphenylglycine",1.33
+rescreen1_750,rescreen1,T2,750,G02,rescreen1_750.G02,Experimental,Dequalinium chloride hydrate,0.32375
+rescreen1_750,rescreen1,T2,750,G03,rescreen1_750.G03,Experimental,Carvedilol,1.2982
+rescreen1_750,rescreen1,T2,750,G04,rescreen1_750.G04,Experimental,"L-3,4-Dihydroxyphenylalanine methyl ester hydrochloride",1.1851
+rescreen1_750,rescreen1,T2,750,G05,rescreen1_750.G05,Experimental,"L-3,4-Dihydroxyphenylalanine",1.0493999999999999
+rescreen1_750,rescreen1,T2,750,G06,rescreen1_750.G06,Experimental,5-fluoro-5'-deoxyuridine,0.6473
+rescreen1_750,rescreen1,T2,750,G07,rescreen1_750.G07,Control,DMSO,0.8994500000000001
+rescreen1_750,rescreen1,T2,750,G08,rescreen1_750.G08,Control,DMSO,1.23035
+rescreen1_750,rescreen1,T2,750,G09,rescreen1_750.G09,Control,DMSO,0.9417500000000001
+rescreen1_750,rescreen1,T2,750,G10,rescreen1_750.G10,Experimental,Minocycline hydrochloride,0.589
+rescreen1_750,rescreen1,T2,750,G11,rescreen1_750.G11,Control,DMSO,1.13405
+rescreen1_750,rescreen1,T2,750,G12,rescreen1_750.G12,Experimental,BBMP,0.2872
+rescreen1_750,rescreen1,T2,750,G13,rescreen1_750.G13,Experimental,1-Phenyl-3-(2-thiazolyl)-2-thiourea,0.2862
+rescreen1_750,rescreen1,T2,750,G14,rescreen1_750.G14,Experimental,Ofloxacin,0.36905
+rescreen1_750,rescreen1,T2,750,G15,rescreen1_750.G15,Experimental,Lomefloxacin hydrochloride,0.4657
+rescreen1_750,rescreen1,T2,750,G16,rescreen1_750.G16,Experimental,7-Nitroindazole,0.7846500000000001
+rescreen1_750,rescreen1,T2,750,G17,rescreen1_750.G17,Experimental,Indatraline hydrochloride,0.37735
+rescreen1_750,rescreen1,T2,750,G18,rescreen1_750.G18,Experimental,SB 242084 dihydrochloride hydrate,0.41869999999999996
+rescreen1_750,rescreen1,T2,750,G19,rescreen1_750.G19,Experimental,Pentamidine isethionate,0.3553
+rescreen1_750,rescreen1,T2,750,G20,rescreen1_750.G20,Experimental,TBB,0.30625
+rescreen1_750,rescreen1,T2,750,G21,rescreen1_750.G21,Control,DMSO,0.8008500000000001
+rescreen1_750,rescreen1,T2,750,G22,rescreen1_750.G22,Experimental,Methoctramine tetrahydrochloride,0.27859999999999996
+rescreen1_750,rescreen1,T2,750,G23,rescreen1_750.G23,Experimental,(-)-Naproxen sodium,0.8608499999999999
+rescreen1_750,rescreen1,T2,750,H02,rescreen1_750.H02,Experimental,JWH-015,1.00485
+rescreen1_750,rescreen1,T2,750,H03,rescreen1_750.H03,Control,DMSO,0.9584
+rescreen1_750,rescreen1,T2,750,H04,rescreen1_750.H04,Control,DMSO,1.0519
+rescreen1_750,rescreen1,T2,750,H05,rescreen1_750.H05,Experimental,L-Methionine sulfoximine,0.6084
+rescreen1_750,rescreen1,T2,750,H06,rescreen1_750.H06,Experimental,"L-687,384 hydrochloride",0.8033
+rescreen1_750,rescreen1,T2,750,H07,rescreen1_750.H07,Control,DMSO,1.2454999999999998
+rescreen1_750,rescreen1,T2,750,H08,rescreen1_750.H08,Experimental,ODQ,0.5449999999999999
+rescreen1_750,rescreen1,T2,750,H09,rescreen1_750.H09,Control,DMSO,1.0653000000000001
+rescreen1_750,rescreen1,T2,750,H10,rescreen1_750.H10,Experimental,Nordihydroguaiaretic acid from Larrea divaricata (creosote bush),0.7867
+rescreen1_750,rescreen1,T2,750,H11,rescreen1_750.H11,Control,DMSO,1.14395
+rescreen1_750,rescreen1,T2,750,H12,rescreen1_750.H12,Experimental,Tyrphostin AG 1478,0.88
+rescreen1_750,rescreen1,T2,750,H13,rescreen1_750.H13,Control,DMSO,1.11975
+rescreen1_750,rescreen1,T2,750,H14,rescreen1_750.H14,Experimental,SR 59230A oxalate,0.6103000000000001
+rescreen1_750,rescreen1,T2,750,H15,rescreen1_750.H15,Control,DMSO,1.0874000000000001
+rescreen1_750,rescreen1,T2,750,H16,rescreen1_750.H16,Control,DMSO,0.81155
+rescreen1_750,rescreen1,T2,750,H17,rescreen1_750.H17,Control,DMSO,0.8306
+rescreen1_750,rescreen1,T2,750,H18,rescreen1_750.H18,Experimental,NU6027,0.7796000000000001
+rescreen1_750,rescreen1,T2,750,H19,rescreen1_750.H19,Experimental,"1,10-Phenanthroline monohydrate",0.26625
+rescreen1_750,rescreen1,T2,750,H20,rescreen1_750.H20,Experimental,Trifluoperazine dihydrochloride,0.58615
+rescreen1_750,rescreen1,T2,750,H21,rescreen1_750.H21,Experimental,"Quipazine, 6-nitro-, maleate",0.6537999999999999
+rescreen1_750,rescreen1,T2,750,H22,rescreen1_750.H22,Control,DMSO,0.6925
+rescreen1_750,rescreen1,T2,750,H23,rescreen1_750.H23,Experimental,Tetraethylthiuram disulfide,0.2113
+rescreen1_750,rescreen1,T2,750,I02,rescreen1_750.I02,Control,DMSO,1.0011999999999999
+rescreen1_750,rescreen1,T2,750,I03,rescreen1_750.I03,Control,DMSO,1.0184
+rescreen1_750,rescreen1,T2,750,I04,rescreen1_750.I04,Control,DMSO,1.1760000000000002
+rescreen1_750,rescreen1,T2,750,I05,rescreen1_750.I05,Experimental,Thio-L-citrulline,1.27705
+rescreen1_750,rescreen1,T2,750,I06,rescreen1_750.I06,Control,DMSO,1.3587
+rescreen1_750,rescreen1,T2,750,I07,rescreen1_750.I07,Experimental,Tyrphostin AG 490,0.8724000000000001
+rescreen1_750,rescreen1,T2,750,I08,rescreen1_750.I08,Experimental,Bay 11-7082,0.25055
+rescreen1_750,rescreen1,T2,750,I09,rescreen1_750.I09,Control,DMSO,0.9380999999999999
+rescreen1_750,rescreen1,T2,750,I10,rescreen1_750.I10,Experimental,K114,0.9867999999999999
+rescreen1_750,rescreen1,T2,750,I11,rescreen1_750.I11,Experimental,Sanguinarine chloride,0.27675
+rescreen1_750,rescreen1,T2,750,I12,rescreen1_750.I12,Experimental,Vancomycin hydrochloride from Streptomyces orientalis,0.33115
+rescreen1_750,rescreen1,T2,750,I13,rescreen1_750.I13,Experimental,(±)-threo-1-Phenyl-2-decanoylamino-3-morpholino-1-propanol hydrochloride,1.00315
+rescreen1_750,rescreen1,T2,750,I14,rescreen1_750.I14,Experimental,Pinacidil,0.9421999999999999
+rescreen1_750,rescreen1,T2,750,I15,rescreen1_750.I15,Control,DMSO,0.9919500000000001
+rescreen1_750,rescreen1,T2,750,I16,rescreen1_750.I16,Experimental,U-101958 maleate,1.0215999999999998
+rescreen1_750,rescreen1,T2,750,I17,rescreen1_750.I17,Experimental,(±)-Taxifolin,0.9753499999999999
+rescreen1_750,rescreen1,T2,750,I18,rescreen1_750.I18,Experimental,Remerine HCl,0.08585000000000001
+rescreen1_750,rescreen1,T2,750,I19,rescreen1_750.I19,Experimental,Capreomycin sulfate,0.263
+rescreen1_750,rescreen1,T2,750,I20,rescreen1_750.I20,Experimental,"Muscarine Cl, (+)-",0.7125
+rescreen1_750,rescreen1,T2,750,I21,rescreen1_750.I21,Control,DMSO,0.7821
+rescreen1_750,rescreen1,T2,750,I22,rescreen1_750.I22,Control,DMSO,0.8596999999999999
+rescreen1_750,rescreen1,T2,750,I23,rescreen1_750.I23,Experimental,Rosamicin,0.89115
+rescreen1_750,rescreen1,T2,750,J02,rescreen1_750.J02,Control,DMSO,1.0046
+rescreen1_750,rescreen1,T2,750,J03,rescreen1_750.J03,Experimental,Tubercidin,0.23085
+rescreen1_750,rescreen1,T2,750,J04,rescreen1_750.J04,Experimental,Mycophenolic acid,1.09995
+rescreen1_750,rescreen1,T2,750,J05,rescreen1_750.J05,Control,DMSO,0.9501999999999999
+rescreen1_750,rescreen1,T2,750,J06,rescreen1_750.J06,Control,DMSO,0.9636
+rescreen1_750,rescreen1,T2,750,J07,rescreen1_750.J07,Control,DMSO,0.9233
+rescreen1_750,rescreen1,T2,750,J08,rescreen1_750.J08,Experimental,Pinocembrin,1.1822
+rescreen1_750,rescreen1,T2,750,J09,rescreen1_750.J09,Control,DMSO,0.9599
+rescreen1_750,rescreen1,T2,750,J10,rescreen1_750.J10,Experimental,Bilobalide,0.7804
+rescreen1_750,rescreen1,T2,750,J11,rescreen1_750.J11,Control,DMSO,1.0209
+rescreen1_750,rescreen1,T2,750,J12,rescreen1_750.J12,Control,DMSO,0.8114
+rescreen1_750,rescreen1,T2,750,J13,rescreen1_750.J13,Control,DMSO,0.8785000000000001
+rescreen1_750,rescreen1,T2,750,J14,rescreen1_750.J14,Control,DMSO,0.80565
+rescreen1_750,rescreen1,T2,750,J15,rescreen1_750.J15,Experimental,Ochratoxin A,0.8772
+rescreen1_750,rescreen1,T2,750,J16,rescreen1_750.J16,Experimental,Methysticin,0.82245
+rescreen1_750,rescreen1,T2,750,J17,rescreen1_750.J17,Control,DMSO,0.80075
+rescreen1_750,rescreen1,T2,750,J18,rescreen1_750.J18,Control,DMSO,0.7544
+rescreen1_750,rescreen1,T2,750,J19,rescreen1_750.J19,Experimental,Tunicamycin B,0.28335
+rescreen1_750,rescreen1,T2,750,J20,rescreen1_750.J20,Control,DMSO,0.8323
+rescreen1_750,rescreen1,T2,750,J21,rescreen1_750.J21,Control,DMSO,0.6786
+rescreen1_750,rescreen1,T2,750,J22,rescreen1_750.J22,Control,DMSO,0.6589499999999999
+rescreen1_750,rescreen1,T2,750,J23,rescreen1_750.J23,Control,DMSO,0.7576499999999999
+rescreen1_750,rescreen1,T2,750,K02,rescreen1_750.K02,Control,DMSO,1.1317
+rescreen1_750,rescreen1,T2,750,K03,rescreen1_750.K03,Control,DMSO,0.9546
+rescreen1_750,rescreen1,T2,750,K04,rescreen1_750.K04,Control,DMSO,0.9475499999999999
+rescreen1_750,rescreen1,T2,750,K05,rescreen1_750.K05,Control,DMSO,0.78775
+rescreen1_750,rescreen1,T2,750,K06,rescreen1_750.K06,Control,DMSO,1.0681
+rescreen1_750,rescreen1,T2,750,K07,rescreen1_750.K07,Experimental,Homoeriodictyol (-),1.02525
+rescreen1_750,rescreen1,T2,750,K08,rescreen1_750.K08,Control,DMSO,1.0081
+rescreen1_750,rescreen1,T2,750,K09,rescreen1_750.K09,Control,DMSO,0.9739
+rescreen1_750,rescreen1,T2,750,K10,rescreen1_750.K10,Experimental,Mitomycin C,0.37234999999999996
+rescreen1_750,rescreen1,T2,750,K11,rescreen1_750.K11,Experimental,Cerulenin,0.26805
+rescreen1_750,rescreen1,T2,750,K12,rescreen1_750.K12,Experimental,Gliotoxin,0.177
+rescreen1_750,rescreen1,T2,750,K13,rescreen1_750.K13,Control,DMSO,0.8069999999999999
+rescreen1_750,rescreen1,T2,750,K14,rescreen1_750.K14,Experimental,Ryanodine,0.9262999999999999
+rescreen1_750,rescreen1,T2,750,K15,rescreen1_750.K15,Experimental,"Cotininecarboxylic acid, trans-4-",0.9418500000000001
+rescreen1_750,rescreen1,T2,750,K21,rescreen1_750.K21,Control,DMSO,0.8206
+rescreen1_750,rescreen1,T2,750,K22,rescreen1_750.K22,Control,DMSO,0.9610000000000001
+rescreen1_750,rescreen1,T2,750,L02,rescreen1_750.L02,Control,DMSO,1.15835
+rescreen1_750,rescreen1,T2,750,L07,rescreen1_750.L07,Control,DMSO,0.5313000000000001
+rescreen1_750,rescreen1,T2,750,L09,rescreen1_750.L09,Control,DMSO,1.0110999999999999
+rescreen1_750,rescreen1,T2,750,L12,rescreen1_750.L12,Control,DMSO,0.8472999999999999
+rescreen1_750,rescreen1,T2,750,L13,rescreen1_750.L13,Control,DMSO,0.9941500000000001
+rescreen1_750,rescreen1,T2,750,L21,rescreen1_750.L21,Control,DMSO,0.78425
+rescreen1_750,rescreen1,T2,750,L22,rescreen1_750.L22,Control,DMSO,0.7814
+rescreen1_750,rescreen1,T2,750,M02,rescreen1_750.M02,Control,DMSO,0.7032
+rescreen1_750,rescreen1,T2,750,M03,rescreen1_750.M03,Control,DMSO,0.77945
+rescreen1_750,rescreen1,T2,750,M05,rescreen1_750.M05,Control,DMSO,0.6867000000000001
+rescreen1_750,rescreen1,T2,750,M07,rescreen1_750.M07,Control,DMSO,0.81185
+rescreen1_750,rescreen1,T2,750,M09,rescreen1_750.M09,Control,DMSO,0.8794500000000001
+rescreen1_750,rescreen1,T2,750,M11,rescreen1_750.M11,Control,DMSO,0.8686
+rescreen1_750,rescreen1,T2,750,M13,rescreen1_750.M13,Control,DMSO,0.8158
+rescreen1_750,rescreen1,T2,750,M14,rescreen1_750.M14,Control,DMSO,0.84555
+rescreen1_750,rescreen1,T2,750,M16,rescreen1_750.M16,Control,DMSO,0.9212
+rescreen1_750,rescreen1,T2,750,M19,rescreen1_750.M19,Control,DMSO,0.7624500000000001
+rescreen1_750,rescreen1,T2,750,M20,rescreen1_750.M20,Control,DMSO,0.7503
+rescreen1_750,rescreen1,T2,750,M23,rescreen1_750.M23,Control,DMSO,1.2052
+rescreen1_750,rescreen1,T2,750,N11,rescreen1_750.N11,Control,DMSO,1.02495
+rescreen1_750,rescreen1,T2,750,N13,rescreen1_750.N13,Control,DMSO,1.19475
+rescreen1_750,rescreen1,T2,750,N19,rescreen1_750.N19,Control,DMSO,0.8194999999999999
+rescreen1_750,rescreen1,T2,750,N20,rescreen1_750.N20,Control,DMSO,1.042
+rescreen1_750,rescreen1,T2,750,N23,rescreen1_750.N23,Control,DMSO,0.6993
+rescreen1_750,rescreen1,T2,750,O03,rescreen1_750.O03,Control,DMSO,0.94365
+rescreen1_750,rescreen1,T2,750,O07,rescreen1_750.O07,Control,DMSO,0.8557
+rescreen1_750,rescreen1,T2,750,O08,rescreen1_750.O08,Control,DMSO,0.7636000000000001
+rescreen1_750,rescreen1,T2,750,O19,rescreen1_750.O19,Control,DMSO,0.74615
+rescreen1_750,rescreen1,T2,750,O20,rescreen1_750.O20,Control,DMSO,0.93475
+rescreen1_750,rescreen1,T2,750,O21,rescreen1_750.O21,Control,DMSO,0.82475
+rescreen1_750,rescreen1,T2,750,O22,rescreen1_750.O22,Control,DMSO,0.96065
+rescreen1_750,rescreen1,T2,750,P06,rescreen1_750.P06,Control,DMSO,0.7906
+rescreen1_750,rescreen1,T2,750,P07,rescreen1_750.P07,Control,DMSO,1.05375
+rescreen1_750,rescreen1,T2,750,P08,rescreen1_750.P08,Control,DMSO,0.8513
+rescreen1_750,rescreen1,T2,750,P09,rescreen1_750.P09,Control,DMSO,0.78555
+rescreen1_750,rescreen1,T2,750,P12,rescreen1_750.P12,Control,DMSO,0.8929499999999999
+rescreen1_750,rescreen1,T2,750,P14,rescreen1_750.P14,Control,DMSO,0.89975
+rescreen1_750,rescreen1,T2,750,P15,rescreen1_750.P15,Control,DMSO,0.8039000000000001
+rescreen1_750,rescreen1,T2,750,P16,rescreen1_750.P16,Control,DMSO,0.98515
+rescreen1_750,rescreen1,T2,750,P19,rescreen1_750.P19,Control,DMSO,0.75975
+rescreen1_750,rescreen1,T2,750,P21,rescreen1_750.P21,Control,DMSO,0.76785
+rescreen1_750,rescreen1,T2,750,P22,rescreen1_750.P22,Control,DMSO,0.8140000000000001
+rescreen2_750,rescreen2,T2,750,A02,rescreen2_750.A02,Experimental,Metronidazole,0.6779999999999999
+rescreen2_750,rescreen2,T2,750,A03,rescreen2_750.A03,Experimental,Disulfiram,0.16325
+rescreen2_750,rescreen2,T2,750,A04,rescreen2_750.A04,Control,DMSO,0.7424
+rescreen2_750,rescreen2,T2,750,A05,rescreen2_750.A05,Experimental,Naphazoline hydrochloride,0.8743000000000001
+rescreen2_750,rescreen2,T2,750,A06,rescreen2_750.A06,Experimental,Sulindac,0.86805
+rescreen2_750,rescreen2,T2,750,A07,rescreen2_750.A07,Control,DMSO,0.76395
+rescreen2_750,rescreen2,T2,750,A08,rescreen2_750.A08,Experimental,Ifenprodil tartrate,0.8017
+rescreen2_750,rescreen2,T2,750,A09,rescreen2_750.A09,Control,DMSO,1.30905
+rescreen2_750,rescreen2,T2,750,A10,rescreen2_750.A10,Control,DMSO,0.6962999999999999
+rescreen2_750,rescreen2,T2,750,A11,rescreen2_750.A11,Experimental,Metampicillin sodium salt,0.271
+rescreen2_750,rescreen2,T2,750,A12,rescreen2_750.A12,Experimental,Terconazole,0.6373
+rescreen2_750,rescreen2,T2,750,A13,rescreen2_750.A13,Experimental,Methionine sulfoximine (L),0.68625
+rescreen2_750,rescreen2,T2,750,A14,rescreen2_750.A14,Experimental,Dequalinium dichloride,0.2306
+rescreen2_750,rescreen2,T2,750,A15,rescreen2_750.A15,Control,DMSO,0.6903
+rescreen2_750,rescreen2,T2,750,A16,rescreen2_750.A16,Experimental,Ketoconazole,0.6267499999999999
+rescreen2_750,rescreen2,T2,750,A17,rescreen2_750.A17,Control,DMSO,0.47085
+rescreen2_750,rescreen2,T2,750,A18,rescreen2_750.A18,Control,DMSO,0.6357999999999999
+rescreen2_750,rescreen2,T2,750,A19,rescreen2_750.A19,Control,DMSO,0.6190500000000001
+rescreen2_750,rescreen2,T2,750,A20,rescreen2_750.A20,Experimental,Niridazole,0.2799
+rescreen2_750,rescreen2,T2,750,A21,rescreen2_750.A21,Experimental,Ceforanide,0.28175
+rescreen2_750,rescreen2,T2,750,A22,rescreen2_750.A22,Control,DMSO,0.73335
+rescreen2_750,rescreen2,T2,750,A23,rescreen2_750.A23,Experimental,Tobramycin,0.3296
+rescreen2_750,rescreen2,T2,750,B02,rescreen2_750.B02,Experimental,Riboflavine,0.12945
+rescreen2_750,rescreen2,T2,750,B03,rescreen2_750.B03,Control,DMSO,0.9618500000000001
+rescreen2_750,rescreen2,T2,750,B04,rescreen2_750.B04,Experimental,Clioquinol,0.66715
+rescreen2_750,rescreen2,T2,750,B05,rescreen2_750.B05,Control,DMSO,0.77695
+rescreen2_750,rescreen2,T2,750,B06,rescreen2_750.B06,Experimental,Moxalactam disodium salt,0.30525
+rescreen2_750,rescreen2,T2,750,B07,rescreen2_750.B07,Control,DMSO,0.6778
+rescreen2_750,rescreen2,T2,750,B08,rescreen2_750.B08,Experimental,2-Aminobenzenesulfonamide,0.7133499999999999
+rescreen2_750,rescreen2,T2,750,B09,rescreen2_750.B09,Experimental,Nimodipine,0.76735
+rescreen2_750,rescreen2,T2,750,B10,rescreen2_750.B10,Experimental,Sulfameter,0.52545
+rescreen2_750,rescreen2,T2,750,B11,rescreen2_750.B11,Experimental,Nafcillin sodium salt monohydrate,0.32675
+rescreen2_750,rescreen2,T2,750,B12,rescreen2_750.B12,Experimental,Alexidine dihydrochloride,0.5564
+rescreen2_750,rescreen2,T2,750,B13,rescreen2_750.B13,Experimental,Cefmetazole sodium salt,0.32766666666666666
+rescreen2_750,rescreen2,T2,750,B14,rescreen2_750.B14,Control,DMSO,0.7157
+rescreen2_750,rescreen2,T2,750,B15,rescreen2_750.B15,Experimental,Paroxetine Hydrochloride,0.6931499999999999
+rescreen2_750,rescreen2,T2,750,B16,rescreen2_750.B16,Experimental,Cephalothin sodium salt,0.42205000000000004
+rescreen2_750,rescreen2,T2,750,B17,rescreen2_750.B17,Control,DMSO,0.9808
+rescreen2_750,rescreen2,T2,750,B18,rescreen2_750.B18,Control,DMSO,1.1249500000000001
+rescreen2_750,rescreen2,T2,750,B19,rescreen2_750.B19,Experimental,Cefuroxime sodium salt,0.2821
+rescreen2_750,rescreen2,T2,750,B20,rescreen2_750.B20,Control,DMSO,0.6735500000000001
+rescreen2_750,rescreen2,T2,750,B21,rescreen2_750.B21,Experimental,ANDIROBIN,0.6941999999999999
+rescreen2_750,rescreen2,T2,750,B22,rescreen2_750.B22,Experimental,ISOROTENONE,0.57515
+rescreen2_750,rescreen2,T2,750,B23,rescreen2_750.B23,Experimental,DEOXYKHIVORIN,0.7038
+rescreen2_750,rescreen2,T2,750,C02,rescreen2_750.C02,Experimental,VULPINIC ACID,1.0566
+rescreen2_750,rescreen2,T2,750,C03,rescreen2_750.C03,Experimental,12a-HYDROXY-5-DEOXYDEHYDROMUNDUSERONE,1.0915
+rescreen2_750,rescreen2,T2,750,C04,rescreen2_750.C04,Experimental,ERGOSTEROL,0.8858999999999999
+rescreen2_750,rescreen2,T2,750,C05,rescreen2_750.C05,Control,DMSO,1.13985
+rescreen2_750,rescreen2,T2,750,C06,rescreen2_750.C06,Experimental,IRIDIN,1.52515
+rescreen2_750,rescreen2,T2,750,C07,rescreen2_750.C07,Experimental,DIHYDROROTENONE,0.9059
+rescreen2_750,rescreen2,T2,750,C08,rescreen2_750.C08,Experimental,PERILLIC ACID (-),0.8029
+rescreen2_750,rescreen2,T2,750,C09,rescreen2_750.C09,Experimental,STRYCHNINE METHIODIDE,0.86365
+rescreen2_750,rescreen2,T2,750,C10,rescreen2_750.C10,Control,DMSO,1.52685
+rescreen2_750,rescreen2,T2,750,C11,rescreen2_750.C11,Experimental,BENZYL ISOTHIOCYANATE,0.80925
+rescreen2_750,rescreen2,T2,750,C12,rescreen2_750.C12,Control,DMSO,0.7971999999999999
+rescreen2_750,rescreen2,T2,750,C13,rescreen2_750.C13,Experimental,ARTEMISININ,0.43495
+rescreen2_750,rescreen2,T2,750,C14,rescreen2_750.C14,Experimental,PLUMBAGIN,0.227
+rescreen2_750,rescreen2,T2,750,C15,rescreen2_750.C15,Experimental,GOSSYPETIN,1.4859499999999999
+rescreen2_750,rescreen2,T2,750,C16,rescreen2_750.C16,Experimental,DEGUELIN(-),1.5443
+rescreen2_750,rescreen2,T2,750,C17,rescreen2_750.C17,Experimental,SANGUINARINE SULFATE,0.26239999999999997
+rescreen2_750,rescreen2,T2,750,C18,rescreen2_750.C18,Experimental,PYRITHIONE ZINC,0.21939999999999998
+rescreen2_750,rescreen2,T2,750,C19,rescreen2_750.C19,Control,DMSO,0.7824
+rescreen2_750,rescreen2,T2,750,C20,rescreen2_750.C20,Experimental,DISULFIRAM,0.26225
+rescreen2_750,rescreen2,T2,750,C21,rescreen2_750.C21,Experimental,RIBOFLAVIN,0.07289999999999999
+rescreen2_750,rescreen2,T2,750,C22,rescreen2_750.C22,Experimental,GENTIAN VIOLET,0.1269
+rescreen2_750,rescreen2,T2,750,C23,rescreen2_750.C23,Control,DMSO,0.7589999999999999
+rescreen2_750,rescreen2,T2,750,D02,rescreen2_750.D02,Control,DMSO,1.3237
+rescreen2_750,rescreen2,T2,750,D03,rescreen2_750.D03,Experimental,TOBRAMYCIN,0.9017
+rescreen2_750,rescreen2,T2,750,D04,rescreen2_750.D04,Experimental,BLEOMYCIN (bleomycin B2 shown),0.22160000000000002
+rescreen2_750,rescreen2,T2,750,D05,rescreen2_750.D05,Experimental,PIPERACILLIN SODIUM,0.68365
+rescreen2_750,rescreen2,T2,750,D06,rescreen2_750.D06,Control,DMSO,0.7678499999999999
+rescreen2_750,rescreen2,T2,750,D07,rescreen2_750.D07,Control,DMSO,0.87725
+rescreen2_750,rescreen2,T2,750,D08,rescreen2_750.D08,Experimental,PHENYLMERCURIC ACETATE,0.1859
+rescreen2_750,rescreen2,T2,750,D09,rescreen2_750.D09,Experimental,PSEUDOEPHEDRINE HYDROCHLORIDE,1.34605
+rescreen2_750,rescreen2,T2,750,D10,rescreen2_750.D10,Experimental,PYRVINIUM PAMOATE,1.17395
+rescreen2_750,rescreen2,T2,750,D11,rescreen2_750.D11,Experimental,CISPLATIN,0.7646999999999999
+rescreen2_750,rescreen2,T2,750,D12,rescreen2_750.D12,Experimental,THIMEROSAL,0.1116
+rescreen2_750,rescreen2,T2,750,D13,rescreen2_750.D13,Experimental,AZITHROMYCIN,0.58475
+rescreen2_750,rescreen2,T2,750,D14,rescreen2_750.D14,Experimental,BACAMPICILLIN HYDROCHLORIDE,0.29490000000000005
+rescreen2_750,rescreen2,T2,750,D15,rescreen2_750.D15,Experimental,DEMECLOCYCLINE HYDROCHLORIDE,0.35755
+rescreen2_750,rescreen2,T2,750,D16,rescreen2_750.D16,Control,DMSO,1.1094
+rescreen2_750,rescreen2,T2,750,D17,rescreen2_750.D17,Experimental,METHYL 7-DESHYDROXYPYROGALLIN-4-CARBOXYLATE,1.24255
+rescreen2_750,rescreen2,T2,750,D18,rescreen2_750.D18,Control,DMSO,0.74465
+rescreen2_750,rescreen2,T2,750,D19,rescreen2_750.D19,Experimental,ACETAMINOSALOL,0.7331
+rescreen2_750,rescreen2,T2,750,D20,rescreen2_750.D20,Experimental,2-THIOURACIL,0.6455
+rescreen2_750,rescreen2,T2,750,D21,rescreen2_750.D21,Control,DMSO,0.5905499999999999
+rescreen2_750,rescreen2,T2,750,D22,rescreen2_750.D22,Control,DMSO,0.70285
+rescreen2_750,rescreen2,T2,750,D23,rescreen2_750.D23,Experimental,TADALAFIL,0.69585
+rescreen2_750,rescreen2,T2,750,E02,rescreen2_750.E02,Experimental,METAMPICILLIN SODIUM,0.32835000000000003
+rescreen2_750,rescreen2,T2,750,E03,rescreen2_750.E03,Experimental,DICHLOROPHENE,0.4324
+rescreen2_750,rescreen2,T2,750,E04,rescreen2_750.E04,Control,DMSO,0.7834
+rescreen2_750,rescreen2,T2,750,E05,rescreen2_750.E05,Experimental,PENTACHLOROPHENOL,0.31984999999999997
+rescreen2_750,rescreen2,T2,750,E06,rescreen2_750.E06,Experimental,CARMOFUR,0.3569
+rescreen2_750,rescreen2,T2,750,E07,rescreen2_750.E07,Control,DMSO,1.3199999999999998
+rescreen2_750,rescreen2,T2,750,E08,rescreen2_750.E08,Control,DMSO,1.607
+rescreen2_750,rescreen2,T2,750,E09,rescreen2_750.E09,Control,DMSO,0.7883
+rescreen2_750,rescreen2,T2,750,E10,rescreen2_750.E10,Experimental,CEFACLOR,1.26165
+rescreen2_750,rescreen2,T2,750,E11,rescreen2_750.E11,Experimental,PROPAZINE,0.6347
+rescreen2_750,rescreen2,T2,750,E12,rescreen2_750.E12,Experimental,FLOXURIDINE,0.50725
+rescreen2_750,rescreen2,T2,750,E13,rescreen2_750.E13,Control,DMSO,1.49395
+rescreen2_750,rescreen2,T2,750,E14,rescreen2_750.E14,Experimental,COUMOPHOS,1.08095
+rescreen2_750,rescreen2,T2,750,E15,rescreen2_750.E15,Experimental,PROMETRYN,0.38415
+rescreen2_750,rescreen2,T2,750,E16,rescreen2_750.E16,Control,DMSO,0.86535
+rescreen2_750,rescreen2,T2,750,E17,rescreen2_750.E17,Control,DMSO,0.8069999999999999
+rescreen2_750,rescreen2,T2,750,E18,rescreen2_750.E18,Experimental,DIURON,0.3
+rescreen2_750,rescreen2,T2,750,E19,rescreen2_750.E19,Control,DMSO,0.70025
+rescreen2_750,rescreen2,T2,750,E20,rescreen2_750.E20,Control,DMSO,0.76005
+rescreen2_750,rescreen2,T2,750,E21,rescreen2_750.E21,Control,DMSO,0.58665
+rescreen2_750,rescreen2,T2,750,E22,rescreen2_750.E22,Experimental,TRIFLURALIN,0.78605
+rescreen2_750,rescreen2,T2,750,E23,rescreen2_750.E23,Experimental,HYGROMYCIN B,0.31565
+rescreen2_750,rescreen2,T2,750,F02,rescreen2_750.F02,Experimental,RETINYL ACETATE,1.1745999999999999
+rescreen2_750,rescreen2,T2,750,F03,rescreen2_750.F03,Control,DMSO,0.7484
+rescreen2_750,rescreen2,T2,750,F04,rescreen2_750.F04,Control,DMSO,1.11665
+rescreen2_750,rescreen2,T2,750,F05,rescreen2_750.F05,Experimental,GLIPIZIDE,0.9277
+rescreen2_750,rescreen2,T2,750,F06,rescreen2_750.F06,Experimental,CEFTAZIDIME,0.34914999999999996
+rescreen2_750,rescreen2,T2,750,F07,rescreen2_750.F07,Experimental,DICHLORISONE ACETATE,1.19595
+rescreen2_750,rescreen2,T2,750,F08,rescreen2_750.F08,Experimental,BEPHENIUM HYDROXYNAPTHOATE,1.8947
+rescreen2_750,rescreen2,T2,750,F09,rescreen2_750.F09,Experimental,AURANOFIN,0.30195
+rescreen2_750,rescreen2,T2,750,F10,rescreen2_750.F10,Experimental,ENDRIN,0.8125
+rescreen2_750,rescreen2,T2,750,F11,rescreen2_750.F11,Control,DMSO,0.97685
+rescreen2_750,rescreen2,T2,750,F12,rescreen2_750.F12,Experimental,DL-alpha-Methyl-p-tyrosine,1.2802
+rescreen2_750,rescreen2,T2,750,F13,rescreen2_750.F13,Experimental,N-Acetyl-L-Cysteine,1.0551499999999998
+rescreen2_750,rescreen2,T2,750,F14,rescreen2_750.F14,Experimental,Bay 11-7085,0.30735
+rescreen2_750,rescreen2,T2,750,F15,rescreen2_750.F15,Experimental,4-Chloromercuribenzoic acid,1.08445
+rescreen2_750,rescreen2,T2,750,F16,rescreen2_750.F16,Experimental,ML-9,0.8217
+rescreen2_750,rescreen2,T2,750,F17,rescreen2_750.F17,Experimental,R(+)-6-Bromo-APB hydrobromide,0.8055
+rescreen2_750,rescreen2,T2,750,F18,rescreen2_750.F18,Control,DMSO,0.91805
+rescreen2_750,rescreen2,T2,750,F19,rescreen2_750.F19,Experimental,Apomorphine hydrochloride hemihydrate,0.34904999999999997
+rescreen2_750,rescreen2,T2,750,F20,rescreen2_750.F20,Experimental,Clotrimazole,0.7457
+rescreen2_750,rescreen2,T2,750,F21,rescreen2_750.F21,Experimental,Cyclothiazide,0.7403
+rescreen2_750,rescreen2,T2,750,F22,rescreen2_750.F22,Experimental,(±)-CPP,0.6854
+rescreen2_750,rescreen2,T2,750,F23,rescreen2_750.F23,Experimental,"(S)-3,5-Dihydroxyphenylglycine",1.0727
+rescreen2_750,rescreen2,T2,750,G02,rescreen2_750.G02,Experimental,Dequalinium chloride hydrate,0.2923
+rescreen2_750,rescreen2,T2,750,G03,rescreen2_750.G03,Experimental,Carvedilol,0.7850999999999999
+rescreen2_750,rescreen2,T2,750,G04,rescreen2_750.G04,Experimental,"L-3,4-Dihydroxyphenylalanine methyl ester hydrochloride",1.1934
+rescreen2_750,rescreen2,T2,750,G05,rescreen2_750.G05,Experimental,"L-3,4-Dihydroxyphenylalanine",2.2366
+rescreen2_750,rescreen2,T2,750,G06,rescreen2_750.G06,Experimental,5-fluoro-5'-deoxyuridine,0.63195
+rescreen2_750,rescreen2,T2,750,G07,rescreen2_750.G07,Control,DMSO,0.6828
+rescreen2_750,rescreen2,T2,750,G08,rescreen2_750.G08,Control,DMSO,0.82035
+rescreen2_750,rescreen2,T2,750,G09,rescreen2_750.G09,Control,DMSO,1.6804999999999999
+rescreen2_750,rescreen2,T2,750,G10,rescreen2_750.G10,Experimental,Minocycline hydrochloride,0.4692
+rescreen2_750,rescreen2,T2,750,G11,rescreen2_750.G11,Control,DMSO,0.80505
+rescreen2_750,rescreen2,T2,750,G12,rescreen2_750.G12,Experimental,BBMP,0.31905
+rescreen2_750,rescreen2,T2,750,G13,rescreen2_750.G13,Experimental,1-Phenyl-3-(2-thiazolyl)-2-thiourea,0.3982
+rescreen2_750,rescreen2,T2,750,G14,rescreen2_750.G14,Experimental,Ofloxacin,0.45215
+rescreen2_750,rescreen2,T2,750,G15,rescreen2_750.G15,Experimental,Lomefloxacin hydrochloride,0.48995
+rescreen2_750,rescreen2,T2,750,G16,rescreen2_750.G16,Experimental,7-Nitroindazole,0.48019999999999996
+rescreen2_750,rescreen2,T2,750,G17,rescreen2_750.G17,Experimental,Indatraline hydrochloride,0.67715
+rescreen2_750,rescreen2,T2,750,G18,rescreen2_750.G18,Experimental,SB 242084 dihydrochloride hydrate,0.42769999999999997
+rescreen2_750,rescreen2,T2,750,G19,rescreen2_750.G19,Experimental,Pentamidine isethionate,0.36675
+rescreen2_750,rescreen2,T2,750,G20,rescreen2_750.G20,Experimental,TBB,0.37175
+rescreen2_750,rescreen2,T2,750,G21,rescreen2_750.G21,Control,DMSO,0.6375
+rescreen2_750,rescreen2,T2,750,G22,rescreen2_750.G22,Experimental,Methoctramine tetrahydrochloride,0.4666
+rescreen2_750,rescreen2,T2,750,G23,rescreen2_750.G23,Experimental,(-)-Naproxen sodium,0.7308
+rescreen2_750,rescreen2,T2,750,H02,rescreen2_750.H02,Experimental,JWH-015,0.73005
+rescreen2_750,rescreen2,T2,750,H03,rescreen2_750.H03,Control,DMSO,0.73185
+rescreen2_750,rescreen2,T2,750,H04,rescreen2_750.H04,Control,DMSO,0.7708
+rescreen2_750,rescreen2,T2,750,H05,rescreen2_750.H05,Experimental,L-Methionine sulfoximine,0.68575
+rescreen2_750,rescreen2,T2,750,H06,rescreen2_750.H06,Experimental,"L-687,384 hydrochloride",0.9556499999999999
+rescreen2_750,rescreen2,T2,750,H07,rescreen2_750.H07,Control,DMSO,0.82805
+rescreen2_750,rescreen2,T2,750,H08,rescreen2_750.H08,Experimental,ODQ,1.3163
+rescreen2_750,rescreen2,T2,750,H09,rescreen2_750.H09,Control,DMSO,0.7190000000000001
+rescreen2_750,rescreen2,T2,750,H10,rescreen2_750.H10,Experimental,Nordihydroguaiaretic acid from Larrea divaricata (creosote bush),1.0946500000000001
+rescreen2_750,rescreen2,T2,750,H11,rescreen2_750.H11,Control,DMSO,0.98185
+rescreen2_750,rescreen2,T2,750,H12,rescreen2_750.H12,Experimental,Tyrphostin AG 1478,1.0058
+rescreen2_750,rescreen2,T2,750,H13,rescreen2_750.H13,Control,DMSO,0.90455
+rescreen2_750,rescreen2,T2,750,H14,rescreen2_750.H14,Experimental,SR 59230A oxalate,0.7593
+rescreen2_750,rescreen2,T2,750,H15,rescreen2_750.H15,Control,DMSO,0.76305
+rescreen2_750,rescreen2,T2,750,H16,rescreen2_750.H16,Control,DMSO,1.0943999999999998
+rescreen2_750,rescreen2,T2,750,H17,rescreen2_750.H17,Control,DMSO,0.76405
+rescreen2_750,rescreen2,T2,750,H18,rescreen2_750.H18,Experimental,NU6027,0.77035
+rescreen2_750,rescreen2,T2,750,H19,rescreen2_750.H19,Experimental,"1,10-Phenanthroline monohydrate",0.3352
+rescreen2_750,rescreen2,T2,750,H20,rescreen2_750.H20,Experimental,Trifluoperazine dihydrochloride,0.7884
+rescreen2_750,rescreen2,T2,750,H21,rescreen2_750.H21,Experimental,"Quipazine, 6-nitro-, maleate",0.6881999999999999
+rescreen2_750,rescreen2,T2,750,H22,rescreen2_750.H22,Control,DMSO,0.73125
+rescreen2_750,rescreen2,T2,750,H23,rescreen2_750.H23,Experimental,Tetraethylthiuram disulfide,0.26075000000000004
+rescreen2_750,rescreen2,T2,750,I02,rescreen2_750.I02,Control,DMSO,0.6766
+rescreen2_750,rescreen2,T2,750,I03,rescreen2_750.I03,Control,DMSO,0.7633
+rescreen2_750,rescreen2,T2,750,I04,rescreen2_750.I04,Control,DMSO,0.8504499999999999
+rescreen2_750,rescreen2,T2,750,I05,rescreen2_750.I05,Experimental,Thio-L-citrulline,0.96485
+rescreen2_750,rescreen2,T2,750,I06,rescreen2_750.I06,Control,DMSO,1.3708
+rescreen2_750,rescreen2,T2,750,I07,rescreen2_750.I07,Experimental,Tyrphostin AG 490,0.802
+rescreen2_750,rescreen2,T2,750,I08,rescreen2_750.I08,Experimental,Bay 11-7082,0.246
+rescreen2_750,rescreen2,T2,750,I09,rescreen2_750.I09,Control,DMSO,0.9831500000000001
+rescreen2_750,rescreen2,T2,750,I10,rescreen2_750.I10,Experimental,K114,1.315
+rescreen2_750,rescreen2,T2,750,I11,rescreen2_750.I11,Experimental,Sanguinarine chloride,0.27185
+rescreen2_750,rescreen2,T2,750,I12,rescreen2_750.I12,Experimental,Vancomycin hydrochloride from Streptomyces orientalis,0.28505
+rescreen2_750,rescreen2,T2,750,I13,rescreen2_750.I13,Experimental,(±)-threo-1-Phenyl-2-decanoylamino-3-morpholino-1-propanol hydrochloride,1.7254
+rescreen2_750,rescreen2,T2,750,I14,rescreen2_750.I14,Experimental,Pinacidil,0.9907
+rescreen2_750,rescreen2,T2,750,I15,rescreen2_750.I15,Control,DMSO,0.96815
+rescreen2_750,rescreen2,T2,750,I16,rescreen2_750.I16,Experimental,U-101958 maleate,1.444
+rescreen2_750,rescreen2,T2,750,I17,rescreen2_750.I17,Experimental,(±)-Taxifolin,0.90005
+rescreen2_750,rescreen2,T2,750,I18,rescreen2_750.I18,Experimental,Remerine HCl,0.1005
+rescreen2_750,rescreen2,T2,750,I19,rescreen2_750.I19,Experimental,Capreomycin sulfate,0.29059999999999997
+rescreen2_750,rescreen2,T2,750,I20,rescreen2_750.I20,Experimental,"Muscarine Cl, (+)-",0.722
+rescreen2_750,rescreen2,T2,750,I21,rescreen2_750.I21,Control,DMSO,1.25245
+rescreen2_750,rescreen2,T2,750,I22,rescreen2_750.I22,Control,DMSO,0.74575
+rescreen2_750,rescreen2,T2,750,I23,rescreen2_750.I23,Experimental,Rosamicin,0.44945
+rescreen2_750,rescreen2,T2,750,J02,rescreen2_750.J02,Control,DMSO,0.83535
+rescreen2_750,rescreen2,T2,750,J03,rescreen2_750.J03,Experimental,Tubercidin,0.26915
+rescreen2_750,rescreen2,T2,750,J04,rescreen2_750.J04,Experimental,Mycophenolic acid,0.7761
+rescreen2_750,rescreen2,T2,750,J05,rescreen2_750.J05,Control,DMSO,1.2212
+rescreen2_750,rescreen2,T2,750,J06,rescreen2_750.J06,Control,DMSO,0.76025
+rescreen2_750,rescreen2,T2,750,J07,rescreen2_750.J07,Control,DMSO,0.8025
+rescreen2_750,rescreen2,T2,750,J08,rescreen2_750.J08,Experimental,Pinocembrin,0.83135
+rescreen2_750,rescreen2,T2,750,J09,rescreen2_750.J09,Control,DMSO,1.0335
+rescreen2_750,rescreen2,T2,750,J10,rescreen2_750.J10,Experimental,Bilobalide,0.98675
+rescreen2_750,rescreen2,T2,750,J11,rescreen2_750.J11,Control,DMSO,1.16365
+rescreen2_750,rescreen2,T2,750,J12,rescreen2_750.J12,Control,DMSO,0.80025
+rescreen2_750,rescreen2,T2,750,J13,rescreen2_750.J13,Control,DMSO,0.7602
+rescreen2_750,rescreen2,T2,750,J14,rescreen2_750.J14,Control,DMSO,0.7562
+rescreen2_750,rescreen2,T2,750,J15,rescreen2_750.J15,Experimental,Ochratoxin A,0.79915
+rescreen2_750,rescreen2,T2,750,J16,rescreen2_750.J16,Experimental,Methysticin,0.71635
+rescreen2_750,rescreen2,T2,750,J17,rescreen2_750.J17,Control,DMSO,1.35445
+rescreen2_750,rescreen2,T2,750,J18,rescreen2_750.J18,Control,DMSO,1.2807499999999998
+rescreen2_750,rescreen2,T2,750,J19,rescreen2_750.J19,Experimental,Tunicamycin B,0.21175
+rescreen2_750,rescreen2,T2,750,J20,rescreen2_750.J20,Control,DMSO,1.14175
+rescreen2_750,rescreen2,T2,750,J21,rescreen2_750.J21,Control,DMSO,0.7157500000000001
+rescreen2_750,rescreen2,T2,750,J22,rescreen2_750.J22,Control,DMSO,1.1484
+rescreen2_750,rescreen2,T2,750,J23,rescreen2_750.J23,Control,DMSO,0.9300999999999999
+rescreen2_750,rescreen2,T2,750,K02,rescreen2_750.K02,Control,DMSO,1.00705
+rescreen2_750,rescreen2,T2,750,K03,rescreen2_750.K03,Control,DMSO,1.49925
+rescreen2_750,rescreen2,T2,750,K04,rescreen2_750.K04,Control,DMSO,0.84205
+rescreen2_750,rescreen2,T2,750,K05,rescreen2_750.K05,Control,DMSO,1.1242999999999999
+rescreen2_750,rescreen2,T2,750,K06,rescreen2_750.K06,Control,DMSO,0.9529000000000001
+rescreen2_750,rescreen2,T2,750,K07,rescreen2_750.K07,Experimental,Homoeriodictyol (-),0.9555
+rescreen2_750,rescreen2,T2,750,K08,rescreen2_750.K08,Control,DMSO,0.89765
+rescreen2_750,rescreen2,T2,750,K09,rescreen2_750.K09,Control,DMSO,1.1322
+rescreen2_750,rescreen2,T2,750,K10,rescreen2_750.K10,Experimental,Mitomycin C,0.3606
+rescreen2_750,rescreen2,T2,750,K11,rescreen2_750.K11,Experimental,Cerulenin,0.2314
+rescreen2_750,rescreen2,T2,750,K12,rescreen2_750.K12,Experimental,Gliotoxin,0.2113
+rescreen2_750,rescreen2,T2,750,K13,rescreen2_750.K13,Control,DMSO,1.17485
+rescreen2_750,rescreen2,T2,750,K14,rescreen2_750.K14,Experimental,Ryanodine,0.7255499999999999
+rescreen2_750,rescreen2,T2,750,K15,rescreen2_750.K15,Experimental,"Cotininecarboxylic acid, trans-4-",1.3569499999999999
+rescreen2_750,rescreen2,T2,750,K21,rescreen2_750.K21,Control,DMSO,0.87035
+rescreen2_750,rescreen2,T2,750,K22,rescreen2_750.K22,Control,DMSO,0.85685
+rescreen2_750,rescreen2,T2,750,L02,rescreen2_750.L02,Control,DMSO,1.0325
+rescreen2_750,rescreen2,T2,750,L07,rescreen2_750.L07,Control,DMSO,1.0241
+rescreen2_750,rescreen2,T2,750,L09,rescreen2_750.L09,Control,DMSO,0.87775
+rescreen2_750,rescreen2,T2,750,L12,rescreen2_750.L12,Control,DMSO,1.04765
+rescreen2_750,rescreen2,T2,750,L13,rescreen2_750.L13,Control,DMSO,0.8763
+rescreen2_750,rescreen2,T2,750,L21,rescreen2_750.L21,Control,DMSO,1.1332
+rescreen2_750,rescreen2,T2,750,L22,rescreen2_750.L22,Control,DMSO,0.70425
+rescreen2_750,rescreen2,T2,750,M02,rescreen2_750.M02,Control,DMSO,1.1117
+rescreen2_750,rescreen2,T2,750,M03,rescreen2_750.M03,Control,DMSO,0.7758
+rescreen2_750,rescreen2,T2,750,M05,rescreen2_750.M05,Control,DMSO,0.7675
+rescreen2_750,rescreen2,T2,750,M07,rescreen2_750.M07,Control,DMSO,0.7605
+rescreen2_750,rescreen2,T2,750,M09,rescreen2_750.M09,Control,DMSO,0.7856
+rescreen2_750,rescreen2,T2,750,M11,rescreen2_750.M11,Control,DMSO,0.7193499999999999
+rescreen2_750,rescreen2,T2,750,M13,rescreen2_750.M13,Control,DMSO,0.8023
+rescreen2_750,rescreen2,T2,750,M14,rescreen2_750.M14,Control,DMSO,0.80185
+rescreen2_750,rescreen2,T2,750,M16,rescreen2_750.M16,Control,DMSO,0.933
+rescreen2_750,rescreen2,T2,750,M19,rescreen2_750.M19,Control,DMSO,0.7273499999999999
+rescreen2_750,rescreen2,T2,750,M20,rescreen2_750.M20,Control,DMSO,0.65915
+rescreen2_750,rescreen2,T2,750,M23,rescreen2_750.M23,Control,DMSO,1.32285
+rescreen2_750,rescreen2,T2,750,N11,rescreen2_750.N11,Control,DMSO,0.6757
+rescreen2_750,rescreen2,T2,750,N13,rescreen2_750.N13,Control,DMSO,0.78075
+rescreen2_750,rescreen2,T2,750,N19,rescreen2_750.N19,Control,DMSO,0.86815
+rescreen2_750,rescreen2,T2,750,N20,rescreen2_750.N20,Control,DMSO,0.7724500000000001
+rescreen2_750,rescreen2,T2,750,N23,rescreen2_750.N23,Control,DMSO,0.74255
+rescreen2_750,rescreen2,T2,750,O03,rescreen2_750.O03,Control,DMSO,1.28755
+rescreen2_750,rescreen2,T2,750,O07,rescreen2_750.O07,Control,DMSO,1.5002
+rescreen2_750,rescreen2,T2,750,O08,rescreen2_750.O08,Control,DMSO,0.64625
+rescreen2_750,rescreen2,T2,750,O19,rescreen2_750.O19,Control,DMSO,1.05765
+rescreen2_750,rescreen2,T2,750,O20,rescreen2_750.O20,Control,DMSO,1.21395
+rescreen2_750,rescreen2,T2,750,O21,rescreen2_750.O21,Control,DMSO,0.813
+rescreen2_750,rescreen2,T2,750,O22,rescreen2_750.O22,Control,DMSO,0.5608
+rescreen2_750,rescreen2,T2,750,P06,rescreen2_750.P06,Control,DMSO,1.06155
+rescreen2_750,rescreen2,T2,750,P07,rescreen2_750.P07,Control,DMSO,0.99715
+rescreen2_750,rescreen2,T2,750,P08,rescreen2_750.P08,Control,DMSO,0.9983
+rescreen2_750,rescreen2,T2,750,P09,rescreen2_750.P09,Control,DMSO,0.6225
+rescreen2_750,rescreen2,T2,750,P12,rescreen2_750.P12,Control,DMSO,0.8707
+rescreen2_750,rescreen2,T2,750,P14,rescreen2_750.P14,Control,DMSO,1.0396999999999998
+rescreen2_750,rescreen2,T2,750,P15,rescreen2_750.P15,Control,DMSO,0.8866
+rescreen2_750,rescreen2,T2,750,P16,rescreen2_750.P16,Control,DMSO,0.76395
+rescreen2_750,rescreen2,T2,750,P19,rescreen2_750.P19,Control,DMSO,1.0274
+rescreen2_750,rescreen2,T2,750,P21,rescreen2_750.P21,Control,DMSO,1.09535
+rescreen2_750,rescreen2,T2,750,P22,rescreen2_750.P22,Control,DMSO,0.78645
+rescreen3_750,rescreen3,T2,750,A02,rescreen3_750.A02,Experimental,Metronidazole,0.77545
+rescreen3_750,rescreen3,T2,750,A03,rescreen3_750.A03,Experimental,Disulfiram,0.1563
+rescreen3_750,rescreen3,T2,750,A04,rescreen3_750.A04,Control,DMSO,0.73505
+rescreen3_750,rescreen3,T2,750,A05,rescreen3_750.A05,Experimental,Naphazoline hydrochloride,0.7734000000000001
+rescreen3_750,rescreen3,T2,750,A06,rescreen3_750.A06,Experimental,Sulindac,0.9495
+rescreen3_750,rescreen3,T2,750,A07,rescreen3_750.A07,Control,DMSO,0.73795
+rescreen3_750,rescreen3,T2,750,A08,rescreen3_750.A08,Experimental,Ifenprodil tartrate,0.6859999999999999
+rescreen3_750,rescreen3,T2,750,A09,rescreen3_750.A09,Control,DMSO,0.7159
+rescreen3_750,rescreen3,T2,750,A10,rescreen3_750.A10,Control,DMSO,0.6401
+rescreen3_750,rescreen3,T2,750,A11,rescreen3_750.A11,Experimental,Metampicillin sodium salt,0.2077
+rescreen3_750,rescreen3,T2,750,A12,rescreen3_750.A12,Experimental,Terconazole,0.62005
+rescreen3_750,rescreen3,T2,750,A13,rescreen3_750.A13,Experimental,Methionine sulfoximine (L),0.6939500000000001
+rescreen3_750,rescreen3,T2,750,A14,rescreen3_750.A14,Experimental,Dequalinium dichloride,0.2514
+rescreen3_750,rescreen3,T2,750,A15,rescreen3_750.A15,Control,DMSO,0.7299
+rescreen3_750,rescreen3,T2,750,A16,rescreen3_750.A16,Experimental,Ketoconazole,1.0877000000000001
+rescreen3_750,rescreen3,T2,750,A17,rescreen3_750.A17,Control,DMSO,0.95325
+rescreen3_750,rescreen3,T2,750,A18,rescreen3_750.A18,Control,DMSO,0.66885
+rescreen3_750,rescreen3,T2,750,A19,rescreen3_750.A19,Control,DMSO,0.7207
+rescreen3_750,rescreen3,T2,750,A20,rescreen3_750.A20,Experimental,Niridazole,0.28955
+rescreen3_750,rescreen3,T2,750,A21,rescreen3_750.A21,Experimental,Ceforanide,0.2238
+rescreen3_750,rescreen3,T2,750,A22,rescreen3_750.A22,Control,DMSO,1.3723999999999998
+rescreen3_750,rescreen3,T2,750,A23,rescreen3_750.A23,Experimental,Tobramycin,0.32135
+rescreen3_750,rescreen3,T2,750,B02,rescreen3_750.B02,Experimental,Riboflavine,0.1931
+rescreen3_750,rescreen3,T2,750,B03,rescreen3_750.B03,Control,DMSO,0.6642
+rescreen3_750,rescreen3,T2,750,B04,rescreen3_750.B04,Experimental,Clioquinol,0.6832
+rescreen3_750,rescreen3,T2,750,B05,rescreen3_750.B05,Control,DMSO,0.91195
+rescreen3_750,rescreen3,T2,750,B06,rescreen3_750.B06,Experimental,Moxalactam disodium salt,0.26005
+rescreen3_750,rescreen3,T2,750,B07,rescreen3_750.B07,Control,DMSO,0.7892
+rescreen3_750,rescreen3,T2,750,B08,rescreen3_750.B08,Experimental,2-Aminobenzenesulfonamide,0.65415
+rescreen3_750,rescreen3,T2,750,B09,rescreen3_750.B09,Experimental,Nimodipine,0.66235
+rescreen3_750,rescreen3,T2,750,B10,rescreen3_750.B10,Experimental,Sulfameter,0.46740000000000004
+rescreen3_750,rescreen3,T2,750,B11,rescreen3_750.B11,Experimental,Nafcillin sodium salt monohydrate,0.27115
+rescreen3_750,rescreen3,T2,750,B12,rescreen3_750.B12,Experimental,Alexidine dihydrochloride,0.5351
+rescreen3_750,rescreen3,T2,750,B13,rescreen3_750.B13,Experimental,Cefmetazole sodium salt,0.29725
+rescreen3_750,rescreen3,T2,750,B14,rescreen3_750.B14,Control,DMSO,0.6861
+rescreen3_750,rescreen3,T2,750,B15,rescreen3_750.B15,Experimental,Paroxetine Hydrochloride,0.9269000000000001
+rescreen3_750,rescreen3,T2,750,B16,rescreen3_750.B16,Experimental,Cephalothin sodium salt,0.38905
+rescreen3_750,rescreen3,T2,750,B17,rescreen3_750.B17,Control,DMSO,0.87815
+rescreen3_750,rescreen3,T2,750,B18,rescreen3_750.B18,Control,DMSO,0.7621
+rescreen3_750,rescreen3,T2,750,B19,rescreen3_750.B19,Experimental,Cefuroxime sodium salt,0.25434999999999997
+rescreen3_750,rescreen3,T2,750,B20,rescreen3_750.B20,Control,DMSO,0.63835
+rescreen3_750,rescreen3,T2,750,B21,rescreen3_750.B21,Experimental,ANDIROBIN,0.7414000000000001
+rescreen3_750,rescreen3,T2,750,B22,rescreen3_750.B22,Experimental,ISOROTENONE,0.5610999999999999
+rescreen3_750,rescreen3,T2,750,B23,rescreen3_750.B23,Experimental,DEOXYKHIVORIN,0.6352
+rescreen3_750,rescreen3,T2,750,C02,rescreen3_750.C02,Experimental,VULPINIC ACID,0.9420999999999999
+rescreen3_750,rescreen3,T2,750,C03,rescreen3_750.C03,Experimental,12a-HYDROXY-5-DEOXYDEHYDROMUNDUSERONE,0.69635
+rescreen3_750,rescreen3,T2,750,C04,rescreen3_750.C04,Experimental,ERGOSTEROL,1.29615
+rescreen3_750,rescreen3,T2,750,C05,rescreen3_750.C05,Control,DMSO,0.74045
+rescreen3_750,rescreen3,T2,750,C06,rescreen3_750.C06,Experimental,IRIDIN,1.32885
+rescreen3_750,rescreen3,T2,750,C07,rescreen3_750.C07,Experimental,DIHYDROROTENONE,0.6550499999999999
+rescreen3_750,rescreen3,T2,750,C08,rescreen3_750.C08,Experimental,PERILLIC ACID (-),1.79545
+rescreen3_750,rescreen3,T2,750,C09,rescreen3_750.C09,Experimental,STRYCHNINE METHIODIDE,1.00845
+rescreen3_750,rescreen3,T2,750,C10,rescreen3_750.C10,Control,DMSO,2.117
+rescreen3_750,rescreen3,T2,750,C11,rescreen3_750.C11,Experimental,BENZYL ISOTHIOCYANATE,0.77275
+rescreen3_750,rescreen3,T2,750,C12,rescreen3_750.C12,Control,DMSO,1.0109
+rescreen3_750,rescreen3,T2,750,C13,rescreen3_750.C13,Experimental,ARTEMISININ,0.46040000000000003
+rescreen3_750,rescreen3,T2,750,C14,rescreen3_750.C14,Experimental,PLUMBAGIN,0.2106
+rescreen3_750,rescreen3,T2,750,C15,rescreen3_750.C15,Experimental,GOSSYPETIN,1.6317
+rescreen3_750,rescreen3,T2,750,C16,rescreen3_750.C16,Experimental,DEGUELIN(-),0.77475
+rescreen3_750,rescreen3,T2,750,C17,rescreen3_750.C17,Experimental,SANGUINARINE SULFATE,0.22825
+rescreen3_750,rescreen3,T2,750,C18,rescreen3_750.C18,Experimental,PYRITHIONE ZINC,0.21200000000000002
+rescreen3_750,rescreen3,T2,750,C19,rescreen3_750.C19,Control,DMSO,0.80845
+rescreen3_750,rescreen3,T2,750,C20,rescreen3_750.C20,Experimental,DISULFIRAM,0.1973
+rescreen3_750,rescreen3,T2,750,C21,rescreen3_750.C21,Experimental,RIBOFLAVIN,0.08615
+rescreen3_750,rescreen3,T2,750,C22,rescreen3_750.C22,Experimental,GENTIAN VIOLET,0.10155
+rescreen3_750,rescreen3,T2,750,C23,rescreen3_750.C23,Control,DMSO,0.6929000000000001
+rescreen3_750,rescreen3,T2,750,D02,rescreen3_750.D02,Control,DMSO,0.65235
+rescreen3_750,rescreen3,T2,750,D03,rescreen3_750.D03,Experimental,TOBRAMYCIN,0.69625
+rescreen3_750,rescreen3,T2,750,D04,rescreen3_750.D04,Experimental,BLEOMYCIN (bleomycin B2 shown),0.20945
+rescreen3_750,rescreen3,T2,750,D05,rescreen3_750.D05,Experimental,PIPERACILLIN SODIUM,0.67315
+rescreen3_750,rescreen3,T2,750,D06,rescreen3_750.D06,Control,DMSO,0.6891499999999999
+rescreen3_750,rescreen3,T2,750,D07,rescreen3_750.D07,Control,DMSO,1.05135
+rescreen3_750,rescreen3,T2,750,D08,rescreen3_750.D08,Experimental,PHENYLMERCURIC ACETATE,0.1037
+rescreen3_750,rescreen3,T2,750,D09,rescreen3_750.D09,Experimental,PSEUDOEPHEDRINE HYDROCHLORIDE,0.6909000000000001
+rescreen3_750,rescreen3,T2,750,D10,rescreen3_750.D10,Experimental,PYRVINIUM PAMOATE,0.7898499999999999
+rescreen3_750,rescreen3,T2,750,D11,rescreen3_750.D11,Experimental,CISPLATIN,0.8138
+rescreen3_750,rescreen3,T2,750,D12,rescreen3_750.D12,Experimental,THIMEROSAL,0.10415
+rescreen3_750,rescreen3,T2,750,D13,rescreen3_750.D13,Experimental,AZITHROMYCIN,0.3953
+rescreen3_750,rescreen3,T2,750,D14,rescreen3_750.D14,Experimental,BACAMPICILLIN HYDROCHLORIDE,0.33699999999999997
+rescreen3_750,rescreen3,T2,750,D15,rescreen3_750.D15,Experimental,DEMECLOCYCLINE HYDROCHLORIDE,0.30074999999999996
+rescreen3_750,rescreen3,T2,750,D16,rescreen3_750.D16,Control,DMSO,1.2915999999999999
+rescreen3_750,rescreen3,T2,750,D17,rescreen3_750.D17,Experimental,METHYL 7-DESHYDROXYPYROGALLIN-4-CARBOXYLATE,1.5782
+rescreen3_750,rescreen3,T2,750,D18,rescreen3_750.D18,Control,DMSO,1.3479
+rescreen3_750,rescreen3,T2,750,D19,rescreen3_750.D19,Experimental,ACETAMINOSALOL,0.59895
+rescreen3_750,rescreen3,T2,750,D20,rescreen3_750.D20,Experimental,2-THIOURACIL,0.6776
+rescreen3_750,rescreen3,T2,750,D21,rescreen3_750.D21,Control,DMSO,0.6634
+rescreen3_750,rescreen3,T2,750,D22,rescreen3_750.D22,Control,DMSO,0.99245
+rescreen3_750,rescreen3,T2,750,D23,rescreen3_750.D23,Experimental,TADALAFIL,0.71685
+rescreen3_750,rescreen3,T2,750,E02,rescreen3_750.E02,Experimental,METAMPICILLIN SODIUM,0.28785
+rescreen3_750,rescreen3,T2,750,E03,rescreen3_750.E03,Experimental,DICHLOROPHENE,0.3607
+rescreen3_750,rescreen3,T2,750,E04,rescreen3_750.E04,Control,DMSO,1.48635
+rescreen3_750,rescreen3,T2,750,E05,rescreen3_750.E05,Experimental,PENTACHLOROPHENOL,0.2581
+rescreen3_750,rescreen3,T2,750,E06,rescreen3_750.E06,Experimental,CARMOFUR,0.3578
+rescreen3_750,rescreen3,T2,750,E07,rescreen3_750.E07,Control,DMSO,0.80365
+rescreen3_750,rescreen3,T2,750,E08,rescreen3_750.E08,Control,DMSO,1.3521
+rescreen3_750,rescreen3,T2,750,E09,rescreen3_750.E09,Control,DMSO,1.1852999999999998
+rescreen3_750,rescreen3,T2,750,E10,rescreen3_750.E10,Experimental,CEFACLOR,1.01825
+rescreen3_750,rescreen3,T2,750,E11,rescreen3_750.E11,Experimental,PROPAZINE,0.60065
+rescreen3_750,rescreen3,T2,750,E12,rescreen3_750.E12,Experimental,FLOXURIDINE,0.5098
+rescreen3_750,rescreen3,T2,750,E13,rescreen3_750.E13,Control,DMSO,1.1879
+rescreen3_750,rescreen3,T2,750,E14,rescreen3_750.E14,Experimental,COUMOPHOS,1.20015
+rescreen3_750,rescreen3,T2,750,E15,rescreen3_750.E15,Experimental,PROMETRYN,0.3409
+rescreen3_750,rescreen3,T2,750,E16,rescreen3_750.E16,Control,DMSO,1.07925
+rescreen3_750,rescreen3,T2,750,E17,rescreen3_750.E17,Control,DMSO,0.8672
+rescreen3_750,rescreen3,T2,750,E18,rescreen3_750.E18,Experimental,DIURON,0.28859999999999997
+rescreen3_750,rescreen3,T2,750,E19,rescreen3_750.E19,Control,DMSO,0.6422
+rescreen3_750,rescreen3,T2,750,E20,rescreen3_750.E20,Control,DMSO,1.2673
+rescreen3_750,rescreen3,T2,750,E21,rescreen3_750.E21,Control,DMSO,0.5965499999999999
+rescreen3_750,rescreen3,T2,750,E22,rescreen3_750.E22,Experimental,TRIFLURALIN,0.7953
+rescreen3_750,rescreen3,T2,750,E23,rescreen3_750.E23,Experimental,HYGROMYCIN B,0.34615
+rescreen3_750,rescreen3,T2,750,F02,rescreen3_750.F02,Experimental,RETINYL ACETATE,0.616
+rescreen3_750,rescreen3,T2,750,F03,rescreen3_750.F03,Control,DMSO,0.78925
+rescreen3_750,rescreen3,T2,750,F04,rescreen3_750.F04,Control,DMSO,1.2564000000000002
+rescreen3_750,rescreen3,T2,750,F05,rescreen3_750.F05,Experimental,GLIPIZIDE,0.79775
+rescreen3_750,rescreen3,T2,750,F06,rescreen3_750.F06,Experimental,CEFTAZIDIME,0.32005
+rescreen3_750,rescreen3,T2,750,F07,rescreen3_750.F07,Experimental,DICHLORISONE ACETATE,0.83605
+rescreen3_750,rescreen3,T2,750,F08,rescreen3_750.F08,Experimental,BEPHENIUM HYDROXYNAPTHOATE,1.0081
+rescreen3_750,rescreen3,T2,750,F09,rescreen3_750.F09,Experimental,AURANOFIN,0.19855
+rescreen3_750,rescreen3,T2,750,F10,rescreen3_750.F10,Experimental,ENDRIN,1.30675
+rescreen3_750,rescreen3,T2,750,F11,rescreen3_750.F11,Control,DMSO,0.77715
+rescreen3_750,rescreen3,T2,750,F12,rescreen3_750.F12,Experimental,DL-alpha-Methyl-p-tyrosine,0.92195
+rescreen3_750,rescreen3,T2,750,F13,rescreen3_750.F13,Experimental,N-Acetyl-L-Cysteine,1.3316
+rescreen3_750,rescreen3,T2,750,F14,rescreen3_750.F14,Experimental,Bay 11-7085,0.25665000000000004
+rescreen3_750,rescreen3,T2,750,F15,rescreen3_750.F15,Experimental,4-Chloromercuribenzoic acid,0.81035
+rescreen3_750,rescreen3,T2,750,F16,rescreen3_750.F16,Experimental,ML-9,0.7761499999999999
+rescreen3_750,rescreen3,T2,750,F17,rescreen3_750.F17,Experimental,R(+)-6-Bromo-APB hydrobromide,0.68875
+rescreen3_750,rescreen3,T2,750,F18,rescreen3_750.F18,Control,DMSO,1.2218499999999999
+rescreen3_750,rescreen3,T2,750,F19,rescreen3_750.F19,Experimental,Apomorphine hydrochloride hemihydrate,0.3083
+rescreen3_750,rescreen3,T2,750,F20,rescreen3_750.F20,Experimental,Clotrimazole,0.55455
+rescreen3_750,rescreen3,T2,750,F21,rescreen3_750.F21,Experimental,Cyclothiazide,0.7492000000000001
+rescreen3_750,rescreen3,T2,750,F22,rescreen3_750.F22,Experimental,(±)-CPP,0.7822
+rescreen3_750,rescreen3,T2,750,F23,rescreen3_750.F23,Experimental,"(S)-3,5-Dihydroxyphenylglycine",0.5807
+rescreen3_750,rescreen3,T2,750,G02,rescreen3_750.G02,Experimental,Dequalinium chloride hydrate,0.23155
+rescreen3_750,rescreen3,T2,750,G03,rescreen3_750.G03,Experimental,Carvedilol,0.8307500000000001
+rescreen3_750,rescreen3,T2,750,G04,rescreen3_750.G04,Experimental,"L-3,4-Dihydroxyphenylalanine methyl ester hydrochloride",0.8381
+rescreen3_750,rescreen3,T2,750,G05,rescreen3_750.G05,Experimental,"L-3,4-Dihydroxyphenylalanine",0.78555
+rescreen3_750,rescreen3,T2,750,G06,rescreen3_750.G06,Experimental,5-fluoro-5'-deoxyuridine,0.7330000000000001
+rescreen3_750,rescreen3,T2,750,G07,rescreen3_750.G07,Control,DMSO,0.7408
+rescreen3_750,rescreen3,T2,750,G08,rescreen3_750.G08,Control,DMSO,0.86685
+rescreen3_750,rescreen3,T2,750,G09,rescreen3_750.G09,Control,DMSO,0.73105
+rescreen3_750,rescreen3,T2,750,G10,rescreen3_750.G10,Experimental,Minocycline hydrochloride,0.38770000000000004
+rescreen3_750,rescreen3,T2,750,G11,rescreen3_750.G11,Control,DMSO,0.7101
+rescreen3_750,rescreen3,T2,750,G12,rescreen3_750.G12,Experimental,BBMP,0.2664
+rescreen3_750,rescreen3,T2,750,G13,rescreen3_750.G13,Experimental,1-Phenyl-3-(2-thiazolyl)-2-thiourea,0.2971
+rescreen3_750,rescreen3,T2,750,G14,rescreen3_750.G14,Experimental,Ofloxacin,0.34714999999999996
+rescreen3_750,rescreen3,T2,750,G15,rescreen3_750.G15,Experimental,Lomefloxacin hydrochloride,0.4141
+rescreen3_750,rescreen3,T2,750,G16,rescreen3_750.G16,Experimental,7-Nitroindazole,0.6638
+rescreen3_750,rescreen3,T2,750,G17,rescreen3_750.G17,Experimental,Indatraline hydrochloride,0.44984999999999997
+rescreen3_750,rescreen3,T2,750,G18,rescreen3_750.G18,Experimental,SB 242084 dihydrochloride hydrate,0.3171
+rescreen3_750,rescreen3,T2,750,G19,rescreen3_750.G19,Experimental,Pentamidine isethionate,0.29410000000000003
+rescreen3_750,rescreen3,T2,750,G20,rescreen3_750.G20,Experimental,TBB,0.3284
+rescreen3_750,rescreen3,T2,750,G21,rescreen3_750.G21,Control,DMSO,0.6006
+rescreen3_750,rescreen3,T2,750,G22,rescreen3_750.G22,Experimental,Methoctramine tetrahydrochloride,0.40215
+rescreen3_750,rescreen3,T2,750,G23,rescreen3_750.G23,Experimental,(-)-Naproxen sodium,0.67695
+rescreen3_750,rescreen3,T2,750,H02,rescreen3_750.H02,Experimental,JWH-015,0.63305
+rescreen3_750,rescreen3,T2,750,H03,rescreen3_750.H03,Control,DMSO,0.69865
+rescreen3_750,rescreen3,T2,750,H04,rescreen3_750.H04,Control,DMSO,0.70685
+rescreen3_750,rescreen3,T2,750,H05,rescreen3_750.H05,Experimental,L-Methionine sulfoximine,0.712
+rescreen3_750,rescreen3,T2,750,H06,rescreen3_750.H06,Experimental,"L-687,384 hydrochloride",0.77155
+rescreen3_750,rescreen3,T2,750,H07,rescreen3_750.H07,Control,DMSO,0.869
+rescreen3_750,rescreen3,T2,750,H08,rescreen3_750.H08,Experimental,ODQ,0.6789499999999999
+rescreen3_750,rescreen3,T2,750,H09,rescreen3_750.H09,Control,DMSO,0.7201500000000001
+rescreen3_750,rescreen3,T2,750,H10,rescreen3_750.H10,Experimental,Nordihydroguaiaretic acid from Larrea divaricata (creosote bush),0.8560000000000001
+rescreen3_750,rescreen3,T2,750,H11,rescreen3_750.H11,Control,DMSO,0.6454
+rescreen3_750,rescreen3,T2,750,H12,rescreen3_750.H12,Experimental,Tyrphostin AG 1478,1.04525
+rescreen3_750,rescreen3,T2,750,H13,rescreen3_750.H13,Control,DMSO,0.89445
+rescreen3_750,rescreen3,T2,750,H14,rescreen3_750.H14,Experimental,SR 59230A oxalate,0.569
+rescreen3_750,rescreen3,T2,750,H15,rescreen3_750.H15,Control,DMSO,0.656
+rescreen3_750,rescreen3,T2,750,H16,rescreen3_750.H16,Control,DMSO,0.7323500000000001
+rescreen3_750,rescreen3,T2,750,H17,rescreen3_750.H17,Control,DMSO,0.687
+rescreen3_750,rescreen3,T2,750,H18,rescreen3_750.H18,Experimental,NU6027,0.5728
+rescreen3_750,rescreen3,T2,750,H19,rescreen3_750.H19,Experimental,"1,10-Phenanthroline monohydrate",0.30505
+rescreen3_750,rescreen3,T2,750,H20,rescreen3_750.H20,Experimental,Trifluoperazine dihydrochloride,1.0902500000000002
+rescreen3_750,rescreen3,T2,750,H21,rescreen3_750.H21,Experimental,"Quipazine, 6-nitro-, maleate",1.19585
+rescreen3_750,rescreen3,T2,750,H22,rescreen3_750.H22,Control,DMSO,0.5392
+rescreen3_750,rescreen3,T2,750,H23,rescreen3_750.H23,Experimental,Tetraethylthiuram disulfide,0.17905
+rescreen3_750,rescreen3,T2,750,I02,rescreen3_750.I02,Control,DMSO,0.60625
+rescreen3_750,rescreen3,T2,750,I03,rescreen3_750.I03,Control,DMSO,0.68005
+rescreen3_750,rescreen3,T2,750,I04,rescreen3_750.I04,Control,DMSO,0.6529499999999999
+rescreen3_750,rescreen3,T2,750,I05,rescreen3_750.I05,Experimental,Thio-L-citrulline,0.78395
+rescreen3_750,rescreen3,T2,750,I06,rescreen3_750.I06,Control,DMSO,0.6272
+rescreen3_750,rescreen3,T2,750,I07,rescreen3_750.I07,Experimental,Tyrphostin AG 490,0.7361
+rescreen3_750,rescreen3,T2,750,I08,rescreen3_750.I08,Experimental,Bay 11-7082,0.2496
+rescreen3_750,rescreen3,T2,750,I09,rescreen3_750.I09,Control,DMSO,0.735
+rescreen3_750,rescreen3,T2,750,I10,rescreen3_750.I10,Experimental,K114,0.7302
+rescreen3_750,rescreen3,T2,750,I11,rescreen3_750.I11,Experimental,Sanguinarine chloride,0.2564
+rescreen3_750,rescreen3,T2,750,I12,rescreen3_750.I12,Experimental,Vancomycin hydrochloride from Streptomyces orientalis,0.28515
+rescreen3_750,rescreen3,T2,750,I13,rescreen3_750.I13,Experimental,(±)-threo-1-Phenyl-2-decanoylamino-3-morpholino-1-propanol hydrochloride,0.8414999999999999
+rescreen3_750,rescreen3,T2,750,I14,rescreen3_750.I14,Experimental,Pinacidil,0.89135
+rescreen3_750,rescreen3,T2,750,I15,rescreen3_750.I15,Control,DMSO,0.74325
+rescreen3_750,rescreen3,T2,750,I16,rescreen3_750.I16,Experimental,U-101958 maleate,0.72725
+rescreen3_750,rescreen3,T2,750,I17,rescreen3_750.I17,Experimental,(±)-Taxifolin,0.7261
+rescreen3_750,rescreen3,T2,750,I18,rescreen3_750.I18,Experimental,Remerine HCl,0.06684999999999999
+rescreen3_750,rescreen3,T2,750,I19,rescreen3_750.I19,Experimental,Capreomycin sulfate,0.26839999999999997
+rescreen3_750,rescreen3,T2,750,I20,rescreen3_750.I20,Experimental,"Muscarine Cl, (+)-",0.7445999999999999
+rescreen3_750,rescreen3,T2,750,I21,rescreen3_750.I21,Control,DMSO,0.6521
+rescreen3_750,rescreen3,T2,750,I22,rescreen3_750.I22,Control,DMSO,0.62005
+rescreen3_750,rescreen3,T2,750,I23,rescreen3_750.I23,Experimental,Rosamicin,0.44335
+rescreen3_750,rescreen3,T2,750,J02,rescreen3_750.J02,Control,DMSO,0.6980999999999999
+rescreen3_750,rescreen3,T2,750,J03,rescreen3_750.J03,Experimental,Tubercidin,0.29100000000000004
+rescreen3_750,rescreen3,T2,750,J04,rescreen3_750.J04,Experimental,Mycophenolic acid,0.6409499999999999
+rescreen3_750,rescreen3,T2,750,J05,rescreen3_750.J05,Control,DMSO,0.7121
+rescreen3_750,rescreen3,T2,750,J06,rescreen3_750.J06,Control,DMSO,0.7134
+rescreen3_750,rescreen3,T2,750,J07,rescreen3_750.J07,Control,DMSO,0.60205
+rescreen3_750,rescreen3,T2,750,J08,rescreen3_750.J08,Experimental,Pinocembrin,1.02885
+rescreen3_750,rescreen3,T2,750,J09,rescreen3_750.J09,Control,DMSO,0.6799
+rescreen3_750,rescreen3,T2,750,J10,rescreen3_750.J10,Experimental,Bilobalide,0.762
+rescreen3_750,rescreen3,T2,750,J11,rescreen3_750.J11,Control,DMSO,0.72235
+rescreen3_750,rescreen3,T2,750,J12,rescreen3_750.J12,Control,DMSO,0.7055
+rescreen3_750,rescreen3,T2,750,J13,rescreen3_750.J13,Control,DMSO,0.73965
+rescreen3_750,rescreen3,T2,750,J14,rescreen3_750.J14,Control,DMSO,0.7225999999999999
+rescreen3_750,rescreen3,T2,750,J15,rescreen3_750.J15,Experimental,Ochratoxin A,1.077
+rescreen3_750,rescreen3,T2,750,J16,rescreen3_750.J16,Experimental,Methysticin,0.7643
+rescreen3_750,rescreen3,T2,750,J17,rescreen3_750.J17,Control,DMSO,0.85095
+rescreen3_750,rescreen3,T2,750,J18,rescreen3_750.J18,Control,DMSO,0.5971500000000001
+rescreen3_750,rescreen3,T2,750,J19,rescreen3_750.J19,Experimental,Tunicamycin B,0.1892
+rescreen3_750,rescreen3,T2,750,J20,rescreen3_750.J20,Control,DMSO,1.0248499999999998
+rescreen3_750,rescreen3,T2,750,J21,rescreen3_750.J21,Control,DMSO,0.7258
+rescreen3_750,rescreen3,T2,750,J22,rescreen3_750.J22,Control,DMSO,0.58795
+rescreen3_750,rescreen3,T2,750,J23,rescreen3_750.J23,Control,DMSO,0.86485
+rescreen3_750,rescreen3,T2,750,K02,rescreen3_750.K02,Control,DMSO,0.756
+rescreen3_750,rescreen3,T2,750,K03,rescreen3_750.K03,Control,DMSO,0.7060500000000001
+rescreen3_750,rescreen3,T2,750,K04,rescreen3_750.K04,Control,DMSO,0.7254
+rescreen3_750,rescreen3,T2,750,K05,rescreen3_750.K05,Control,DMSO,1.1009
+rescreen3_750,rescreen3,T2,750,K06,rescreen3_750.K06,Control,DMSO,0.7034
+rescreen3_750,rescreen3,T2,750,K07,rescreen3_750.K07,Experimental,Homoeriodictyol (-),1.05345
+rescreen3_750,rescreen3,T2,750,K08,rescreen3_750.K08,Control,DMSO,0.7867500000000001
+rescreen3_750,rescreen3,T2,750,K09,rescreen3_750.K09,Control,DMSO,0.74305
+rescreen3_750,rescreen3,T2,750,K10,rescreen3_750.K10,Experimental,Mitomycin C,0.3732
+rescreen3_750,rescreen3,T2,750,K11,rescreen3_750.K11,Experimental,Cerulenin,0.23249999999999998
+rescreen3_750,rescreen3,T2,750,K12,rescreen3_750.K12,Experimental,Gliotoxin,0.1953
+rescreen3_750,rescreen3,T2,750,K13,rescreen3_750.K13,Control,DMSO,0.6994
+rescreen3_750,rescreen3,T2,750,K14,rescreen3_750.K14,Experimental,Ryanodine,0.70765
+rescreen3_750,rescreen3,T2,750,K15,rescreen3_750.K15,Experimental,"Cotininecarboxylic acid, trans-4-",0.74105
+rescreen3_750,rescreen3,T2,750,K21,rescreen3_750.K21,Control,DMSO,0.6837500000000001
+rescreen3_750,rescreen3,T2,750,K22,rescreen3_750.K22,Control,DMSO,0.6563
+rescreen3_750,rescreen3,T2,750,L02,rescreen3_750.L02,Control,DMSO,0.6145
+rescreen3_750,rescreen3,T2,750,L07,rescreen3_750.L07,Control,DMSO,0.6776500000000001
+rescreen3_750,rescreen3,T2,750,L09,rescreen3_750.L09,Control,DMSO,0.6780999999999999
+rescreen3_750,rescreen3,T2,750,L12,rescreen3_750.L12,Control,DMSO,0.6165
+rescreen3_750,rescreen3,T2,750,L13,rescreen3_750.L13,Control,DMSO,0.802
+rescreen3_750,rescreen3,T2,750,L21,rescreen3_750.L21,Control,DMSO,1.06785
+rescreen3_750,rescreen3,T2,750,L22,rescreen3_750.L22,Control,DMSO,0.51625
+rescreen3_750,rescreen3,T2,750,M02,rescreen3_750.M02,Control,DMSO,0.66335
+rescreen3_750,rescreen3,T2,750,M03,rescreen3_750.M03,Control,DMSO,0.5667500000000001
+rescreen3_750,rescreen3,T2,750,M05,rescreen3_750.M05,Control,DMSO,0.6685000000000001
+rescreen3_750,rescreen3,T2,750,M07,rescreen3_750.M07,Control,DMSO,0.7052499999999999
+rescreen3_750,rescreen3,T2,750,M09,rescreen3_750.M09,Control,DMSO,0.64085
+rescreen3_750,rescreen3,T2,750,M11,rescreen3_750.M11,Control,DMSO,0.68015
+rescreen3_750,rescreen3,T2,750,M13,rescreen3_750.M13,Control,DMSO,0.74055
+rescreen3_750,rescreen3,T2,750,M14,rescreen3_750.M14,Control,DMSO,0.8235
+rescreen3_750,rescreen3,T2,750,M16,rescreen3_750.M16,Control,DMSO,0.76335
+rescreen3_750,rescreen3,T2,750,M19,rescreen3_750.M19,Control,DMSO,1.0718999999999999
+rescreen3_750,rescreen3,T2,750,M20,rescreen3_750.M20,Control,DMSO,0.7275
+rescreen3_750,rescreen3,T2,750,M23,rescreen3_750.M23,Control,DMSO,0.6245
+rescreen3_750,rescreen3,T2,750,N11,rescreen3_750.N11,Control,DMSO,0.6139
+rescreen3_750,rescreen3,T2,750,N13,rescreen3_750.N13,Control,DMSO,0.7685500000000001
+rescreen3_750,rescreen3,T2,750,N19,rescreen3_750.N19,Control,DMSO,0.69535
+rescreen3_750,rescreen3,T2,750,N20,rescreen3_750.N20,Control,DMSO,0.89205
+rescreen3_750,rescreen3,T2,750,N23,rescreen3_750.N23,Control,DMSO,0.6116999999999999
+rescreen3_750,rescreen3,T2,750,O03,rescreen3_750.O03,Control,DMSO,0.6526000000000001
+rescreen3_750,rescreen3,T2,750,O07,rescreen3_750.O07,Control,DMSO,0.74325
+rescreen3_750,rescreen3,T2,750,O08,rescreen3_750.O08,Control,DMSO,0.68965
+rescreen3_750,rescreen3,T2,750,O19,rescreen3_750.O19,Control,DMSO,0.97525
+rescreen3_750,rescreen3,T2,750,O20,rescreen3_750.O20,Control,DMSO,0.74425
+rescreen3_750,rescreen3,T2,750,O21,rescreen3_750.O21,Control,DMSO,0.64895
+rescreen3_750,rescreen3,T2,750,O22,rescreen3_750.O22,Control,DMSO,0.7177
+rescreen3_750,rescreen3,T2,750,P06,rescreen3_750.P06,Control,DMSO,0.68675
+rescreen3_750,rescreen3,T2,750,P07,rescreen3_750.P07,Control,DMSO,0.6104499999999999
+rescreen3_750,rescreen3,T2,750,P08,rescreen3_750.P08,Control,DMSO,0.8283
+rescreen3_750,rescreen3,T2,750,P09,rescreen3_750.P09,Control,DMSO,1.0902500000000002
+rescreen3_750,rescreen3,T2,750,P12,rescreen3_750.P12,Control,DMSO,0.8972499999999999
+rescreen3_750,rescreen3,T2,750,P14,rescreen3_750.P14,Control,DMSO,0.78665
+rescreen3_750,rescreen3,T2,750,P15,rescreen3_750.P15,Control,DMSO,0.38345
+rescreen3_750,rescreen3,T2,750,P16,rescreen3_750.P16,Control,DMSO,0.33704999999999996
+rescreen3_750,rescreen3,T2,750,P19,rescreen3_750.P19,Control,DMSO,1.06595
+rescreen3_750,rescreen3,T2,750,P21,rescreen3_750.P21,Control,DMSO,1.1574
+rescreen3_750,rescreen3,T2,750,P22,rescreen3_750.P22,Control,DMSO,0.95015

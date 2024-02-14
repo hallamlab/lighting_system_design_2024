@@ -1,0 +1,2279 @@
+---
+title: "An automated high-throughput lighting-system for screening photosynthetic microorganisms in plate-based formats"
+author: "Avery J. C. Noonan, Paula M. N. Cameron, Kalen Dofher, Nannaphat Sukkasam, Tony Liu, Tanakarn Monshupanee, and Steven J. Hallam"
+date: "`r format(Sys.time(), '%A %d %B %Y')`"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(lubridate)
+library(kableExtra)
+library(cowplot)
+library(moments)
+library(scales)
+library(ggh4x)
+library(RColorBrewer)
+
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+knitr::opts_knit$set(root.dir = '.')
+```
+
+## Protein Economy Modelling
+
+Related figures:
+
+  - Supplementary Figure 6
+
+```{r protein_economy_model}
+prots <- c("lhc", "pset", "lpb", "cbm", "rib", "mai")
+mets <- c('hvi', 'atp', 'nadph', 'pre', 'lip')
+mems <- c("thy", "cpm")
+
+model_data_import <- read_csv("data/system-design/protein_economy_steady_state_output.csv") %>%
+  select(-c(rep, `...1`)) %>%
+  group_by(time, hv) %>%
+  summarise_if(is.numeric, mean, na.rm = TRUE) %>%
+  filter(time != 0) %>%
+  pivot_longer(-c(time, hv, mu, bm, c_hvi), names_to = "component", values_to = "concentration") %>%
+  separate(component, c("variable", "component")) %>%
+  filter(hv >= 2) %>%
+  ungroup() %>%
+  mutate(mu_rel = mu/max(mu)*100) %>%
+  group_by(variable, component) %>%
+  mutate(comp_name = case_when(component == "lhc" ~ "Light harvesting complex",
+                               component == "pset" ~ "Photosynthesis and electron transport",
+                               component == "cbm" ~ "Carbon metabolism",
+                               component == "rib" ~ "Ribosome",
+                               component == "lpb" ~ "Lipid biosynthesis and membrane components",
+                               component == "mai" ~ "Maintenance",
+                               component == "atp" ~ "ATP",
+                               component == "nadph" ~ "NADPH",
+                               component == "pre" ~ "Precursors",
+                               component == "lip" ~ "Lipids",
+                               component == "cpm" ~ "Cytoplasmic membrane",
+                               component == "thy" ~ "Thylakoid membrane"),
+         comp_type = case_when(component %in% prots ~ "Proteins",
+                               component %in% mets ~ "Metabolites",
+                               component %in% mems ~ "Membranes"),
+         comp_order = case_when(comp_type == "Proteins" ~ 1,
+                               comp_type == "Metabolites" ~ 2,
+                               comp_type == "Membranes" ~ 3)) %>%
+  mutate(light = hv/100*1000)
+
+conc_2 <- model_data_import %>%
+  filter(hv == 2) %>%
+  select(component, variable, concentration) %>%
+  rename(conc_2 = concentration)
+
+model_data <- model_data_import %>%
+  filter(variable == "c") %>%
+  left_join(conc_2, by = c("component", "variable")) %>%
+  mutate(conc_rel = concentration/conc_2) %>%
+  group_by(component, variable) %>%
+  arrange(mu) %>%
+  mutate(index = row_number())
+
+model_delta_data <- model_data %>%
+  select(component, variable, index, concentration) %>%
+  mutate(index = index+1) %>%
+  rename(conc_minus = concentration)
+
+mu_100  <- model_data %>%
+  filter(hv == 10) %>%
+  ungroup() %>%
+  select(mu, mu_rel) %>%
+  distinct()
+
+mu_plot <- model_data %>%
+  ggplot(aes(x = light, y = mu)) +
+  geom_line(linewidth = 1.5) +
+  geom_hline(aes(yintercept = mu_100$mu), linetype = "dashed") +
+  labs(x = expression(paste("Light Intensity (", mu,"mol/", "m"^2 ,"/s)")), y = expression(paste("Growth rate (", mu," [", "h"^-1, "])")))
+
+supp_6a <- mu_plot +
+  geom_text(data = mu_100, aes(0,mu,label = round(mu, 3)), vjust = -0.5, hjust = 0, size = 3, fontface = "plain", family = "sans", label.size = NA)
+supp_6a
+
+mu_rel_plot <- model_data %>%
+  ggplot(aes(x = light, y = mu_rel)) +
+  geom_line(linewidth = 1.5) +
+  geom_hline(aes(yintercept = mu_100$mu_rel), linetype = "dashed") +
+  labs(x = expression(paste("Light Intensity (", mu,"mol/", "m"^2 ,"/s)")), y = expression(paste("Relative growth rate (", mu[i],"/", mu[max]," x100)")))
+
+supp_6b <- mu_rel_plot +
+  geom_text(data = mu_100, aes(0,mu_rel,label = round(mu_rel, 2)), vjust = -0.5, hjust = 0, size = 3, fontface = "plain", family = "sans", label.size = NA)
+supp_6b
+
+components_legend <- cowplot::get_legend(model_data %>%
+  filter(variable == "c") %>%
+  ggplot(aes(x = light, y = conc_rel, colour = reorder(comp_name, comp_order))) +
+  geom_line(linewidth = 1.5) +
+  scale_y_log10() +
+  facet_grid(cols = vars(reorder(comp_type, comp_order))) +
+  labs(x = expression(paste("Light Intensity (", mu,"mol/", "m"^2 ,"/s)")), y = "Relative concentration", colour = "Biomass\nComponent"))
+
+supp_6c <- model_data %>%
+  filter(variable == "c") %>%
+  ggplot(aes(x = light, y = conc_rel, colour = reorder(comp_name, comp_order))) +
+  geom_line(linewidth = 1.5, show.legend = F) +
+  geom_vline(aes(xintercept = 100), linetype = "dashed") +
+  scale_y_log10() +
+  facet_grid(cols = vars(reorder(comp_type, comp_order))) +
+  labs(x = expression(paste("Light Intensity (", mu,"mol/", "m"^2 ,"/s)")), y = "Relative concentration", colour = "Biomass\nComponent")
+supp_6c
+
+supp_6d <- model_data %>%
+  filter(variable == "c") %>%
+  ggplot(aes(x = mu_rel, y = conc_rel, colour = reorder(comp_name, comp_order))) +
+  geom_line(linewidth = 1.5, show.legend = F) +
+  geom_vline(aes(xintercept = mu_100$mu_rel), linetype = "dashed") +
+  scale_y_log10() +
+  facet_grid(cols = vars(reorder(comp_type, comp_order))) +
+  labs(x = expression(paste("Relative growth rate (", mu[i],"/", mu[max]," x100)")), y = "Relative concentration", colour = "Biomass\nComponent")
+supp_6d
+
+supp_6e <- model_data %>%
+  left_join(model_delta_data, by = c('component', 'variable', 'index')) %>%
+  mutate(conc_rel_delta = ((concentration-conc_minus)/conc_minus)) %>%
+  filter(variable == "c") %>%
+  ggplot(aes(x = light, y = conc_rel_delta, colour = reorder(comp_name, comp_order))) +
+  geom_line(linewidth = 1.5, show.legend = F) +
+  geom_vline(aes(xintercept = 100), linetype = "dashed") +
+  # scale_y_log10() +
+  facet_grid(cols = vars(reorder(comp_type, comp_order)), scales = "free_y") +
+  labs(x = expression(paste("Light Intensity (", mu,"mol/", "m"^2 ,"/s)")), y = "Delta relative concentration", colour = "Biomass\nComponent")
+supp_6e
+
+supp_6f <- model_data %>%
+  left_join(model_delta_data, by = c('component', 'variable', 'index')) %>%
+  mutate(conc_rel_delta = ((concentration-conc_minus)/conc_minus)) %>%
+  filter(variable == "c") %>%
+  ggplot(aes(x = mu_rel, y = conc_rel_delta, colour = reorder(comp_name, comp_order))) +
+  geom_line(linewidth = 1.5, show.legend = F) +
+  geom_vline(aes(xintercept = mu_100$mu_rel), linetype = "dashed") +
+  # scale_y_log10() +
+  facet_grid(cols = vars(reorder(comp_type, comp_order)), scales = "free_y") +
+  labs(x = expression(paste("Relative growth rate (", mu[i],"/", mu[max]," x100)")), y = "Delta relative concentration", colour = "Biomass\nComponent")
+supp_6f
+```
+
+```{r model_plots}
+mu_light_plots <- plot_grid(supp_6a, supp_6b,
+                            labels = c('A', 'B'),
+                            label_size = 14,
+                            ncol = 2,
+                            rel_widths = c(1, 1))
+
+rel_conc_plots <- plot_grid(supp_6c, supp_6d,
+          labels = c('C', 'D'), 
+          label_size = 14, 
+          ncol = 2,
+          rel_widths = c(1, 1))
+
+delta_conc_plots <- plot_grid(supp_6e, supp_6f,
+          labels = c('E', 'F'), 
+          label_size = 14, 
+          ncol = 2,
+          rel_widths = c(1, 1))
+
+model_plots <- plot_grid(mu_light_plots, rel_conc_plots, delta_conc_plots,
+          labels = c('', '', ''), 
+          label_size = 14, 
+          ncol = 1,
+          rel_heights = c(1, 1, 1))
+
+model_legend <- plot_grid(NULL, components_legend, NULL,
+                          labels = c('', '', ''),
+                          ncol = 1,
+                          rel_heights = c(3,2,1))
+
+supp6 <- plot_grid(model_plots, model_legend,
+                          labels = c('', ''),
+                          ncol = 2,
+                          rel_widths = c(3, 1))
+supp6
+```
+
+## LED Array - Light-Temperature Relationship
+
+Related figures:
+
+  - Supplementary Figure 16
+  - Supplementary Figure 17A
+
+```{r array_data_import}
+array_data <- read_csv("data/system-design/sensor_array_data.csv")
+```
+
+### Temp Data Processing
+
+```{r temp_plots}
+t0_temp <- array_data %>%
+  filter(type == "Temperature") %>%
+  filter(Time == min(Time)) %>%
+  group_by(material, current, position) %>%
+  mutate(t0_temp = median(value)) %>%
+  mutate(temp_norm = t0_temp-value) %>%
+  select(current, position, material, replicate, temp_norm)
+
+temp_array_data <- array_data %>%
+  filter(type == "Temperature") %>%
+  right_join(t0_temp, by = c('current', 'material', 'replicate', "position")) %>%
+  mutate(value = value+temp_norm) %>%
+  group_by(material, current) %>%
+  mutate(max = max(Time)) %>%
+  ungroup() %>%
+  group_by(current) %>%
+  mutate(max = min(max)) %>%
+  filter(Time <= max) %>%
+  mutate(time_group = ceiling(Time/600)) %>%
+  group_by(current, material, sensor, time_group) %>%
+  mutate(median = median(value)) %>%
+  mutate(filter = case_when(Time == 52 ~ "No",
+                            Time == 104 ~ "No",
+                            value >= median*0.9 ~ "No",
+                            value < median*0.9 ~ "Yes")) %>%
+  filter(filter == "No") %>%
+  ungroup() %>%
+  select(-c(median, time_group, filter))
+
+supp_16a <- temp_array_data %>% 
+  filter(position == "plate") %>%
+  filter(!(current == "70A" & replicate == "Plate 2" & material == "Copper")) %>%
+  mutate(sensor = str_replace(sensor, "plate_temp_", "Plate #")) %>%
+  ggplot(aes(x=Time/60, y=value, color = sensor, group = sensor)) +
+  labs(y = 'Temperature', x = 'Time (minutes)', title = "LED Array Temperature (0-16 hours)", color = "Plate") +
+  geom_line()+
+  geom_point(shape=19, size=1) +
+  facet_grid(rows = vars(material), cols = vars(current), scales = "free")
+supp_16a
+
+temp_sd <- temp_array_data %>%
+  filter(position == "plate") %>%
+  filter(Time > 30*60) %>%
+  group_by(material, current, position, sensor) %>%
+  summarise(sd = sd(value), mean = mean(value)) %>%
+  group_by(material, current) %>%
+  summarise(sd = mean(sd), mean = mean(mean))
+temp_sd
+
+temp_sd_under <- temp_array_data %>%
+  filter(position == "under") %>%
+  filter(Time > 30*60) %>%
+  group_by(material, current, position, sensor) %>%
+  summarise(sd = sd(value), mean = mean(value)) %>%
+  group_by(material, current) %>%
+  summarise(sd = mean(sd), mean = mean(mean))
+temp_sd_under
+
+temp_array_stat_data <- temp_array_data %>%
+  filter(Time > 30*60)
+
+plate_70A_f.test <- var.test(value ~ material, data = temp_array_stat_data %>% filter(position == "plate", current == "70A"))
+plate_70A_f.test
+
+plate_10A_f.test <- var.test(value ~ material, data = temp_array_stat_data %>% filter(position == "plate", current == "10A"))
+plate_10A_f.test
+```
+
+### Light Data Processing
+
+```{r light_plots}
+t0_light <- array_data %>%
+  filter(type == "Light") %>%
+  filter(Time == min(Time)) %>%
+  group_by(material, current, position) %>%
+  mutate(t0_light = median(value)) %>%
+  mutate(light_norm = t0_light-value) %>%
+  select(current, position, material, replicate, light_norm)
+
+light_array_data <- array_data %>%
+  filter(type == "Light") %>%
+  right_join(t0_light, by = c('current', 'material', 'replicate', "position")) %>%
+  group_by(material, current) %>%
+  mutate(max = max(Time)) %>%
+  ungroup() %>%
+  group_by(current) %>%
+  mutate(max = min(max)) %>%
+  filter(Time <= max) %>%
+  mutate(time_group = ceiling(Time/600)) %>%
+  group_by(current, material, sensor, time_group) %>%
+  mutate(median = median(value)) %>%
+  mutate(filter = case_when(Time == 52 ~ "No",
+                            Time == 104 ~ "No",
+                            value < 20 ~ "Yes",
+                            value >= median*0.9 ~ "No",
+                            value < median*0.9 ~ "Yes")) %>%
+  filter(filter == "No") %>%
+  ungroup() %>%
+  select(-c(median, time_group, filter))
+
+supp_16b <- light_array_data %>% 
+  mutate(position = case_when(position == "edge" ~ "Edge",
+                              position == "center" ~ "Center")) %>%
+  filter(position != "ambient") %>%
+  ggplot(aes(x=Time/60, y=value, color = position, group = sensor)) +
+  labs(y = expression(paste("Light Intensity (", mu,"mol/", "m"^2 ,"/s)")), x = 'Time (minutes)', title = "LED Array Light Intensity (0-16 hours)", color = "Photodiode\nPosition") +
+  geom_line()+
+  geom_point(shape=19, size=1) +
+  facet_grid(rows = vars(material), cols = vars(current), scales = "free")
+supp_16b
+
+lighting_sd <- light_array_data %>%
+  filter(position != "ambient") %>%
+  filter(Time > 30*60) %>%
+  group_by(material, current, position, sensor) %>%
+  summarise(sd = sd(value)) %>%
+  group_by(material, current, position) %>%
+  summarise(sd = mean(sd)) %>%
+  pivot_wider(names_from = material, values_from = sd) %>%
+  mutate(fold_increase = Copper/Aluminium)
+lighting_sd
+
+light_array_stat_data <- light_array_data %>%
+  filter(position != "ambient") %>%
+  filter(Time > 30*60)
+
+center_70A_f.test <- var.test(value ~ material, data = light_array_stat_data %>% filter(position == "center", current == "70A"))
+center_70A_f.test
+
+center_10A_f.test <- var.test(value ~ material, data = light_array_stat_data %>% filter(position == "center", current == "10A"))
+center_10A_f.test
+```
+
+```{r supp_array}
+supp16 <- plot_grid(supp_16a, supp_16b,
+          labels = c('A', 'B'), 
+          label_size = 14, 
+          ncol = 1,
+          rel_heights = c(1, 1))
+supp16
+```
+
+
+### Light - Temperature Relationship
+
+
+```{r light_temp_plots}
+combined_array_data <- bind_rows(light_array_data, temp_array_data)
+
+supp17a <- combined_array_data %>%
+  filter(Time > 105) %>%
+  filter(position == "center" | position == "plate") %>%
+  filter(!(current == "70A" & replicate == "Plate 2" & material == "Copper")) %>%
+  select(-c(sensor, position, light_norm, temp_norm)) %>%
+  pivot_wider(names_from = type, values_from = value) %>%
+  ggplot(aes(x=Temperature, y=Light, colour = replicate)) +
+  labs(y = expression(paste("Light Intensity (", mu,"mol/", "m"^2 ,"/s)")), x = 'Temperature (C)', colour = "Plate") +
+  geom_point(shape=19, size=1) +
+  facet_grid(rows = vars(current), cols = vars(material), scales = "free_y") +
+  theme(legend.position="bottom")
+supp17a
+```
+
+\newpage
+
+## LED Array - Light Spectrum Testing
+
+Related figures:
+
+  - Supplementary Figure 17B
+  - Supplementary Figure 19
+
+```{r spectrum_data_import}
+spectrum_growth_data <- read_csv('data/system-design/2973_spectrum_growth_data.csv') %>%
+  mutate(Time = dmy_hms(Time), Timepoint = factor(Timepoint, levels = c('T0', 'T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12', 'T13', 'T14', 'T15', 'T16', 'T17'))) %>%
+  pivot_longer(-c(Timepoint, Time, Wavelength, Plate, Row), names_to = 'Column', values_to = 'OD') %>%
+  mutate(Column = as.numeric(Column)) %>%
+  filter(!is.na(Wavelength))
+```
+
+```{r spectrum_plots}
+supp17b <- spectrum_growth_data %>%
+  filter(Timepoint != "T0",
+         Timepoint != "T10",
+         Timepoint != "T9",
+         Timepoint != "T8") %>%
+  mutate(case_when(Timepoint == "T1" ~ "T0",
+                   Timepoint == "T2" ~ "T1",
+                   Timepoint == "T3" ~ "T2",
+                   Timepoint == "T4" ~ "T3",
+                   Timepoint == "T5" ~ "T4",
+                   Timepoint == "T6" ~ "T5")) %>%
+  ggplot(aes(x=Timepoint, y=OD, fill = Plate)) +
+  geom_boxplot() +
+  labs(y = bquote(OD[750]), fill = "LED Spectrum")
+supp17b
+
+supp19 <- spectrum_growth_data %>%
+  filter(Timepoint == 'T6', Wavelength == '750nm') %>%
+  ggplot(aes(x=Column, y = reorder(Row, desc(Row)), fill = OD)) +
+  geom_tile() +
+  labs(y = '', x = '', title = "UTEX2973 by LED Array Spectrum (T6)", fill = bquote(OD[750])) +
+  facet_grid(rows = vars(Plate))
+supp19
+```
+
+\newpage
+
+## Cultivation Setup
+
+### Plate Seal
+
+Related figures:
+
+  - Supplementary Figure 17C
+  - Supplementary Figure 20
+
+```{r seal_data_import}
+seal_growth_data <- read_csv('data/system-design/2973_seal_growth_data.csv') %>%
+  mutate(Time = dmy_hms(Time), Timepoint = factor(Timepoint, levels = c('T0', 'T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12', 'T13', 'T14', 'T15', 'T16', 'T17'))) %>%
+  pivot_longer(-c(Timepoint, Time, Wavelength, Plate, Row), names_to = 'Column', values_to = 'OD') %>%
+  mutate(Column = as.numeric(Column)) %>%
+  filter(!is.na(Wavelength)) %>%
+  filter(Timepoint != "T6")
+```
+
+```{r seal_plots}
+supp17c <- seal_growth_data %>%
+  ggplot(aes(x=Timepoint, y=OD, fill = Plate)) +
+  geom_boxplot() +
+  labs(y = bquote(OD[750]), fill = "Plate Seal")
+supp17c
+
+supp20 <- seal_growth_data %>%
+  filter(Timepoint == 'T3', Wavelength == '750nm') %>%
+  ggplot(aes(x=Column, y = reorder(Row, desc(Row)), fill = OD)) +
+  geom_tile() +
+  labs(y = '', x = '', title = "UTEX2973 by Plate Seal (T3)", fill = bquote(OD[750])) +
+  facet_grid(rows = vars(Plate))
+supp20
+```
+
+```{r fig4}
+plot_grid(supp17a, 
+          plot_grid(supp17b, supp17c, 
+                    ncol = 1, 
+                    labels = c("B", "C"),
+                    label_size = 14),
+          labels = c('A', ''), 
+          label_size = 14, 
+          ncol = 2,
+          rel_widths = c(3, 3))
+```
+
+### Photodiode Array Evenness Testing
+
+Related figures:
+
+  - Supplementary Figure 21
+  
+```{r photodiode_even}
+photo_data <- read_csv("data/system-design/photodiode_array_data.csv")
+
+photo_data %>%
+  group_by(distance, section) %>%
+  summarise(value = median(value)) %>%
+  pivot_wider(names_from = section, values_from = value) %>%
+  mutate(delta = percent(1-(Outside / Inside), scale = 100))
+
+med_lines <- photo_data %>%
+  group_by(distance, section) %>%
+  summarise(value = median(value)) %>%
+  pivot_wider(names_from = section, values_from = value) %>%
+  mutate(delta = Outside / Inside) %>%
+  select(-c(Inside, Outside))
+
+med_inside <- photo_data %>%
+  group_by(distance, section) %>%
+  summarise(value = median(value)) %>%
+  pivot_wider(names_from = section, values_from = value) %>%
+  select(distance, Inside)
+
+min <- photo_data %>%
+  group_by(distance, section, sensor) %>%
+  summarise(value = median(value)) %>%
+  group_by(distance, section) %>%
+  summarise(value = min(value)) %>%
+  pivot_wider(names_from = section, values_from = value) %>%
+  select(-Inside) %>%
+  left_join(med_inside, by = 'distance') %>%
+  mutate(delta = Outside / Inside) %>%
+  select(-c(Inside, Outside)) %>%
+  mutate(set = "min")
+
+max <- photo_data %>%
+  group_by(distance, section, sensor) %>%
+  summarise(value = median(value)) %>%
+  group_by(distance, section) %>%
+  summarise(value = max(value)) %>%
+  pivot_wider(names_from = section, values_from = value) %>%
+  select(-Inside) %>%
+  left_join(med_inside, by = 'distance') %>%
+  mutate(delta = Outside / Inside) %>%
+  select(-c(Inside, Outside)) %>%
+  mutate(set = "max")
+
+range_data <- bind_rows(min, max) %>%
+  mutate(pol_order = case_when(set == "max" ~ distance,
+                               set == "min" ~ -1*distance)) %>%
+  arrange(pol_order)
+
+supp21a <- ggplot() +
+  geom_polygon(data = range_data, mapping = aes(y = delta, x = distance), fill = "lightblue") + 
+  geom_path(data = med_lines, mapping = aes(y = delta, x = distance), size = 1.5, color = "black") +
+  geom_vline(xintercept = c(0.3, 2), linetype = "dashed") +
+  labs(y = bquote("Relative intensity ("*I[OUT]*"/"*I[IN]*")"), x = "Distance (cm)") +
+  ylim(0,1.01)
+
+supp21c <-ggplot() +
+  geom_polygon(data = range_data, mapping = aes(y = delta, x = distance), fill = "lightblue") + 
+  geom_path(data = med_lines, mapping = aes(y = delta, x = distance), size = 1.5, color = "black") +
+  geom_vline(xintercept = c(0.3, 2), linetype = "dashed") +
+  labs(y = bquote("Relative intensity ("*I[OUT]*"/"*I[IN]*")"), x = "Distance (cm) [log2]") +
+  ylim(0,1.01) +
+  scale_x_continuous(trans='log2')
+
+distance_means <- photo_data %>%
+  group_by(distance) %>%
+  summarise(mean = mean(value)) %>%
+  select(distance, mean)
+
+norm_sd <- photo_data %>%
+  left_join(distance_means, by = 'distance') %>%
+  mutate(value = value/mean)
+
+norm_sd %>%
+  group_by(distance) %>%
+  summarise(value = sd(value))
+
+supp21b <- norm_sd %>%
+  group_by(distance) %>%
+  summarise(value = sd(value)) %>%
+  ggplot(aes(x = distance, y = value)) +
+  geom_line(size = 1.5) +
+  geom_vline(xintercept = c(0.3, 2), linetype = "dashed") +
+  labs(y = "Standard deviation", x = "Distance (cm)")  +
+  ylim(0, NA)
+
+supp21d <- norm_sd %>%
+  group_by(distance) %>%
+  summarise(value = sd(value)) %>%
+  ggplot(aes(x = distance, y = value)) +
+  geom_line(size = 1.5) +
+  geom_vline(xintercept = c(0.3, 2), linetype = "dashed") +
+  labs(y = "Standard deviation", x = "Distance (cm) [log2]") +
+  scale_x_continuous(trans='log2') +
+  ylim(0, NA)
+
+supp21ab <- plot_grid(supp21a, supp21b,
+                                     ncol = 2, 
+                                     labels = c("A", "B"),
+                                     label_size = 14)
+
+supp21cd <- plot_grid(supp21c, supp21d,
+                                     ncol = 2, 
+                                     labels = c("C", "D"),
+                                     label_size = 14)
+
+supp21 <- plot_grid(supp21ab, supp21cd,
+          ncol = 1, 
+          labels = c("", ""),
+          label_size = 14)
+supp21
+```
+  
+### Plate Type Selection
+
+Related figures:
+
+  - Figure 2
+  - Supplementary Figure 23
+  - Supplementary Figure 24
+
+```{r plate_type_import}
+layout_info <- read_csv('data/system-design/layout_info.csv')
+
+OD_data_distribution <- read_csv('data/system-design/2973_plate-type_growth_data.csv') %>%
+  mutate(time = ymd_hms(time), timepoint = factor(timepoint, levels = c('T0', 'T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12', 'T13', 'T14', 'T15', 'T16', 'T17', 'T18'))) %>%
+  select(-c(datetime)) %>%
+  pivot_longer(-c(measurement_ID, plate_ID, timepoint, time, wavelength, well), names_to = 'quadrant', values_to = 'OD') %>%
+  mutate(OD = as.numeric(OD)) %>%
+  mutate(measurement_ID = paste(plate_ID, wavelength, sep = "_")) %>%
+  mutate(value_ID = interaction(measurement_ID, well)) %>%
+  group_by(plate_ID, timepoint, time, well, wavelength) %>%
+  slice_min(order_by = OD, n = 2) %>%
+  summarise(OD = median(OD)) %>%
+  # summarise(OD = min(OD)) %>%
+  ungroup() %>%
+  separate(well, into = c('row', 'column'), sep = 1, remove = FALSE) %>%
+  separate(plate_ID, sep = "_", into = c('plate_type', 'replicate'), remove = F) %>%
+  right_join(layout_info, by = 'well') %>%
+  mutate(column = as.numeric(column))
+
+t0_times <- OD_data_distribution %>%
+  filter(timepoint == "T0") %>%
+  ungroup() %>%
+  group_by(plate_type, wavelength) %>%
+  slice_min(order_by = time, n = 1) %>%
+  select(c(time, plate_type, wavelength)) %>%
+  distinct() %>%
+  rename(T0_time = time)
+
+run_times <- OD_data_distribution %>%
+  ungroup() %>%
+  group_by(timepoint, plate_type, wavelength) %>%
+  slice_min(order_by = time, n = 1) %>%
+  select(c(timepoint, time, plate_type, wavelength)) %>%
+  distinct() %>%
+  rename(run_time = time)
+
+distribution_data <- OD_data_distribution %>%
+  left_join(t0_times, by = c("plate_type", "wavelength")) %>%
+  left_join(run_times, by = c("plate_type", "wavelength", "timepoint")) %>%
+  mutate(delta_time = run_time - T0_time,
+         hours = as.numeric(delta_time)/3600) %>%
+  filter(timepoint != "T8")
+
+distribution_data_calcs <- distribution_data %>%
+  ungroup() %>%
+  filter(wavelength == 750) %>%
+  group_by(plate_type, timepoint, Section) %>%
+  summarise(median_OD = median(OD)) %>%
+  ungroup() %>%
+  group_by(plate_type) %>%
+  mutate(rel_OD = median_OD/max(median_OD)) %>%
+  select(-c(median_OD)) %>%
+  pivot_wider(names_from = timepoint, values_from = rel_OD)
+
+distribution_data_calcs2 <- distribution_data %>%
+  ungroup() %>%
+  filter(wavelength == 750) %>%
+  group_by(plate_type, timepoint) %>%
+  summarise(median_OD = median(OD)) %>%
+  pivot_wider(names_from = plate_type, values_from = median_OD) %>%
+  mutate(delta = (1-clear/black)*100)
+
+distribution_data_min_max <- distribution_data %>%
+  group_by(plate_ID, plate_type, timepoint) %>%
+  summarise(sd = sd(OD))
+
+OD750_data <- distribution_data %>%
+  filter(wavelength == 750)
+
+t.test_T4 <- t.test(OD ~ plate_type, data = OD750_data %>% filter(timepoint == "T4"))
+t.test_T4
+
+t.test_T5 <- t.test(OD ~ plate_type, data = OD750_data %>% filter(timepoint == "T5"))
+t.test_T5
+
+t.test_T6 <- t.test(OD ~ plate_type, data = OD750_data %>% filter(timepoint == "T6"))
+t.test_T6
+
+t.test_T7 <- t.test(OD ~ plate_type, data = OD750_data %>% filter(timepoint == "T7"))
+t.test_T7
+```
+
+```{r plate_type_plots_OD750}
+fig2b <- layout_info %>%
+  separate(well, into = c('row', 'column'), sep = 1, remove = FALSE) %>%
+  ggplot(aes(x=column, y = reorder(row, desc(row)), fill = Section)) +
+  geom_tile(color = "grey") +
+  labs(y = '', x = '', fill = "Plate\nSection") +
+  theme(axis.text = element_blank(),
+        legend.position="bottom")
+fig2b
+
+fig2a <- distribution_data %>%
+  filter(wavelength == 750) %>%
+  mutate(days = hours/24) %>%
+  group_by(days, timepoint, plate_ID, plate_type) %>%
+  summarise(OD = median(OD)) %>%
+  ggplot(aes(x = days, y = OD, color = plate_type, group = plate_ID)) +
+  geom_line(show.legend = F) +
+  geom_point(show.legend = F) +
+  labs(y = bquote(OD[750]), x = 'Days', colour = 'Plate type')
+fig2a
+
+fig2c <- distribution_data %>%
+  filter(timepoint == "T3" | timepoint == "T5") %>%
+  filter(wavelength == 750) %>%
+  ggplot(aes(x=Section, y=OD, group = Section)) +
+  geom_boxplot(outlier.shape = NA, show.legend = FALSE) + 
+  geom_jitter(aes(color = Section), show.legend = FALSE) +
+  facet_grid(rows = vars(plate_type), cols = vars(timepoint), scales = "free_y") +
+  labs(x = 'Section', y = bquote(OD[750])) #, title = "OD750 distribution at T3 and T5"
+fig2c
+
+fig2d <- distribution_data %>%
+  filter(timepoint == "T5") %>%
+  filter(wavelength == 750) %>%
+  ggplot(aes(x=OD, group = Section, fill = Section, colour = Section)) +
+  geom_density(alpha = 0.2, show.legend = FALSE) + 
+  facet_grid(cols = vars(plate_type), rows = vars(timepoint), scales = "free") +
+  labs(y = 'Density', x = bquote(OD[750]))
+fig2d
+
+# Heatmaps
+
+supp23 <- distribution_data %>%
+  filter(timepoint == "T3", wavelength == 750) %>%
+  filter(replicate == 1) %>%
+  group_by(well, plate_type, wavelength, column, row, timepoint) %>%
+  summarise(OD = mean(OD)) %>%
+  ggplot(aes(x=column, y = reorder(row, desc(row)), fill = OD)) +
+  geom_tile() +
+  labs(y = '', x = '', title = "UTEX2973 by Plate Type (T3 / replicate #1)") +
+  facet_grid(rows = vars(plate_type), cols = vars(timepoint), scales = "free_y")
+supp23
+```
+
+
+```{r growth_rate_plots}
+last_data <- distribution_data %>%
+  filter(wavelength == 750) %>%
+  select(plate_ID, timepoint, well, OD, hours) %>%
+  filter(timepoint != "T8") %>%
+  mutate(timepoint = case_when(timepoint == "T0" ~"T1",
+                               timepoint == "T1" ~"T2",
+                               timepoint == "T2" ~"T3",
+                               timepoint == "T3" ~"T4",
+                               timepoint == "T4" ~"T5",
+                               timepoint == "T5" ~"T6",
+                               timepoint == "T6" ~"T7",
+                               timepoint == "T7" ~"T8")) %>%
+  rename(last_OD = OD, last_hours = hours)
+
+growth_rates_calcs <- distribution_data %>%
+  filter(wavelength == 750) %>%
+  filter(timepoint != "T0") %>%
+  left_join(last_data, by = c('plate_ID', 'timepoint', 'well')) %>%
+  mutate(delta_OD = (OD-last_OD)/last_OD, delta_hours = hours-last_hours) %>%
+  mutate(growth_rate = delta_OD/delta_hours)
+  
+growth_rates <- growth_rates_calcs %>%
+  group_by(hours, timepoint, plate_type, last_hours, Section) %>%
+  summarise(growth_rate = median(growth_rate))
+
+growth_rates_max_min <- growth_rates_calcs %>%
+  mutate(growth_rate = as.numeric(growth_rate)) %>%
+  ungroup() %>%
+  group_by(timepoint, hours, plate_type) %>%
+  summarise(median = median(growth_rate), mean = mean(growth_rate), max = max(growth_rate), n = n(), 
+            devs = (growth_rate-mean)^2,
+            var = sum(devs)/(n-1),
+            sd = sqrt(var)) %>%
+  select(-devs) %>%
+  distinct()
+growth_rates_max_min
+
+growth_rates %>%
+  ungroup() %>%
+  group_by(plate_type, Section) %>%
+  filter(growth_rate == max(growth_rate))
+
+fig2_rates <- growth_rates_calcs %>%
+  group_by(hours, timepoint, plate_type, plate_ID) %>%
+  summarise(growth_rate = median(growth_rate)) %>%
+  mutate(days = hours/24) %>%
+  ggplot(aes(x = days, y = growth_rate, color = plate_type, group = plate_ID)) +
+  geom_line(show.legend = F) +
+  geom_point(show.legend = F) +
+  labs(y = expression(paste("Growth rate (", mu," [", "h"^-1, "])")), x = 'Days', colour = 'Plate type')
+fig2_rates
+
+fig2_rates_legend <- cowplot::get_legend(growth_rates_calcs %>%
+  group_by(hours, timepoint, plate_type, plate_ID) %>%
+  summarise(growth_rate = median(growth_rate)) %>%
+  mutate(days = hours/24) %>%
+  ggplot(aes(x = days, y = growth_rate, color = plate_type, group = plate_ID)) +
+  geom_line() +
+  geom_point() +
+  labs(colour = 'Plate Type'))
+  
+fig2_rates_sections <- growth_rates %>%
+  mutate(days = hours/24) %>%
+  group_by(days, timepoint, plate_type, Section) %>%
+  summarise(growth_rate = median(growth_rate)) %>%
+  ggplot(aes(x = days, y = growth_rate, color = Section, group = Section)) +
+  geom_line() +
+  geom_point() +
+  labs(y = expression(paste("Growth rate (", mu," [", "h"^-1, "])")), 
+       x = 'Days', 
+       colour = 'Plate\nSection') +
+  facet_wrap(~plate_type)
+fig2_rates_sections
+
+growth_rates_calcs %>%
+  filter(timepoint == "T3" | timepoint == "T5") %>%
+  ggplot(aes(x=Section, y=growth_rate, group = Section)) +
+  geom_boxplot(outlier.shape = NA, show.legend = FALSE) + 
+  geom_jitter(aes(color = Section), show.legend = FALSE) +
+  facet_grid(rows = vars(plate_type), cols = vars(timepoint), scales = "free_y") +
+  labs(x = 'Section', y = bquote(OD[750])) #, title = "OD750 distribution at T3 and T5"
+```
+
+```{r plate_type_plots_pigments}
+rel_distribution_data <- distribution_data %>%
+  ungroup() %>%
+  group_by(timepoint, plate_type) %>%
+  mutate(hours = min(hours)) %>%
+  select(replicate, timepoint, wavelength, hours, plate_type, plate_ID, OD, well, Section, row, column) %>%
+  pivot_wider(names_from = wavelength, values_from = OD) %>%
+  mutate(OD750 = `750`) %>%
+  pivot_longer(c(`444`, `750`, `495`, `634`, `684`), values_to = 'OD', names_to = 'wavelength') %>%
+  filter(wavelength != 750) %>%
+  mutate(OD = OD/OD750) %>%
+  mutate(days = hours/24)
+
+
+fig2e <- rel_distribution_data %>%
+  group_by(days, timepoint, plate_ID, plate_type, wavelength) %>%
+  summarise(OD = median(OD)) %>%
+  filter(wavelength != 684) %>%
+  mutate(wavelength_name = paste0("OD[", wavelength, "] / OD[750]")) %>%
+  # mutate(wavelength_name = levels(wavelength_name, c("OD[444] / OD[750]","OD[495] / OD[750]", "OD[634] / OD[750]"))) %>%
+  ggplot(aes(x = days, y = OD, color = plate_type, group = plate_ID)) +
+  geom_line() +
+  geom_point() +
+  facet_grid(rows = vars(wavelength_name), scales = "free_y", labeller = label_parsed) +
+  labs(y = "Relative OD", x = 'Days', colour = 'Plate type')
+fig2e
+
+fig2f <- rel_distribution_data %>%
+  filter(timepoint == "T5") %>%
+  filter(wavelength != 684) %>%
+  mutate(wavelength_name = paste0("OD[", wavelength, "] / OD[750]")) %>%
+  # filter(OD < 0.75) %>%
+  ggplot(aes(x=Section, y=OD, group = Section)) +
+  geom_boxplot(outlier.shape = NA, show.legend = FALSE) + 
+  geom_jitter(aes(color = Section), show.legend = FALSE) +
+  facet_grid(cols = vars(plate_type), rows = vars(wavelength_name), scales = "free_y", labeller = label_parsed) +
+  labs(x = 'Section', y = "Relative OD")
+
+fig2f
+
+# Heatmaps
+supp24 <- rel_distribution_data %>%
+  filter(timepoint == "T3") %>%
+  filter(replicate == 1) %>%
+  mutate(wavelength_name = paste0("OD", wavelength, " / OD750")) %>%
+  group_by(well, plate_type, wavelength_name, column, row) %>%
+  summarise(OD = mean(OD)) %>%
+  ggplot(aes(x=column, y = reorder(row, desc(row)), fill = OD)) +
+  geom_tile() +
+  labs(y = '', x = '', title = "Relative Photopigment Abs by Plate Type (T3)") +
+  facet_grid(cols = vars(plate_type), rows = vars(wavelength_name), scales = "free_y")
+supp24
+```
+
+```{r fig2}
+fig2.1A <- plot_grid(fig2a, fig2_rates, fig2_rates_legend,
+                    labels = c("A", "", ""),
+                    ncol = 3,
+                    label_size = 14,
+                    rel_widths = c(3, 3, 1))
+
+fig2.1 <- plot_grid(fig2.1A, fig2b,
+                    labels = c("A", "B"),
+                    ncol = 2,
+                    label_size = 14,
+                    rel_widths = c(5, 2))
+
+fig2.2 <- plot_grid(fig2c, fig2d,
+                    labels = c("C", "D"),
+                    ncol = 2,
+                    label_size = 14,
+                    rel_widths = c(3, 3))
+
+fig2.3 <- plot_grid(fig2e, fig2f,
+                    labels = c("E", "F"),
+                    ncol = 2,
+                    label_size = 14,
+                    rel_widths = c(3, 3))
+
+fig2 <- plot_grid(fig2.1, fig2.2, fig2.3,
+          ncol = 1,
+          labels = c('', '', ''),
+          label_size = 1,
+          rel_heights = c(3, 3, 5))
+fig2
+```
+
+
+\newpage
+
+#### ANOVA / Tukey Comparing plate sections
+
+
+```{r plate_type_plots_stats_calcs}
+stats_data <- distribution_data %>%
+  filter(wavelength == 750)
+
+clear_aov_t2 <- aov(OD ~ factor(Section), data = stats_data %>% filter(plate_type == "clear", timepoint == "T2"))
+black_aov_t2 <- aov(OD ~ factor(Section), data = stats_data %>% filter(plate_type == "black", timepoint == "T2"))
+
+clear_aov_t3 <- aov(OD ~ factor(Section), data = stats_data %>% filter(plate_type == "clear", timepoint == "T3"))
+black_aov_t3 <- aov(OD ~ factor(Section), data = stats_data %>% filter(plate_type == "black", timepoint == "T3"))
+
+clear_aov_t4 <- aov(OD ~ factor(Section), data = stats_data %>% filter(plate_type == "clear", timepoint == "T4"))
+black_aov_t4 <- aov(OD ~ factor(Section), data = stats_data %>% filter(plate_type == "black", timepoint == "T4"))
+
+clear_aov_t5 <- aov(OD ~ factor(Section), data = stats_data %>% filter(plate_type == "clear", timepoint == "T5"))
+black_aov_t5 <- aov(OD ~ factor(Section), data = stats_data %>% filter(plate_type == "black", timepoint == "T5"))
+
+clear_aov_t6 <- aov(OD ~ factor(Section), data = stats_data %>% filter(plate_type == "clear", timepoint == "T6"))
+black_aov_t6 <- aov(OD ~ factor(Section), data = stats_data %>% filter(plate_type == "black", timepoint == "T6"))
+```
+
+```{r plate_type_plots_stats_summary}
+anova_results <- data.frame(`Plate Type` = c("clear", 'black', "clear", 'black', "clear", 'black', "clear", 'black', "clear", 'black'),
+                            Timepoint = c("T2", "T2", "T3", "T3", "T4", "T4", "T5", "T5", "T6", "T6"),
+                            p = c(
+                              summary(clear_aov_t2)[[1]][["Pr(>F)"]][1],
+                              summary(black_aov_t2)[[1]][["Pr(>F)"]][1],
+                              summary(clear_aov_t3)[[1]][["Pr(>F)"]][1],
+                              summary(black_aov_t3)[[1]][["Pr(>F)"]][1],
+                              summary(clear_aov_t4)[[1]][["Pr(>F)"]][1],
+                              summary(black_aov_t4)[[1]][["Pr(>F)"]][1],
+                              summary(clear_aov_t5)[[1]][["Pr(>F)"]][1],
+                              summary(black_aov_t5)[[1]][["Pr(>F)"]][1],
+                              summary(clear_aov_t6)[[1]][["Pr(>F)"]][1],
+                              summary(black_aov_t6)[[1]][["Pr(>F)"]][1]
+                            )) %>%
+  mutate(Significant = case_when(p < 0.05 ~ "*",
+                                 p > 0.05 ~ "-"))
+
+kable(anova_results)
+
+clear_tukey_t2 <- data.frame(TukeyHSD(clear_aov_t3, conf.level = 0.95)$`factor(Section)`) %>%
+  mutate(timepoint = "T2", plate_type = "clear") %>%
+  filter(p.adj <= 0.05) %>%
+  rownames_to_column(var = "comparison")
+black_tukey_t2 <- data.frame(TukeyHSD(black_aov_t3, conf.level = 0.95)$`factor(Section)`) %>%
+  mutate(timepoint = "T2", plate_type = "black") %>%
+  filter(p.adj <= 0.05) %>%
+  rownames_to_column(var = "comparison")
+
+clear_tukey_t3 <- data.frame(TukeyHSD(clear_aov_t3, conf.level = 0.95)$`factor(Section)`) %>%
+  mutate(timepoint = "T3", plate_type = "clear") %>%
+  filter(p.adj <= 0.05) %>%
+  rownames_to_column(var = "comparison")
+black_tukey_t3 <- data.frame(TukeyHSD(black_aov_t3, conf.level = 0.95)$`factor(Section)`) %>%
+  mutate(timepoint = "T3", plate_type = "black") %>%
+  filter(p.adj <= 0.05) %>%
+  rownames_to_column(var = "comparison")
+
+clear_tukey_t4 <- data.frame(TukeyHSD(clear_aov_t5, conf.level = 0.95)$`factor(Section)`) %>%
+  mutate(timepoint = "T4", plate_type = "clear") %>%
+  filter(p.adj <= 0.05) %>%
+  rownames_to_column(var = "comparison")
+black_tukey_t4 <- data.frame(TukeyHSD(black_aov_t5, conf.level = 0.95)$`factor(Section)`) %>%
+  mutate(timepoint = "T4", plate_type = "black") %>%
+  filter(p.adj <= 0.05) %>%
+  rownames_to_column(var = "comparison")
+
+clear_tukey_t5 <- data.frame(TukeyHSD(clear_aov_t5, conf.level = 0.95)$`factor(Section)`) %>%
+  mutate(timepoint = "T5", plate_type = "clear") %>%
+  filter(p.adj <= 0.05) %>%
+  rownames_to_column(var = "comparison")
+black_tukey_t5 <- data.frame(TukeyHSD(black_aov_t5, conf.level = 0.95)$`factor(Section)`) %>%
+  mutate(timepoint = "T5", plate_type = "black") %>%
+  filter(p.adj <= 0.05) %>%
+  rownames_to_column(var = "comparison")
+
+clear_tukey_t6 <- data.frame(TukeyHSD(clear_aov_t5, conf.level = 0.95)$`factor(Section)`) %>%
+  mutate(timepoint = "T6", plate_type = "clear") %>%
+  filter(p.adj <= 0.05) %>%
+  rownames_to_column(var = "comparison")
+black_tukey_t6 <- data.frame(TukeyHSD(black_aov_t5, conf.level = 0.95)$`factor(Section)`) %>%
+  mutate(timepoint = "T6", plate_type = "black") %>%
+  filter(p.adj <= 0.05) %>%
+  rownames_to_column(var = "comparison")
+
+tukey_data <- bind_rows(clear_tukey_t2, black_tukey_t2, clear_tukey_t3, black_tukey_t3, clear_tukey_t4, black_tukey_t4, clear_tukey_t5, black_tukey_t5, clear_tukey_t6, black_tukey_t6)
+
+tukey_data_table <- tukey_data %>%
+  select(plate_type, timepoint, comparison, p.adj) %>%
+  rename(`Plate Type` = plate_type,
+         Timepoint = timepoint,
+         `Section Comparison` = comparison)
+
+kable(tukey_data_table)
+```
+
+```{r plate_type_plots_stats_photopigment_calcs}
+stats_data_pigment <- rel_distribution_data %>%
+  filter(timepoint == "T4") %>%
+  filter(wavelength != 684)
+
+t.test_444 <- t.test(OD ~ plate_type, data = stats_data_pigment %>% filter(wavelength == 444))
+t.test_444
+t.test_495 <- t.test(OD ~ plate_type, data = stats_data_pigment %>% filter(wavelength == 495))
+t.test_495
+t.test_634 <- t.test(OD ~ plate_type, data = stats_data_pigment %>% filter(wavelength == 634))
+t.test_634
+
+
+clear_aov_t5_444 <- aov(OD ~ factor(Section), data = stats_data_pigment %>% filter(plate_type == "clear", wavelength == 444))
+black_aov_t5_444 <- aov(OD ~ factor(Section), data = stats_data_pigment %>% filter(plate_type == "black", wavelength == 444))
+summary(clear_aov_t5_444)
+summary(black_aov_t5_444)
+
+clear_aov_t5_495 <- aov(OD ~ factor(Section), data = stats_data_pigment %>% filter(plate_type == "clear", wavelength == 495))
+black_aov_t5_495 <- aov(OD ~ factor(Section), data = stats_data_pigment %>% filter(plate_type == "black", wavelength == 495))
+summary(clear_aov_t5_495)
+summary(black_aov_t5_495)
+
+clear_aov_t5_634 <- aov(OD ~ factor(Section), data = stats_data_pigment %>% filter(plate_type == "clear", wavelength == 634))
+black_aov_t5_634 <- aov(OD ~ factor(Section), data = stats_data_pigment %>% filter(plate_type == "black", wavelength == 634))
+summary(clear_aov_t5_634)
+summary(black_aov_t5_634)
+```
+
+```{r plate_type_plots_stats_photopigment_summary}
+anova_results_pigment <- data.frame(`Plate Type` = c("clear", 'black', "clear", 'black', "clear", 'black'),
+                            Wavelength = c("444", "444", "495", "495", "634", "634"),
+                            p = c(
+                              summary(clear_aov_t5_444)[[1]][["Pr(>F)"]][1],
+                              summary(black_aov_t5_444)[[1]][["Pr(>F)"]][1],
+                              summary(clear_aov_t5_495)[[1]][["Pr(>F)"]][1],
+                              summary(black_aov_t5_495)[[1]][["Pr(>F)"]][1],
+                              summary(clear_aov_t5_634)[[1]][["Pr(>F)"]][1],
+                              summary(black_aov_t5_634)[[1]][["Pr(>F)"]][1]
+                            )) %>%
+  mutate(Significant = case_when(p < 0.05 ~ "Yes",
+                                 p > 0.05 ~ "No"))
+
+kable(anova_results_pigment)
+
+clear_tukey_444 <- data.frame(TukeyHSD(clear_aov_t5_444, conf.level = 0.95)$`factor(Section)`) %>%
+  mutate(Wavelength = 444, plate_type = "clear") %>%
+  filter(p.adj <= 0.05) %>%
+  rownames_to_column(var = "comparison")
+black_tukey_444 <- data.frame(TukeyHSD(black_aov_t5_444, conf.level = 0.95)$`factor(Section)`) %>%
+  mutate(Wavelength = 444, plate_type = "black") %>%
+  filter(p.adj <= 0.05) %>%
+  rownames_to_column(var = "comparison")
+
+clear_tukey_495 <- data.frame(TukeyHSD(clear_aov_t5_495, conf.level = 0.95)$`factor(Section)`) %>%
+  mutate(Wavelength = 494, plate_type = "clear") %>%
+  filter(p.adj <= 0.05) %>%
+  rownames_to_column(var = "comparison")
+black_tukey_495 <- data.frame(TukeyHSD(black_aov_t5_495, conf.level = 0.95)$`factor(Section)`) %>%
+  mutate(Wavelength = 495, plate_type = "black") %>%
+  filter(p.adj <= 0.05) %>%
+  rownames_to_column(var = "comparison")
+
+clear_tukey_634 <- data.frame(TukeyHSD(clear_aov_t5_634, conf.level = 0.95)$`factor(Section)`) %>%
+  mutate(Wavelength = 634, plate_type = "clear") %>%
+  filter(p.adj <= 0.05) %>%
+  rownames_to_column(var = "comparison")
+black_tukey_634 <- data.frame(TukeyHSD(black_aov_t5_634, conf.level = 0.95)$`factor(Section)`) %>%
+  mutate(Wavelength = 634, plate_type = "black") %>%
+  filter(p.adj <= 0.05) %>%
+  rownames_to_column(var = "comparison")
+
+tukey_data_pigment <- bind_rows(clear_tukey_444, black_tukey_444, clear_tukey_495, black_tukey_495, clear_tukey_634, black_tukey_634)
+
+tukey_data_table_pigment <- tukey_data_pigment %>%
+  select(plate_type, Wavelength, comparison, p.adj) %>%
+  rename(`Plate Type` = plate_type,
+         `Section Comparison` = comparison)
+
+kable(tukey_data_table_pigment)
+```
+
+\newpage
+
+## Medium Testing
+
+Related figures:
+
+  - Figure 3A
+  - Figure 3B
+
+```{r BG11_import}
+BG11_picklist <- read_csv('data/use-cases/primary/2973_BG11_plate_layout.csv') %>%
+  filter(experiment == 'BG11') %>%
+  filter(transfer_compound == compound) %>%
+  select(-c(`Source Plate Name`, `Source Well`, transfer_compound, experiment)) %>%
+  rename(well = 'Destination Well', destination = 'Destination Plate Name')
+
+plate_metadata <- read_csv('data/use-cases/primary/2973_BG11_plate_metadata.csv')
+
+OD_data_BG11 <- read_csv('data/use-cases/primary/2973_BG11_growth_data.csv') %>%
+  mutate(time = ymd_hms(time), timepoint = factor(timepoint, levels = c('T0', 'T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12', 'T13', 'T14', 'T15', 'T16', 'T17', 'T18'))) %>%
+  select(-c(sample, datetime)) %>%
+  right_join(plate_metadata, by = 'plate_location') %>%
+  right_join(layout_info, by = 'well') %>%
+  mutate(OD = as.numeric(OD))
+
+BG11_data <- OD_data_BG11 %>%
+  filter(experiment == 'BG11') %>%
+  inner_join(BG11_picklist, by = c('well', 'destination')) %>%
+  mutate(concentration_labs = as.character(concentration),
+         concentration_labs = case_when(concentration_labs == '0.033333333' ~ '0.03',
+                                        concentration_labs == '0.666666667' ~ '0.67',
+                                        concentration_labs == '1.333333333' ~ '1.33',
+                                        concentration_labs == '1.666666667' ~ '1.67',
+                                        TRUE ~ concentration_labs)) %>%
+  mutate(concentration_labs = factor(concentration_labs, levels = c('0', '0.03', '0.1', '0.2', '0.4', '0.67', '1', '1.1', '1.33', '1.67', '2'))) %>%
+  mutate(plate_num = case_when(plate_location == 'deckDeck118' ~ 'Layout 1', 
+                               plate_location == 'deckDeck117' ~ 'Layout 2', 
+                               plate_location == 'deckDeck116' ~ 'Layout 1', 
+                               plate_location == 'deckDeck115' ~ 'Layout 2',)) %>%
+  separate(well, into = c('row', 'column'), sep = 1, remove = FALSE) %>%
+  mutate(column = as.numeric(column))
+
+T0_BG11_data <- BG11_data %>%
+  filter(timepoint == 'T0') %>%
+  select(well, OD, plate_location) %>%
+  rename(T0_OD = 'OD')
+```
+
+```{r BG11_plots}
+fig3a <- BG11_data %>%
+  group_by(compound, concentration, timepoint) %>%
+  summarize(OD750 = median(OD)) %>%
+  ggplot(aes(x=timepoint, y=OD750, colour = concentration, group = concentration)) +
+  geom_line() + 
+  facet_wrap(~compound, scales = 'free_y', ncol = 2) +
+  labs(color = 'Concentration \n (x-fold BG11)', x= 'Timepoint', y = bquote(OD[750])) +
+  scale_colour_gradient(low = "black", high = "springgreen3", na.value = NA) +
+  theme(legend.position="bottom",
+        legend.title = element_text(vjust=1))
+
+fig3b <- BG11_data %>%
+  filter(timepoint == 'T3') %>%
+  filter(OD < 0.8) %>%
+  ggplot(aes(x=concentration_labs, y=OD, group = concentration_labs, color = Section)) +
+  geom_boxplot(outlier.shape = NA, show.legend = FALSE) + 
+  geom_jitter() +
+  facet_wrap(~compound, scales = 'free_y', ncol = 2) +
+  labs(x = 'Concentration (x-fold BG11)', y = bquote(OD[750])) +
+  theme(axis.text.x = element_text(angle = 90)) +
+  theme(legend.position="bottom",
+        legend.title = element_text(vjust=0.75))
+
+fig3ab <- plot_grid(fig3a, fig3b,
+          ncol = 2,
+          labels = c('A', 'B'),
+          label_size = 14,
+          rel_widths = c(3, 3))
+fig3ab
+```
+
+
+## Antibiotics Testing
+
+Related figures:
+
+  - Figure 3C
+  - Figure 3D
+
+```{r antibiotics_import}
+well_layout <- read_csv('data/use-cases/primary/antiobiotics_plate_layout.csv')
+plate_metadata <- read_csv('data/use-cases/primary/antiobiotics_plate_metadata.csv')
+layout_info <- read_csv('data/use-cases/primary/layout_info.csv')
+
+OD_data_antibiotics <- read_csv('data/use-cases/primary/antibiotics_growth_data.csv') %>%
+  mutate(time = ymd_hms(time), timepoint = factor(timepoint, levels = c('T0', 'T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12', 'T13', 'T14', 'T15', 'T16', 'T17', 'T18'))) %>%
+  select(-c(sample, datetime)) %>%
+  right_join(well_layout, by = 'well') %>%
+  right_join(plate_metadata, by = 'ID1') %>%
+  inner_join(layout_info, by = 'well') %>%
+  mutate(Concentration = Concentration * 50, concentration_labs = factor(as.character(Concentration), levels = c('0', '0.5', '2.5', '5', '10', '25', '50', '75', '100', '250', '500'))) %>%
+  mutate(Antibiotic = case_when(Antibiotic == "Carbanicillin" ~ "Carbenicillin",
+                                TRUE ~ Antibiotic))
+# %>%
+  # filter(Strain == "UTEX2973")
+```
+
+```{r antibiotics_plots}
+fig3c <- OD_data_antibiotics %>%
+  group_by(Antibiotic, Strain, Concentration, timepoint) %>%
+  filter(Strain == "UTEX2973") %>%
+  summarise(OD750 = median(OD750)) %>%
+  ggplot(aes(x=timepoint, y=OD750, colour = Concentration, group = Concentration)) +
+  geom_line() + 
+  facet_wrap(~Antibiotic, scales = 'free_y', ncol = 1) +
+  scale_colour_gradient(low = "black", high = "springgreen3", na.value = NA) +
+  labs(y = bquote(OD[750]), x="Timepoint", color = 'Concentration\n(mg/L)') +
+  theme(legend.position="bottom",
+        legend.title = element_text(vjust=1))
+fig3c
+
+fig3d <- OD_data_antibiotics %>%
+  filter(timepoint == 'T5') %>%
+  filter(Strain == "UTEX2973") %>%
+  ggplot(aes(x=concentration_labs, y=OD750, group = concentration_labs, colour = Section)) +
+  geom_boxplot(outlier.shape = NA) + 
+  geom_jitter() +
+  facet_wrap(~Antibiotic, scales = 'free_y', ncol = 1) +
+  labs(x = 'Concentration (mg/ml)', y = bquote(OD[750])) +
+  theme(axis.text.x = element_text(angle = 90)) +
+  theme(legend.position="bottom",
+        legend.title = element_text(vjust=0.75))
+fig3d
+
+fig3cd <- plot_grid(fig3c, fig3d,
+          ncol = 2,
+          labels = c('C', 'D'),
+          label_size = 14,
+          rel_widths = c(3, 3))
+fig3cd
+```
+
+```{r nature_fig_3}
+nat_fig3 <- plot_grid(fig3ab, fig3cd,
+          ncol = 2,
+          labels = c('', ''),
+          label_size = 14,
+          rel_widths = c(5, 3))
+nat_fig3
+```
+
+## BG11 Medium Optimization
+
+Related figures:
+
+  - Figure 4B
+  - Figure 4C
+
+```{r BG11_opt_import}
+JMP_picklist <- read_csv("data/use-cases/BG11-RSM/BG11_JMP_layout.csv") %>%
+  filter(`Destination Plate Name` == 'Destination[1]') %>%
+  rename(transfer_vol = `Transfer Volume`, well = `Destination Well`) %>%
+  mutate(transfer_vol = case_when(transfer_vol == 1500 ~ 150,
+                                  transfer_vol == 750 ~ 75,
+                                  TRUE ~ transfer_vol)) %>%
+  mutate(JMP_value = case_when(transfer_vol == 0 ~ -1,
+                               transfer_vol == 75 ~ 0,
+                               transfer_vol == 150 ~ 1)) %>%
+  select(JMP_value, well, compound) %>%
+  pivot_wider(names_from = "compound", values_from = "JMP_value")
+
+OD_data_output <- read_csv("data/use-cases/BG11-RSM/BG11_opt_OD_data.csv") %>%
+  mutate(time = ymd_hms(time), timepoint = factor(timepoint, levels = c('T0', 'T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12', 'T13', 'T14', 'T15', 'T16', 'T17', 'T18'))) %>%
+  select(-c(datetime, measurement_ID)) %>%
+  # right_join(plate_metadata, by = 'plate_location') %>%
+  # right_join(layout_info, by = 'well') %>%
+  pivot_longer(-c(plate_ID, timepoint, time, wavelength, well), names_to = 'quadrant', values_to = 'OD') %>%
+  mutate(OD = as.numeric(OD)) %>%
+  filter(wavelength == 750) %>%
+  group_by(plate_ID, timepoint, well) %>%
+  # slice_min(order_by = OD, n = 2) %>%
+  # summarise(OD = median(OD)) %>%
+  summarise(OD = min(OD)) %>%
+  ungroup() %>%
+  # filter(timepoint != "T1") %>%
+  pivot_wider(names_from = timepoint, values_from = OD) %>%
+  mutate(OD = T3-T0) %>%
+  select(plate_ID, well, OD) %>%
+  right_join(JMP_picklist, by = "well") %>%
+  select(plate_ID, NaNO3, K2HPO4, MgSO4, CaCl2, EDTA, Na2CO3, Citrate, `Trace elements`, OD)
+
+effect_summary_import <- read_csv("data/use-cases/BG11-RSM/effect_summary_table.csv") %>%
+  mutate(c_added = case_when(strain == "UTEX2973" ~ "- Ci",
+                             strain == "UTEX2973_C" ~ "+ Ci",
+                             strain == "nostoc" ~ "- Ci",
+                             strain == "nostoc_C" ~ "+ Ci",
+                             strain == "UTEX90" ~ "- Ci",
+                             strain == "UTEX90_C" ~ "+ Ci"),
+         strain_name = case_when(strain == "UTEX2973" ~ "UTEX2973",
+                            strain == "UTEX2973_C" ~ "UTEX2973",
+                            strain == "nostoc" ~ "Nostoc hatei",
+                            strain == "nostoc_C" ~ "Nostoc hatei",
+                            strain == "UTEX90" ~ "UTEX90",
+                            strain == "UTEX90_C" ~ "UTEX90"),
+         strain_order = case_when(strain_name == "UTEX2973" ~ 1,
+                            strain_name == "UTEX90" ~ 2,
+                            strain_name == "Nostoc hatei" ~ 3),
+         c_order = case_when(c_added == "+ Ci" ~ 1,
+                             c_added == "- Ci" ~ 2)) %>%
+  group_by(Source) %>%
+  mutate(order = median(Logworth))
+```
+
+```{r bg11_opt_plots}
+fig4b <- effect_summary_import %>%
+  filter(str_detect(Source, "\\*", negate = T)) %>%
+  ggplot(aes(x = Logworth, y = reorder(Source, order))) +
+  geom_col(fill = "palegreen4") +
+  facet_grid(cols = vars(reorder(strain_name, strain_order)), rows = vars(reorder(c_added, c_order))) +
+  labs(x = "LogWorth [-log10(p-value)]", y = NULL)
+fig4b
+
+NaNO3_data <- OD_data_output %>%
+  mutate(strain = case_when(plate_ID == "2973" ~ "UTEX2973 (- Ci)",
+                            plate_ID == "2973_C" ~ "UTEX2973 (+ Ci)",
+                            plate_ID == "nostoc" ~ "Nostoc hatei (- Ci)",
+                            plate_ID == "nostoc_C" ~ "Nostoc hatei (+ Ci)",
+                            plate_ID == "UTEX90" ~ "UTEX90 (- Ci)",
+                            plate_ID == "UTEX90_C" ~ "UTEX90 (+ Ci)"),
+         c_added = case_when(plate_ID == "2973" ~ F,
+                            plate_ID == "2973_C" ~ T,
+                            plate_ID == "nostoc" ~ F,
+                            plate_ID == "nostoc_C" ~ T,
+                            plate_ID == "UTEX90" ~ F,
+                            plate_ID == "UTEX90_C" ~ T),
+         strain_order = case_when(str_detect(plate_ID, "2973") ~ 1,
+                                  str_detect(plate_ID, "UTEX90") ~ 2,
+                                  str_detect(plate_ID, "Nostoc") ~ 3)) %>%
+  # filter(c_added == T) %>%
+  # mutate(condition_string = paste(NaNO3, K2HPO4, MgSO4, CaCl2, EDTA, Na2CO3, Citrate, `Trace elements`, sep = "/")) %>%
+  mutate(Depleted = case_when((NaNO3 == -1) ~ "No",
+                              TRUE ~ "Yes"),
+         Depleted_order = case_when(Depleted == "Yes" ~ 1,
+                                    Depleted == "No" ~ 2)) %>%
+  mutate(inc_compound = "NaNO3",
+         facet_order = 1)
+
+K2HPO4_data <- OD_data_output %>%
+  mutate(strain = case_when(plate_ID == "2973" ~ "UTEX2973 (- Ci)",
+                            plate_ID == "2973_C" ~ "UTEX2973 (+ Ci)",
+                            plate_ID == "nostoc" ~ "Nostoc hatei (- Ci)",
+                            plate_ID == "nostoc_C" ~ "Nostoc hatei (+ Ci)",
+                            plate_ID == "UTEX90" ~ "UTEX90 (- Ci)",
+                            plate_ID == "UTEX90_C" ~ "UTEX90 (+ Ci)"),
+         c_added = case_when(plate_ID == "2973" ~ F,
+                            plate_ID == "2973_C" ~ T,
+                            plate_ID == "nostoc" ~ F,
+                            plate_ID == "nostoc_C" ~ T,
+                            plate_ID == "UTEX90" ~ F,
+                            plate_ID == "UTEX90_C" ~ T),
+         strain_order = case_when(str_detect(plate_ID, "2973") ~ 1,
+                                  str_detect(plate_ID, "UTEX90") ~ 2,
+                                  str_detect(plate_ID, "Nostoc") ~ 3)) %>%
+  # filter(c_added == T) %>%
+  mutate(Depleted = case_when((K2HPO4 == -1) ~ "No",
+                              TRUE ~ "Yes"),
+         Depleted_order = case_when(Depleted == "Yes" ~ 1,
+                                    Depleted == "No" ~ 2)) %>%
+  mutate(inc_compound = "K2HPO4",
+         facet_order = 3)
+
+MgSO4_data <- OD_data_output %>%
+  mutate(strain = case_when(plate_ID == "2973" ~ "UTEX2973 (- Ci)",
+                            plate_ID == "2973_C" ~ "UTEX2973 (+ Ci)",
+                            plate_ID == "nostoc" ~ "Nostoc hatei (- Ci)",
+                            plate_ID == "nostoc_C" ~ "Nostoc hatei (+ Ci)",
+                            plate_ID == "UTEX90" ~ "UTEX90 (- Ci)",
+                            plate_ID == "UTEX90_C" ~ "UTEX90 (+ Ci)"),
+         c_added = case_when(plate_ID == "2973" ~ F,
+                            plate_ID == "2973_C" ~ T,
+                            plate_ID == "nostoc" ~ F,
+                            plate_ID == "nostoc_C" ~ T,
+                            plate_ID == "UTEX90" ~ F,
+                            plate_ID == "UTEX90_C" ~ T),
+         strain_order = case_when(str_detect(plate_ID, "2973") ~ 1,
+                                  str_detect(plate_ID, "UTEX90") ~ 2,
+                                  str_detect(plate_ID, "Nostoc") ~ 3)) %>%
+  # filter(c_added == T) %>%
+  mutate(Depleted = case_when((MgSO4 == -1) ~ "No",
+                              TRUE ~ "Yes"),
+         Depleted_order = case_when(Depleted == "Yes" ~ 1,
+                                    Depleted == "No" ~ 2)) %>%
+  mutate(inc_compound = "MgSO4",
+         facet_order = 2)
+
+central_data <- OD_data_output %>%
+  mutate(condition_string = paste(NaNO3, K2HPO4, MgSO4, CaCl2, EDTA, Na2CO3, Citrate, `Trace elements`, sep = "/")) %>%
+  filter(condition_string == "0/0/0/0/0/0/0/0") %>%
+  group_by(plate_ID) %>%
+  summarise(median_central = median(OD))
+
+depleted_data <- bind_rows(NaNO3_data, K2HPO4_data, MgSO4_data) %>%
+  left_join(central_data, by = "plate_ID")
+
+depletion_fig <- depleted_data %>%
+  ggplot(aes(y = OD, x = plate_ID, color = reorder(Depleted, Depleted_order))) +
+  geom_jitter() +
+  geom_hline(aes(yintercept = median_central), linetype = "dashed") +
+  labs(y = bquote(OD[750]), colour = "Compound\nin media") +
+  facet_grid(cols = vars(reorder(strain, strain_order)), rows = vars(reorder(inc_compound, facet_order)), scales = "free_x") +
+  theme(axis.text.x = element_blank(),
+        axis.ticks.x = element_blank(),
+        axis.title.x = element_blank())
+depletion_fig
+```
+
+### BG-11 Optimization - Flask-scale validation
+
+```{r flask_validation}
+flask_biomass_import <- read_csv("data/use-cases/BG11-RSM/flask_biomass_data_v2.csv") %>%
+  mutate(delta_biomass_mg = (biomass*1000)-(T0*1000)) %>%
+  mutate(biomass_mgl = delta_biomass_mg*1000/volume)
+
+flask_biomass_import_bg11 <- flask_biomass_import %>%
+  filter(experiment == "optimization")
+
+flask_biomass_summary_bg11 <- flask_biomass_import_bg11 %>%
+  group_by(condition, carbon, strain, strain_order) %>%
+  summarize(biomass_mean = mean(biomass_mgl))
+
+
+flask_fold_increase_table_bg11 <- flask_biomass_summary_bg11 %>%
+  select(condition, strain, carbon, biomass_mean) %>%
+  pivot_wider(names_from = condition, values_from = biomass_mean) %>%
+  mutate(fold_change = Optimized/Standard*100) %>%
+  mutate(condition = "Standard")
+flask_fold_increase_table_bg11
+
+fig4c <- ggplot() +
+  geom_col(data = flask_biomass_summary_bg11, aes(y = biomass_mean, x = reorder(condition, desc(condition)), fill = reorder(condition, desc(condition))), width = 0.7) +
+  geom_jitter(data = flask_biomass_import_bg11, aes(y = biomass_mgl, x = condition)) +
+  geom_hline(data = flask_fold_increase_table_bg11, aes(yintercept = Optimized), linetype = "dashed") +
+  geom_text(data = flask_fold_increase_table_bg11, aes(x = condition, y = Optimized,label = paste0(round(fold_change, 1),"%")), vjust = -0.5, hjust = 0.6, size = 3.5) +
+  facet_nested(~ reorder(carbon, desc(carbon)) + strain) +
+  labs(y = "Dry weight (mg/L)", x = NULL, fill = "BG-11 Medium") +
+  scale_fill_manual(values = c("palegreen2", "palegreen4")) +
+  theme(strip.background = element_rect(colour = "white"),
+        axis.text.x = element_blank(),
+        legend.position = "bottom")
+fig4c
+```
+
+```{r nature_fig_4}
+nat_fig4 <- plot_grid(fig4b, fig4c,
+          ncol = 2,
+          labels = c('B', 'C'),
+          label_size = 14,
+          rel_widths = c(3,3))
+nat_fig4
+```
+
+## Bioactive molecule screen
+
+  - Figure 5
+  - Supplementary Figure ***
+  - Supplementary Figure ***
+
+```{r screening_data_import}
+# Screen 1
+layout_info <- read_csv('data/use-cases/bioactive-screening/layout_info.csv')
+
+library_data <- read_csv("data/use-cases/bioactive-screening/bioactive_library_info.csv", locale = readr::locale(encoding = "latin1")) %>%
+  rowwise() %>%
+  mutate(split_plate_ID = str_split(`384-Barcode`, pattern = '-'),
+         plate_ID = rev(split_plate_ID)[1]) %>%
+  select(-c(split_plate_ID, `ID number`, `Source Plate&Well`)) %>%
+  rename(well = "384-Well") %>%
+  mutate(plate_ID = as.numeric(plate_ID))
+
+screen1_OD_data <- read_csv('data/use-cases/bioactive-screening/bioactive_screen1_OD_data.csv') %>%
+  mutate(time = ymd_hms(time), timepoint = factor(timepoint, levels = c('T0', 'T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12', 'T13', 'T14', 'T15', 'T16', 'T17', 'T18'))) %>%
+  select(-c(datetime)) %>%
+  # right_join(plate_metadata, by = 'plate_location') %>%
+  # right_join(layout_info, by = 'well') %>%
+  tidyr::pivot_longer(-c(measurement_ID, plate_ID, timepoint, time, wavelength, well), names_to = 'quadrant', values_to = 'OD') %>%
+  mutate(OD = as.numeric(OD)) %>%
+  mutate(value_ID = interaction(measurement_ID, well)) %>%
+  filter(plate_ID != 1233) %>%
+  mutate(round = case_when(plate_ID %in% c(1209, 1212, 1215, 1221, 1224, 1227, 1230, 1243, 1247) ~ "Set 1",
+                  plate_ID %in% c(1236, 1239, 1251, 1255, 1258) ~ "Set 2")) %>%
+  mutate(Day = case_when(timepoint == "T0" ~ "0",
+                         timepoint == "T1" ~ "3",
+                         timepoint == "T2" ~ "5"))
+
+screening_data <- screen1_OD_data %>%
+  inner_join(library_data, by = c("well", "plate_ID"))
+
+compound_list <- screening_data %>%
+  select(plate_ID, well, `Chemical name`, Formula, `384-Barcode&Well`) %>%
+  distinct()
+```
+
+\newpage
+
+### Bioactive screen - Round 1
+
+#### OD~750~ Hit Identification
+
+ - The following plots show hit selection for increased growth rate, based on OD~750~
+ - Hits were selected based on $Z$-score, where $Z \ge \pm 2.5$
+
+```{r screen1_OD750}
+hit_tally <- screen1_OD_data %>%
+  filter(str_detect(well, '01', negate = TRUE), str_detect(well, '24', negate = TRUE)) %>%
+  filter(wavelength == 750, timepoint == "T2") %>%
+  group_by(measurement_ID, plate_ID, timepoint, time, wavelength, well, value_ID) %>%
+  summarise(OD = min(OD)) %>%
+  ungroup() %>%
+  group_by(plate_ID) %>%
+  mutate(z_score = (OD-mean(OD))/sd(OD)) %>%
+  mutate(hit = case_when(z_score >= 2.5 ~ "yes", 
+                         z_score <= -2.5 ~ "yes",
+                         TRUE ~ "no"),
+         hit_side = case_when(z_score >= 2.5 ~ "high", 
+                         z_score <= -2.5 ~ "low",
+                         TRUE ~ "no")) %>%
+  left_join(compound_list, by = c("plate_ID", "well")) %>%
+  filter(!is.na(`Chemical name`)) %>%
+  group_by(hit, hit_side) %>%
+  tally() %>%
+  rename(Hit = hit, `Hit Type` = 'hit_side', Count = "n")
+
+# write_csv(hit_tally, "bioactive_round1_tally.csv")
+
+kbl(hit_tally)
+
+hit_overview <- screen1_OD_data %>%
+  filter(str_detect(well, '01', negate = TRUE), str_detect(well, '24', negate = TRUE)) %>%
+  filter(wavelength == 750, timepoint == "T2") %>%
+  group_by(measurement_ID, plate_ID, timepoint, time, wavelength, well, value_ID) %>%
+  summarise(OD = min(OD)) %>%
+  ungroup() %>%
+  group_by(plate_ID) %>%
+  mutate(z_score = (OD-mean(OD))/sd(OD)) %>%
+  mutate(hit = case_when(z_score >= 2.5 ~ "yes", 
+                         z_score <= -2.5 ~ "yes",
+                         TRUE ~ "no"),
+         hit_side = case_when(z_score >= 2.5 ~ "high", 
+                         z_score <= -2.5 ~ "low",
+                         TRUE ~ "no")) %>%
+  filter(hit == "yes") %>%
+  left_join(compound_list, by = c("plate_ID", "well")) %>%
+  select(plate_ID, well, hit_side, z_score, `Chemical name`, Formula) %>%
+  filter(!is.na(`Chemical name`))
+
+# write_csv(hit_overview, "bioactive_round1_hits.csv")
+
+kbl(hit_overview)
+
+mycolors = colorRampPalette(brewer.pal(name="Dark2", n = 8))(14)
+primary_figA <- screen1_OD_data %>%
+  filter(str_detect(well, '01', negate = TRUE), str_detect(well, '24', negate = TRUE)) %>%
+  filter(wavelength == 750, timepoint == "T2") %>%
+  group_by(measurement_ID, plate_ID, timepoint, time, wavelength, well, value_ID, round) %>%
+  summarise(OD = min(OD)) %>%
+  group_by(round) %>%
+  mutate(median = median(OD)) %>%
+  ggplot() +
+  geom_point(aes(y = OD, x = fct_reorder(value_ID, plate_ID), color = as.character(plate_ID)), show.legend = FALSE) +
+  geom_line(aes(y = median, x = fct_reorder(value_ID, plate_ID), group = round), size = 0.5, linetype = "solid") +
+  labs(x = NULL, y = bquote(OD[750]), color = "Plate") + #, title = "OD750 values accross plates"
+  theme(axis.text.x=element_blank(), 
+        axis.ticks.x=element_blank()) +
+  facet_grid(cols = vars(round), scales = "free", space = "free") +
+  scale_colour_manual(values = c("grey80", "grey65","grey80", "grey65","grey80", "grey65","grey80", "grey65","grey80", "grey65","grey80", "grey65","grey80", "grey65"))
+primary_figA
+
+z_score_data <- screen1_OD_data %>%
+  filter(str_detect(well, '01', negate = TRUE), str_detect(well, '24', negate = TRUE)) %>%
+  filter(wavelength == 750, timepoint == "T2") %>%
+  group_by(measurement_ID, plate_ID, timepoint, time, wavelength, well, value_ID) %>%
+  summarise(OD = min(OD)) %>%
+  ungroup() %>%
+  group_by(plate_ID) %>%
+  mutate(z_score = (OD-mean(OD))/sd(OD))
+
+round1_supp_distribution <- screen1_OD_data %>%
+  filter(str_detect(well, '01', negate = TRUE), str_detect(well, '24', negate = TRUE)) %>%
+  filter(wavelength == 750, timepoint == "T2") %>%
+  group_by(measurement_ID, plate_ID, timepoint, time, wavelength, well, value_ID) %>%
+  summarise(OD = min(OD)) %>%
+  ungroup() %>%
+  group_by(plate_ID) %>%
+  mutate(z_score = (OD-mean(OD))/sd(OD)) %>%
+  ggplot() +
+  geom_histogram(aes(x = z_score, y = ..density..)) +
+  stat_function(fun = dnorm, args = list(mean = mean(z_score_data$z_score), sd = sd(z_score_data$z_score))) +
+  labs(x = "Z-score", y = 'Well Proportion')
+round1_supp_distribution
+
+primary_figB <- screen1_OD_data %>%
+  filter(str_detect(well, '01', negate = TRUE), str_detect(well, '24', negate = TRUE)) %>%
+  filter(wavelength == 750, timepoint == "T2") %>%
+  group_by(measurement_ID, plate_ID, timepoint, time, wavelength, well, value_ID, round) %>%
+  summarise(OD = min(OD)) %>%
+  ungroup() %>%
+  group_by(plate_ID) %>%
+  mutate(z_score = (OD-mean(OD))/sd(OD)) %>%
+  mutate(hit = case_when(z_score >= 2.5 ~ "Yes", 
+                         z_score <= -2.5 ~ "Yes",
+                         TRUE ~ "No")) %>%
+  ggplot() +
+  geom_point(aes(y = z_score, x = fct_reorder(value_ID, plate_ID), color = hit)) +
+  geom_hline(aes(yintercept = 0), size = 0.5) +
+  geom_hline(aes(yintercept = -2.5), size = 0.5, linetype = "dashed") +
+  geom_hline(aes(yintercept = 2.5), size = 0.5, linetype = "dashed") +
+  labs(x = NULL, y = 'Z-Score', color = "Hit") + # , title = TeX(r'(Hit selection ($Z\geq \pm 2.5$))')
+  theme(axis.text.x=element_blank(), 
+        axis.ticks.x=element_blank(),
+        legend.position="none"
+        ) +
+  facet_grid(cols = vars(round), scales = "free", space = "free") +
+  scale_colour_manual(values = c("seagreen2", "seagreen"))
+
+primary_figB
+
+skewness_OD <- z_score_data %>%
+  group_by(plate_ID) %>%
+  summarise(Skew = skewness(z_score), Kurtosis = kurtosis(z_score))
+skewness_OD
+
+skewness_OD_full <- z_score_data %>%
+  ungroup() %>%
+  summarise(Skew = skewness(z_score), Kurtosis = kurtosis(z_score))
+skewness_OD_full
+
+primary_figC <- screen1_OD_data %>%
+  filter(str_detect(well, '01', negate = TRUE), str_detect(well, '24', negate = TRUE)) %>%
+  filter(wavelength == 750, timepoint == "T2") %>%
+  group_by(measurement_ID, plate_ID, timepoint, time, wavelength, well, value_ID) %>%
+  summarise(OD = min(OD)) %>%
+  ungroup() %>%
+  group_by(plate_ID) %>%
+  mutate(z_score = (OD-mean(OD))/sd(OD)) %>%
+  mutate(placer = "  ") %>%
+  ggplot() +
+  geom_histogram(aes(x = z_score, y = ..density..)) +
+  facet_grid(cols = vars(placer)) +
+  labs(x = NULL, y = NULL) + #, title = "Z-score distributions"
+  coord_flip() +
+  theme(panel.background = element_blank(),
+        strip.background=element_rect(fill="white"),
+        axis.text.x=element_blank(), 
+        axis.ticks.x=element_blank()
+        )
+
+primary_figC
+
+select_hits_OD750 <- screen1_OD_data %>%
+  filter(str_detect(well, '01', negate = TRUE), str_detect(well, '24', negate = TRUE)) %>%
+  filter(wavelength == 750, timepoint == "T2") %>%
+  group_by(measurement_ID, plate_ID, timepoint, time, wavelength, well, value_ID) %>%
+  summarise(OD = min(OD)) %>%
+  ungroup() %>%
+  group_by(plate_ID) %>%
+  mutate(z_score = (OD-mean(OD))/sd(OD)) %>%
+  mutate(hit = case_when(z_score >= 2.5 ~ "yes", 
+                         z_score <= -2.5 ~ "yes",
+                         TRUE ~ "no"),
+         hit_side = case_when(z_score >= 2.5 ~ "upper", 
+                         z_score <= -2.5 ~ "lower",
+                         TRUE ~ "no")) %>%
+  filter(hit == "yes") %>%
+  mutate(selection = "OD750", plate_ID = as.character(plate_ID)) %>%
+  select(plate_ID, z_score, well, hit, hit_side, selection)
+
+supp_fig_screen1 <- screen1_OD_data %>%
+  filter(str_detect(well, '01', negate = TRUE), str_detect(well, '24', negate = TRUE)) %>%
+  filter(wavelength == 750, timepoint == "T2") %>%
+  mutate(row = str_sub(well, start = 1L, end = 1L),
+         column = as.numeric(str_sub(well, start = 2L, end = 3L))) %>%
+  group_by(well, column, row, timepoint, plate_ID) %>%
+  summarise(OD = min(OD)) %>%
+  ggplot(aes(x=column, y = reorder(row, desc(row)), fill = OD)) +
+  geom_tile() +
+  labs(y = '', x = '', fill = bquote(OD[750]), title = "OD750 by well") +
+  facet_wrap(vars(plate_ID), scales = "free") +
+  theme(axis.text.x = element_text(size = 11),
+        axis.text.y = element_text(size = 8),
+        axis.title = element_text(size=14), 
+        strip.text = element_text(size=14))
+supp_fig_screen1
+
+od_panels <- plot_grid(primary_figA, primary_figB, primary_figC,
+                  ncol = 3,
+                  labels = c("A", "B", "C"),
+                  label_size = 14,
+                  rel_widths = c(4, 4, 2))
+od_panels
+```
+
+\newpage
+
+
+### Bioactive screen - Round 2
+
+
+#### OD~750~ Hit Identification
+
+
+The following plots show hit selection for increased growth rate, based on OD~750~.
+
+```{r screen2_OD_data_import}
+hit_function_info <- read_csv("data/use-cases/bioactive-screening/bioactive_screen_round2_hit_compound_info.csv", locale = readr::locale(encoding = "latin1"))
+
+round2_OD_data <- read_csv("data/use-cases/bioactive-screening/bioactive_round2_OD_data.csv", locale = readr::locale(encoding = "latin1"))
+
+round2_control_data <- round2_OD_data %>%
+  filter(well_type == "Control")
+
+round2_control_data_summary <- round2_control_data %>%
+  group_by(plate_ID) %>%
+  summarise(control_mean = mean(OD), control_sd = sd(OD))
+
+round2_control_data_sum <- (round2_control_data_summary %>%
+  summarise(control_mean = mean(control_mean)))$control_mean
+
+round2_OD_hits <- round2_OD_data %>%
+  left_join(round2_control_data_summary, by = "plate_ID") %>%
+  ungroup() %>%
+  group_by(well) %>%
+  mutate(hit_type = case_when(median(OD) > median(control_mean) ~ "higher",
+                              median(OD) < median(control_mean) ~ "lower")) %>%
+  ungroup() %>%
+  
+  rowwise() %>%
+  mutate(p.value = case_when(hit_type == "lower" ~ pnorm(q = OD, mean = control_mean, sd = control_sd),
+                            hit_type == "higher" ~ pnorm(q = OD, mean = control_mean, sd = control_sd, lower.tail = FALSE))) %>%
+  rowwise() %>%
+  mutate(hit = case_when(p.value <= 0.1 ~ "yes",
+                         p.value > 0.1 ~ "no")) %>%
+  filter(well_type == "Experimental", hit == "yes") %>%
+  group_by(`Chemical name`) %>%
+  mutate(n = n()) %>%
+  filter(n > 1) %>%
+  group_by(timepoint, wavelength, well, `Chemical name`, n, hit_type) %>%
+  summarise(med_OD = median(OD), med_p.value= median(p.value)) %>%
+  left_join(hit_function_info, by = 'Chemical name')
+
+round2_OD_hit_info <- round2_OD_hits %>%
+  ungroup() %>%
+  select(well, `Chemical name`, n, hit_type)
+
+round2_OD_hits_data <- round2_OD_data %>%
+  mutate(hit = case_when(well %in% round2_OD_hits$well ~ "hit")) %>%
+  filter(hit == "hit") %>%
+  left_join(round2_control_data_summary, by = "plate_ID") %>%
+  ungroup() %>%
+  select(plate_ID, well, OD, control_mean) %>%
+  left_join(round2_OD_hit_info, by = "well") %>%
+  mutate(Reading = case_when(plate_ID == 'rescreen1' ~ 'Rep 1 (x-fold)',
+                             plate_ID == 'rescreen2' ~ 'Rep 2 (x-fold)',
+                             plate_ID == 'rescreen3' ~ 'Rep 3 (x-fold)')) %>%
+  select(-plate_ID) %>%
+  mutate(fold_OD = OD/control_mean) %>%
+  select(-c(OD, control_mean)) %>%
+  pivot_wider(names_from = "Reading", values_from = "fold_OD") %>%
+  rename(`Significant Measurements` = "n") %>%
+  arrange(desc(`Rep 1 (x-fold)`))
+
+round2_OD_hits_select <- round2_OD_hits_data %>%
+  ungroup() %>%
+  rowwise() %>%
+  mutate(dif = round2_control_data_sum - mean(c(`Rep 1 (x-fold)`, `Rep 2 (x-fold)`, `Rep 3 (x-fold)`))) %>%
+  mutate(rank = abs(dif)) %>%
+  group_by(hit_type) %>%
+  slice_max(order_by = rank, n = 8) %>%
+  select(-c(dif, rank))
+round2_OD_hits_select
+```
+
+
+```{r screen2_OD750}
+round2_hit_overview_OD <- round2_OD_data %>%
+  mutate(hit = case_when(well %in% round2_OD_hits_select$well ~ "hit", well_type == "Control" ~ "Control")) %>%
+  filter(hit == "hit" || hit == "Control")
+
+round2_hits_info <- round2_OD_hits_select %>%
+    select(`Chemical name`, `Significant Measurements`, hit_type) %>%
+    rename(`Hit Type` = hit_type)
+
+kbl(round2_hits_info, caption = "OD750 Select Hits - Up to 8 hits were selected for each screening condition")
+
+min <- (round2_OD_data %>%
+  ungroup() %>%
+  summarise(quantile = quantile(OD, 0.01)))$quantile
+min
+
+max <- (round2_OD_data %>%
+  summarise(quantile = quantile(OD, 0.99)))$quantile
+max
+
+round2_figA <- round2_OD_data %>%
+  ggplot() +
+  geom_point(aes(y = OD, x = fct_reorder(value_ID, plate_ID), color = well_type), show.legend = FALSE) +
+  labs(x = NULL, y = bquote(OD[750]), color = "Well Type") +
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank()) +
+  scale_colour_manual(values = c("grey", "seagreen"))
+round2_figA
+
+round2_legend <- cowplot::get_legend(round2_OD_data %>%
+  ggplot() +
+  geom_point(aes(y = OD, x = fct_reorder(value_ID, plate_ID), color = well_type)) +
+  labs(x = NULL, y = bquote(OD[750]), color = "Well Type") +
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank()) +
+  scale_colour_manual(values = c("grey", "seagreen")))
+
+round2_figB <- round2_OD_data %>%
+  mutate(hit = case_when(well %in% round2_OD_hits_select$well ~ "hit", well_type == "Control" ~ "Control")) %>%
+  filter(hit == "hit" | hit == "Control") %>%
+  ggplot() +
+  geom_point(aes(y = OD, x = fct_reorder(value_ID, plate_ID), color = well_type), show.legend = FALSE) +
+  labs(x = NULL, y = bquote(OD[750]), color = "Well Type") +
+  theme(axis.text.x=element_blank(), 
+        axis.ticks.x=element_blank(),
+        legend.key=element_blank()) +
+  scale_colour_manual(values = c("grey", "seagreen"))
+round2_figB
+
+round2_figC <- round2_OD_data %>%
+  filter(well_type == "Control") %>%
+  ggplot() +
+  geom_histogram(aes(x = OD, y = ..density..)) +
+  labs(x = NULL, y = NULL) +
+  coord_flip() +
+  xlim(0, NA) +
+  theme(panel.background = element_blank(),
+        strip.background=element_rect(fill="white"),
+        axis.text.x=element_blank(), 
+        axis.ticks.x=element_blank()
+        )
+round2_figC
+
+round2_supp_distribution <- round2_control_data %>%
+  ggplot() +
+  geom_histogram(aes(x = OD, y = ..density..)) +
+  stat_function(fun = dnorm, args = list(mean = mean(round2_control_data$OD), sd = sd(round2_control_data$OD))) +
+  labs(x = bquote(OD[750]), y = 'Well Proportion')
+round2_supp_distribution
+
+skewness_OD <- round2_control_data %>%
+  group_by(plate_ID) %>%
+  summarise(Skew = skewness(OD), Kurtosis = kurtosis(OD))
+skewness_OD
+
+skewness_OD_full <- round2_control_data %>%
+  ungroup() %>%
+  summarise(Skew = skewness(OD), Kurtosis = kurtosis(OD))
+skewness_OD_full
+
+round2_od_panels <- plot_grid(round2_figA, round2_figB, round2_figC,
+                  ncol = 3,
+                  labels = c("D", "E", "F"),
+                  label_size = 14,
+                  rel_widths = c(4, 4, 2))
+round2_od_panels
+```
+
+
+\newpage
+
+### Bioactive screen - Round 3
+
+#### OD~750~ Hit Testing
+
+ - The following plots show hit testing for increased growth rate, based on OD~750~.
+
+```{r round3_OD_data_import}
+round3_OD750_compounds <- round2_OD_hits_select$`Chemical name`
+
+round3_OD750_compounds_df <- round2_OD_hits_select %>%
+  rename(Compound = "Chemical name", source_well = "well") %>%
+  select(Compound, hit_type, source_well)
+
+round3_layout <- read_csv("data/use-cases/bioactive-screening/bioactive_screen_round3_layout.csv") %>%
+  rename(well = "Destination Well", Compound = "Chemical name") %>%
+  mutate(Concentration = `Transfer Volume`/75*5) %>%
+  select(well, Compound, Concentration) %>%
+  mutate(plate_type = "gradient", Concentration = as.character(Concentration))
+
+round3_OD_data <- read_csv("data/use-cases/bioactive-screening/bioactive_screen_round3_OD_data.csv") %>%
+  filter(str_detect(well, '01', negate = TRUE), str_detect(well, '24', negate = TRUE), str_detect(well, 'A', negate = TRUE), str_detect(well, 'P', negate = TRUE)) %>%
+  filter(wavelength == 750) %>%
+  group_by(measurement_ID, plate_ID, timepoint, wavelength, well, value_ID, well_type, Compound, Concentration) %>%
+  summarise(OD = min(OD)) %>%
+  ungroup()
+
+round3_OD_control_data <- round3_OD_data %>%
+  filter(Compound == "DMSO")
+
+
+mercury_compounds = c("PHENYLMERCURIC ACETATE", "THIMEROSAL")
+
+mass_info <- library_data %>%
+  filter(`Chemical name` %in% round3_OD750_compounds) %>%
+  mutate(mass_mg = MolWt*(1.667*10^-6)*1000)
+mass_info
+
+mercury_info <- library_data %>%
+  filter(`Chemical name` %in% mercury_compounds) %>%
+  mutate(mercury_mass = 200.59*(1.667*10^-6)*1000,
+         fold_over_drinking = mercury_mass / 0.001)
+mercury_info
+```
+
+```{r round3_OD750}
+round3_figA1 <- round3_OD_data %>%
+  filter(timepoint == "T2") %>%
+  filter(well_type == "Experimental") %>%
+  select(Compound, Concentration, OD) %>%
+  filter(Compound %in% round3_OD750_compounds) %>%
+  pivot_wider(names_from = "Concentration", values_from = "OD") %>%
+  mutate(`0` = median(round3_OD_control_data$OD)) %>%
+  pivot_longer(-Compound, names_to = "Concentration", values_to = "OD") %>%
+  mutate(Concentration = signif(as.numeric(Concentration), 2)) %>%
+  left_join(round3_OD750_compounds_df, by = "Compound") %>%
+  mutate(hit_type_order = case_when(hit_type == "lower" ~ 2,
+                                    hit_type == "higher" ~ 1),
+         hit_type_name = case_when(hit_type == "lower" ~ "Decrease",
+                                   hit_type == "higher" ~ "Increase")) %>%
+  mutate(Compound = str_to_title(Compound)) %>%
+  mutate(Compound = case_when(Compound == "Methyl 7-Deshydroxypyrogallin-4-Carboxylate" ~ "Methyl 7-Deshydroxy- pyrogallin-4-Carboxylate",
+                              Compound == "Dl-Alpha-Methyl-P-Tyrosine" ~ "Dl-Alpha-Methyl- P-Tyrosine",
+                              TRUE ~ Compound)) %>%
+  filter(hit_type_name == "Increase") %>%
+  ggplot() +
+  geom_line(aes(x = Concentration, y = OD, colour = Compound), show.legend = FALSE) + 
+  geom_point(aes(x = Concentration, y = OD), show.legend = FALSE) +
+  facet_wrap(~Compound, 
+             labeller = labeller(Compound = label_wrap_gen(width = 21)), ncol = 3) +
+  labs(y = bquote(OD[750]), x = expression(paste("Concentration (", mu, "M)"))) +
+  scale_colour_manual(values = c("#B35806", "#E48B21", "#EBDCD0", "#887CB2", "#542788", "black"))
+round3_figA1
+
+round3_figA2 <- round3_OD_data %>%
+  filter(timepoint == "T2") %>%
+  filter(well_type == "Experimental") %>%
+  select(Compound, Concentration, OD) %>%
+  filter(Compound %in% round3_OD750_compounds) %>%
+  pivot_wider(names_from = "Concentration", values_from = "OD") %>%
+  mutate(`0` = median(round3_OD_control_data$OD)) %>%
+  pivot_longer(-Compound, names_to = "Concentration", values_to = "OD") %>%
+  mutate(Concentration = signif(as.numeric(Concentration), 2)) %>%
+  left_join(round3_OD750_compounds_df, by = "Compound") %>%
+  mutate(hit_type_order = case_when(hit_type == "lower" ~ 2,
+                                    hit_type == "higher" ~ 1),
+         hit_type_name = case_when(hit_type == "lower" ~ "Decrease",
+                                   hit_type == "higher" ~ "Increase")) %>%
+  mutate(Compound = str_to_title(Compound)) %>%
+  mutate(Compound = case_when(Compound == "Methyl 7-Deshydroxypyrogallin-4-Carboxylate" ~ "Methyl 7-Deshydroxy- pyrogallin-4-Carboxylate",
+                              Compound == "Dl-Alpha-Methyl-P-Tyrosine" ~ "Dl-Alpha-Methyl- P-Tyrosine",
+                              TRUE ~ Compound)) %>%
+  filter(hit_type_name != "Increase") %>%
+  filter(Compound != "Riboflavine") %>%
+  ggplot() +
+  geom_line(aes(x = Concentration, y = OD, colour = Compound), show.legend = FALSE) + 
+  geom_point(aes(x = Concentration, y = OD), show.legend = FALSE) +
+  facet_wrap(~Compound, 
+             labeller = labeller(Compound = label_wrap_gen(width = 21)), ncol = 3) +
+  labs(y = bquote(OD[750]), x = expression(paste("Concentration (", mu, "M)"))) +
+  scale_colour_manual(values = c("#FDC57E", "#BEBADA", "black", "black", "black", "black", "black"))
+round3_figA2
+
+round3_od_panels <- plot_grid(round3_figA1, round3_figA2, 
+                  ncol = 1,
+                  labels = c("G", "H"),
+                  label_size = 14,
+                  rel_heights = c(2,3))
+round3_od_panels
+```
+
+
+```{r round2-3_fig}
+round12 <- plot_grid(od_panels, round2_od_panels,
+          ncol = 1,
+          labels = c("", ""),
+          label_size = 14, 
+          rel_heights = c(3,3))
+round12
+
+round123 <- plot_grid(round12, round3_od_panels,
+          ncol = 2,
+          labels = c("", ""),
+          label_size = 14, 
+          rel_widths = c(5,3))
+round123
+```
+
+\newpage
+
+### Bioactive screen - Hit Validation
+
+#### OD~750~ Compound Gradient Testing
+
+ - The following plots show hit testing for increased growth, based on OD~750~.
+
+```{r gradient_testing_OD_data_import}
+gradient_OD_data <- read_csv("data/use-cases/bioactive-screening/bioactive_gradient_data.csv")
+
+gradient_compound_info <- gradient_OD_data %>%
+  select(Compound) %>%
+  distinct() %>%
+  mutate(`Chemical name` = case_when(Compound == "Coumaphos" ~ "COUMOPHOS",
+                                     Compound == "Bephenium Hydroxynaphthoate" ~ "BEPHENIUM HYDROXYNAPTHOATE",
+                                     Compound == "dl-alpha-methyl-p-tyrosine" ~ "DL-alpha-Methyl-p-tyrosine",
+                                     Compound == "Disulfiram" ~ "Disulfiram",
+                                     Compound == "Gentian Violet" ~ "GENTIAN VIOLET",
+                                     Compound == "Iridin" ~ "IRIDIN",
+                                     Compound == "Gossypetin" ~ "GOSSYPETIN")) %>%
+  left_join(library_data, by = "Chemical name") %>%
+  left_join(hit_function_info, by = "Chemical name") %>%
+  select(Compound, Formula, MolWt, `CAS number`, Function)
+gradient_compound_info
+```
+
+```{r gradient_OD750}
+mycolors2 = colorRampPalette(brewer.pal(name="PuOr", n = 8))(7)
+gradient_figA <- gradient_OD_data %>%
+  filter(timepoint == "T2") %>%
+  group_by(Compound, Concentration) %>%
+  mutate(rel_OD = OD/median) %>%
+  summarise(OD = median(rel_OD)) %>%
+  filter(Concentration < 20) %>%
+  ggplot(aes(y = OD, x = Concentration, group = Compound, colour = Compound)) +
+  geom_line(size = 0.8) +
+  labs(y = expression(paste("Fold Change (",OD[750], ")")), x = expression(paste("Concentration (", mu, "M)"))) +
+  theme(legend.position = "bottom") +
+  scale_color_manual(values = mycolors2)
+gradient_figA
+
+gradient_figB <- gradient_OD_data %>%
+  filter(timepoint == "T2") %>%
+  filter(OD < 1) %>%
+  mutate(rel_OD = OD/median) %>%
+  mutate(Concentration_char = as.character(signif(Concentration, 2))) %>%
+  filter(Concentration < 20) %>%
+  mutate(Compound = case_when(Compound == "dl-alpha-methyl-p-tyrosine" ~ "dl-alpha-methyl- p-tyrosine",
+                              TRUE ~ Compound)) %>%
+  ggplot() +
+  geom_hline(aes(yintercept = 1), linetype = "dashed") +
+  geom_boxplot(aes(x = reorder(Concentration_char, Concentration), y = rel_OD, group = Concentration), outlier.shape = NA) + 
+  geom_jitter(aes(x = reorder(Concentration_char, Concentration), y = rel_OD, group = Concentration)) +
+  facet_wrap(~Compound, scales = "free_y", ncol = 2) +
+  labs(y = expression(paste("Fold Change (",OD[750], ")")), 
+       x = expression(paste("Concentration (", mu, "M)")))
+gradient_figB
+
+gradient_OD_data %>%
+  filter(timepoint == "T2") %>%
+  filter(OD < 1) %>%
+  mutate(Concentration_char = as.character(signif(Concentration, 2))) %>%
+  filter(Concentration < 20) %>%
+  ggplot() +
+  geom_boxplot(aes(x = reorder(Concentration_char, Concentration), y = OD, group = Concentration), outlier.shape = NA) + 
+  geom_jitter(aes(x = reorder(Concentration_char, Concentration), y = OD, group = Concentration)) +
+  facet_wrap(~Compound, scales = "free_y", labeller = labeller(
+      Compound = label_wrap_gen(width = 12)), ncol = 2) +
+  labs(y = bquote(OD[750]), x = expression(paste("Concentration (", mu, "M)")), title = 'Gradient Testing (OD750)')
+
+gradient_fig <- plot_grid(gradient_figA, gradient_figB,
+          ncol = 1,
+          labels = c("A", "B"),
+          label_size = 14, 
+          rel_heights = c(4, 8))
+gradient_fig
+```
+
+\newpage
+
+#### Gossypetin and Growth Induction in _Synechococcus elongatus_ UTEX 2973
+
+```{r gossypetin}
+gossypetin_figA <- gradient_OD_data %>%
+  filter(timepoint == "T2") %>%
+  filter(Compound == "Gossypetin") %>%
+  filter(OD < 1) %>%
+  mutate(rel_OD = OD/median) %>%
+  mutate(Concentration_char = as.character(signif(Concentration, 2))) %>%
+  ggplot() +
+  geom_hline(aes(yintercept = 1), linetype = "dashed") +
+  geom_boxplot(aes(x = reorder(Concentration_char, Concentration), y = rel_OD, group = Concentration), outlier.shape = NA) + 
+  geom_jitter(aes(x = reorder(Concentration_char, Concentration), y = rel_OD, group = Concentration)) +
+  facet_grid(rows = vars(Compound), scales = "free_y", labeller = labeller(
+      Compound = label_wrap_gen(width = 12))) +
+  labs(y = expression(paste("Fold Change (",OD[750], ")")), 
+       x = expression(paste("Concentration (", mu, "M)"))) 
+
+gossypetin_figA
+
+gossypetin_aov <- aov(OD ~ factor(Concentration), data = gradient_OD_data %>%
+  filter(timepoint == "T2") %>%
+  filter(Compound == "Gossypetin") %>%
+  filter(OD < 1))
+
+gossypetin_tukey <- data.frame(TukeyHSD(gossypetin_aov, conf.level = 0.95)$`factor(Concentration)`) %>%
+  filter(p.adj <= 0.05) %>%
+  rownames_to_column(var = "comparison") %>%
+  filter(endsWith(comparison, "-0"))
+gossypetin_tukey
+
+fold_increase_table <- gradient_OD_data %>%
+  filter(timepoint == "T2") %>%
+  filter(Compound == "Gossypetin") %>%
+  filter(OD < 1) %>%
+  mutate(rel_OD = OD/median) %>%
+  group_by(Concentration) %>%
+  summarise(`Median fold-change` = median(rel_OD))
+fold_increase_table
+
+gossypetin_figB_data <- gradient_OD_data %>%
+  filter(timepoint == "T2") %>%
+  filter(Compound == "Gossypetin") %>%
+  filter(OD < 1) %>%
+  group_by(Concentration, Compound) %>%
+  summarise(median = median(OD), twenty5 = quantile(OD, 0.25), seventy5 = quantile(OD, 0.75)) %>%
+  pivot_longer(-c(Concentration, Compound), names_to = "Percentile", values_to = "OD")
+
+gossypetin_figB <-ggplot() +
+  geom_line(data = gossypetin_figB_data %>% filter(Percentile == "median"), aes(x = Concentration, y = OD), linetype = "solid") +
+  geom_line(data = gossypetin_figB_data %>% filter(Percentile != "median"), aes(x = Concentration, y = OD, group = Percentile), linetype = "dashed") +
+  facet_grid(rows = vars(Compound), scales = "free_y", labeller = labeller(
+      Compound = label_wrap_gen(width = 12))) +
+  labs(y = bquote(OD[750]),
+       x = expression(paste("Concentration (", mu, "M)")))
+
+gossypetin_figB
+
+goss_absorbance_supp <- gradient_OD_data %>%
+  filter(Compound == "Gossypetin") %>%
+  filter(OD < 1) %>%
+  mutate(rel_OD = OD/median) %>%
+  mutate(Concentration_char = as.character(signif(Concentration, 2))) %>%
+  mutate(timepoint = case_when(timepoint == "T0" ~ "Day 0",
+                               timepoint == "T2" ~ "Day 5")) %>%
+  ggplot() +
+  geom_hline(aes(yintercept = 1), linetype = "dashed") +
+  geom_boxplot(aes(x = reorder(Concentration_char, Concentration), y = rel_OD, group = Concentration), outlier.shape = NA) + 
+  geom_jitter(aes(x = reorder(Concentration_char, Concentration), y = rel_OD, group = Concentration)) +
+  facet_grid(rows = vars(timepoint), labeller = labeller(
+      Compound = label_wrap_gen(width = 12))) +
+  labs(y = bquote("Fold Change (OD"[750]*")"), x = expression(paste("Concentration (", mu, "M)"))) #, title = 'Gradient Testing (OD750)'
+goss_absorbance_supp
+```
+
+### Gossypetin - Flask-scale validation
+
+```{r flask_validation_gos}
+flask_biomass_import_gos <- flask_biomass_import %>%
+  filter(experiment == "gossypetin")
+
+flask_biomass_summary_gos <- flask_biomass_import_gos %>%
+  group_by(condition, strain) %>%
+  summarize(biomass_mean = mean(biomass_mgl))
+
+
+flask_fold_increase_table_gos <- flask_biomass_summary_gos %>%
+  select(condition, strain, biomass_mean) %>%
+  pivot_wider(names_from = condition, values_from = biomass_mean) %>%
+  pivot_longer(c(`Gos (10 uM)`, `Gos (20 uM)`), names_to = 'condition', values_to = "biomass_mean") %>%
+  mutate(fold_change = biomass_mean/`BG-11`*100)
+flask_fold_increase_table_gos
+
+gos_flask <- ggplot() +
+  geom_col(data = flask_biomass_summary_gos, aes(y = biomass_mean, x = condition, fill = condition), width = 0.7) +
+  geom_jitter(data = flask_biomass_import_gos, aes(y = biomass_mgl, x = condition)) +
+  geom_hline(data = flask_fold_increase_table_gos, aes(yintercept = biomass_mean), linetype = "dashed") +
+  geom_text(data = flask_fold_increase_table_gos, aes(x = condition, y = biomass_mean,label = paste0(round(fold_change, 1),"%")), vjust = -0.5, hjust = 1, size = 3.5) +
+  labs(y = "Dry weight (mg/L)", x = NULL, fill = "Treatment") +
+  scale_fill_manual(values = c("palegreen2", "#bbafe3", "#887CB2")) +
+  theme(strip.background = element_rect(colour = "white"),
+        axis.text.x = element_blank()
+        ,
+        legend.position = "none"
+        )
+gos_flask
+
+gos_flask_legend <- get_legend(ggplot() +
+  geom_col(data = flask_biomass_summary_gos, aes(y = biomass_mean, x = condition, fill = condition), width = 0.7) +
+  geom_jitter(data = flask_biomass_import_gos, aes(y = biomass_mgl, x = condition)) +
+  geom_hline(data = flask_fold_increase_table_gos, aes(yintercept = biomass_mean), linetype = "dashed") +
+  geom_text(data = flask_fold_increase_table_gos, aes(x = condition, y = biomass_mean,label = paste0(round(fold_change, 1),"%")), vjust = -0.5, hjust = 1, size = 3.5) +
+  labs(y = "Dry weight (mg/L)", x = NULL, fill = "Treatment") +
+  scale_fill_manual(values = c("palegreen2", "#bbafe3", "#887CB2")) +
+  theme(strip.background = element_rect(colour = "white"),
+        axis.text.x = element_blank()))
+```
+
+```{r gossypetin_fig}
+gradient_panel <- plot_grid(gossypetin_figA, gossypetin_figB,
+                           ncol = 1,
+                           labels = c("J", "K"),
+                           label_size = 14,
+                           rel_widths = c(4, 4))
+gradient_panel
+
+gradient_full <- plot_grid(gradient_figA, gradient_panel, gos_flask, gos_flask_legend,
+          ncol = 4,
+          labels = c("I", '', "L"),
+          label_size = 14, 
+          rel_widths = c(9, 9, 4, 2))
+gradient_full
+```
+
+```{r nature_screening_fig}
+nat_screening <- plot_grid(round123, gradient_full,
+          ncol = 1,
+          labels = c("", ""),
+          label_size = 14, 
+          rel_heights = c(5, 3))
+nat_screening
+```
+
+```{r gossypetin_scan}
+goss_scan_data <- read_csv("data/use-cases/bioactive-screening/gossypetin_scan_data.csv")
+
+select_wavelenghts <- data.frame(wavelength = c(370, 444, 495, 634, 681, 750),
+                                 pigment = c("Gossypetin", "Chlorophyll A", "Carotenoids", "Phycocyanin", "Chlorophyll A", "Growth rate"))
+
+goss_blanks <- goss_scan_data %>%
+  filter(gossypetin == 0,
+         (condition == "BG11" | condition == "dH2O")) %>%
+  group_by(wavelength, solution) %>%
+  summarize(blank = median(value))
+
+goss_scan_data_delta <- goss_scan_data %>%
+  left_join(goss_blanks, by = c("wavelength", "solution")) %>%
+  mutate(value = value-blank)
+  
+goss_0_data <- goss_scan_data_delta %>%
+  filter(solution == "BG11") %>%
+  filter(gossypetin == 0 | gossypetin == 20) %>%
+  filter(wavelength %in% select_wavelenghts$wavelength) %>%
+  group_by(wavelength, condition, gossypetin) %>%
+  summarise(value = median(value)) %>%
+  ungroup() %>%
+  pivot_wider(names_from = gossypetin, values_from = value) %>%
+  mutate(`20` = `20`/`0`) %>%
+  rename(OD_0 = `0`,
+         rel_20 = `20`)
+
+goss_spectrum_plot <- goss_scan_data_delta %>%
+  filter(wavelength > 350) %>%
+  group_by(wavelength, gossypetin, condition) %>%
+  summarise(value = median(value)) %>%
+  mutate(facet_order = case_when(condition == "UTEX 2973" ~ 1,
+                                 condition == "BG11" ~ 2,
+                                 condition == "dH2O" ~ 3)) %>%
+  ggplot(aes(x = wavelength, y = value, colour = gossypetin, group = gossypetin)) +
+  geom_line() +
+  facet_grid(rows = vars(reorder(condition, facet_order))) +
+  labs(x = "Wavelength (nm)", y = "Optical Density", colour = expression("Gossypetin ("*mu*"M)"))
+goss_spectrum_plot
+
+goss_col_plot <- goss_scan_data_delta %>%
+  filter(condition == "UTEX 2973") %>%
+  group_by(wavelength, gossypetin, condition, measurement_ID) %>%
+  summarise(value = median(value)) %>%
+  filter(wavelength %in% select_wavelenghts$wavelength) %>%
+  rowwise() %>%
+  mutate(goss_char = as.character(gossypetin)) %>%
+  left_join(goss_0_data, by = c('wavelength', 'condition')) %>%
+  left_join(select_wavelenghts, by = "wavelength") %>%
+  rowwise() %>%
+  mutate(wave_label = paste(measurement_ID, "-", pigment)) %>%
+  mutate(value = value/OD_0) %>%
+  ggplot() +
+  geom_col(aes(y = value, x = reorder(goss_char, gossypetin), fill = gossypetin)) +
+  geom_hline(aes(yintercept = rel_20), linetype = "dashed") +
+  geom_text(aes(0,rel_20,label = paste0(round(rel_20, 2),"x")), vjust = -0.5, hjust = -0.5, size = 3.5) +
+  facet_wrap(~wave_label) +
+  labs(x = expression("Gossypetin ("*mu*"M)"), y = "Relative absorbance") +
+  theme(legend.position = "none")
+goss_col_plot
+
+goss_supp <- plot_grid(goss_spectrum_plot, goss_col_plot,
+          ncol = 1,
+          labels = c("A", "B"),
+          label_size = 14, 
+          rel_heights = c(1, 1))
+goss_supp
+```
