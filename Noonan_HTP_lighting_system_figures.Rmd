@@ -453,8 +453,8 @@ supp20 <- seal_growth_data %>%
 supp20
 ```
 
-```{r fig4}
-plot_grid(supp17a, 
+```{r supp17}
+supp17 <- plot_grid(supp17a, 
           plot_grid(supp17b, supp17c, 
                     ncol = 1, 
                     labels = c("B", "C"),
@@ -463,13 +463,145 @@ plot_grid(supp17a,
           label_size = 14, 
           ncol = 2,
           rel_widths = c(3, 3))
+
+supp17
+```
+
+### Evaporation Testing
+
+Related figures:
+
+  - Supplementary Figure 21
+  - Supplementary Figure 22
+  
+```{r evaporation}
+layout_info <- read_csv('data/system-design/layout_info.csv')
+
+evaporation_data_import <- read_csv("data/system-design/echo_evaporation_data.csv")
+
+evaporation_data <- evaporation_data_import %>%
+  group_by(day, well, Column, Row, Seal, Culture) %>%
+  summarise(volume = mean(volume, na.rm = TRUE)) %>%
+  left_join(layout_info, by='well')
+
+delta_table <- evaporation_data %>%
+  group_by(day, Culture, Seal) %>%
+  summarise(mean_volume = mean(volume, na.rm = TRUE)) %>%
+  pivot_wider(names_from = day, values_from = mean_volume) %>%
+  mutate(delta_vol_1 = `1`-`0`,
+         delta_vol_2 = `2`-`0`,
+         delta_vol_3 = `3`-`0`,
+         delta_vol_4 = `4`-`0`) %>%
+  select(Seal, Culture, delta_vol_1, delta_vol_2, delta_vol_3, delta_vol_4)
+delta_table
+  
+
+evaporation_heatmap <- evaporation_data %>%
+  filter(day %in% c(0, 4)) %>%
+  pivot_wider(names_from = day, values_from = volume) %>%
+  mutate(delta_vol = `4`-`0`) %>%
+  filter(delta_vol <= 0) %>%
+  mutate(Column_order = as.numeric(Column)) %>% #reorder columns to reflect how the plate looks
+  ggplot(aes(x = reorder(Column, Column_order), y = reorder(Row, desc(Row)), fill = delta_vol)) +
+  geom_tile() +
+  labs(y = 'Row', x = 'Column', title = "Decrease in mean volume of plates from day 1 to day 5", fill = "Mean Change") +
+  facet_grid(Seal ~ Culture, scales = "free") +
+  theme(axis.text = element_text(size = 11), 
+        axis.title = element_text(size = 12), 
+        strip.text = element_text(size = 12))
+evaporation_heatmap
+
+supp21a <- evaporation_data %>%
+  group_by(day, Culture, Seal) %>%
+  summarise(sd_vol = sd(volume), mean_volume = mean(volume, na.rm = TRUE)) %>%
+  ggplot(aes(x = day, y = mean_volume, group = interaction(Culture))) +
+  geom_point(size=1) +
+  geom_line(aes(linetype = "Mean Volume")) +
+  geom_ribbon(aes(ymin = mean_volume - sd_vol, ymax = mean_volume + sd_vol, fill = "Standard Deviation"), alpha = 0.3) +
+  labs(y = 'Mean Volume', x = 'Day') + 
+  facet_grid(Seal ~ Culture, scales = "free") +
+  theme(axis.text = element_text(size = 11), 
+        axis.title = element_text(size = 12), 
+        strip.text = element_text(size = 12)) +
+  scale_x_continuous(limits = c(0, 4), labels = 0:4) +
+  scale_y_continuous(limits = c(0, 100), breaks = c(0, 20, 40, 60, 80)) +
+  scale_fill_manual(values = "red", labels = "Standard Deviation") +
+  guides(linetype = guide_legend(title = "", override.aes = list(fill = "black")),
+         fill = guide_legend(title = ""))
+supp21a
+
+supp21b <- evaporation_data %>%
+  filter(Culture == 'Culture') %>%
+  filter(day == 0 | day == 4) %>%
+  mutate(day = paste('Day', day)) %>%
+  ggplot(aes(x=Section, y=volume, group = Section)) +
+  geom_boxplot(outlier.shape = NA, show.legend = FALSE) + 
+  geom_jitter(aes(color = Section), show.legend = FALSE) +
+  facet_grid(rows = vars(Seal), cols = vars(day)) +
+  labs(x = 'Section', y = 'Well Volume') +
+  theme(axis.text = element_text(size = 11), 
+        axis.title = element_text(size = 12), 
+        strip.text = element_text(size = 12))
+supp21b
+```
+
+```{r supp17}
+supp21 <- plot_grid(supp21a, supp21b, 
+                    ncol = 1, 
+                    labels = c("A", "B"),
+                    label_size = 14,
+                    align = 'v')
+
+supp21
+```
+
+#### ANOVA / Tukey Comparing plate sections
+
+
+```{r evaporation_stats_calcs}
+stats_data <- evaporation_data
+
+PermASeal_aov <- aov(volume ~ factor(Section), data = stats_data %>% filter(Seal == "PermASeal", day == 4))
+
+nunc_aov <- aov(volume ~ factor(Section), data = stats_data %>% filter(Seal == "Nunc Lid", day == 4))
+
+AeraSeal_aov <- aov(volume ~ factor(Section), data = stats_data %>% filter(Seal == "AeraSeal", day == 4))
+
+BreatheEasy_aov <- aov(volume ~ factor(Section), data = stats_data %>% filter(Seal == "Breathe-Easy", day == 4))
+
+PermASeal_tukey <- data.frame(TukeyHSD(PermASeal_aov, conf.level = 0.95)$`factor(Section)`) %>%
+  mutate(day = 4, Seal = "PermASeal") %>%
+  filter(p.adj <= 0.05) %>%
+  rownames_to_column(var = "comparison")
+
+nunc_tukey <- data.frame(TukeyHSD(nunc_aov, conf.level = 0.95)$`factor(Section)`) %>%
+  mutate(timepoint = 4, Seal = "Nunc Lid") %>%
+  filter(p.adj <= 0.05) %>%
+  rownames_to_column(var = "comparison")
+
+AeraSeal_tukey <- data.frame(TukeyHSD(AeraSeal_aov, conf.level = 0.95)$`factor(Section)`) %>%
+  mutate(day = 4, Seal = "AeraSeal") %>%
+  filter(p.adj <= 0.05) %>%
+  rownames_to_column(var = "comparison")
+
+BreatheEasy_tukey <- data.frame(TukeyHSD(BreatheEasy_aov, conf.level = 0.95)$`factor(Section)`) %>%
+  mutate(day = 4, Seal = "Breathe-Easy") %>%
+  filter(p.adj <= 0.05) %>%
+  rownames_to_column(var = "comparison")
+
+tukey_data <- bind_rows(PermASeal_tukey, nunc_tukey, AeraSeal_tukey, BreatheEasy_tukey)
+
+tukey_data_table <- tukey_data %>%
+  select(Seal, day, comparison, p.adj)
+
+kable(tukey_data_table)
 ```
 
 ### Photodiode Array Evenness Testing
 
 Related figures:
 
-  - Supplementary Figure 21
+  - Supplementary Figure 22
   
 ```{r photodiode_even}
 photo_data <- read_csv("data/system-design/photodiode_array_data.csv")
@@ -522,14 +654,14 @@ range_data <- bind_rows(min, max) %>%
                                set == "min" ~ -1*distance)) %>%
   arrange(pol_order)
 
-supp21a <- ggplot() +
+supp22a <- ggplot() +
   geom_polygon(data = range_data, mapping = aes(y = delta, x = distance), fill = "lightblue") + 
   geom_path(data = med_lines, mapping = aes(y = delta, x = distance), size = 1.5, color = "black") +
   geom_vline(xintercept = c(0.3, 2), linetype = "dashed") +
   labs(y = bquote("Relative intensity ("*I[OUT]*"/"*I[IN]*")"), x = "Distance (cm)") +
   ylim(0,1.01)
 
-supp21c <-ggplot() +
+supp22c <-ggplot() +
   geom_polygon(data = range_data, mapping = aes(y = delta, x = distance), fill = "lightblue") + 
   geom_path(data = med_lines, mapping = aes(y = delta, x = distance), size = 1.5, color = "black") +
   geom_vline(xintercept = c(0.3, 2), linetype = "dashed") +
@@ -550,7 +682,7 @@ norm_sd %>%
   group_by(distance) %>%
   summarise(value = sd(value))
 
-supp21b <- norm_sd %>%
+supp22b <- norm_sd %>%
   group_by(distance) %>%
   summarise(value = sd(value)) %>%
   ggplot(aes(x = distance, y = value)) +
@@ -559,7 +691,7 @@ supp21b <- norm_sd %>%
   labs(y = "Standard deviation", x = "Distance (cm)")  +
   ylim(0, NA)
 
-supp21d <- norm_sd %>%
+supp22d <- norm_sd %>%
   group_by(distance) %>%
   summarise(value = sd(value)) %>%
   ggplot(aes(x = distance, y = value)) +
@@ -569,21 +701,21 @@ supp21d <- norm_sd %>%
   scale_x_continuous(trans='log2') +
   ylim(0, NA)
 
-supp21ab <- plot_grid(supp21a, supp21b,
+supp22ab <- plot_grid(supp22a, supp22b,
                                      ncol = 2, 
                                      labels = c("A", "B"),
                                      label_size = 14)
 
-supp21cd <- plot_grid(supp21c, supp21d,
+supp22cd <- plot_grid(supp22c, supp22d,
                                      ncol = 2, 
                                      labels = c("C", "D"),
                                      label_size = 14)
 
-supp21 <- plot_grid(supp21ab, supp21cd,
+supp22 <- plot_grid(supp22ab, supp22cd,
           ncol = 1, 
           labels = c("", ""),
           label_size = 14)
-supp21
+supp22
 ```
   
 ### Plate Type Selection
@@ -591,8 +723,8 @@ supp21
 Related figures:
 
   - Figure 2
-  - Supplementary Figure 23
   - Supplementary Figure 24
+  - Supplementary Figure 25
 
 ```{r plate_type_import}
 layout_info <- read_csv('data/system-design/layout_info.csv')
@@ -719,7 +851,7 @@ fig2d
 
 # Heatmaps
 
-supp23 <- distribution_data %>%
+supp24 <- distribution_data %>%
   filter(timepoint == "T3", wavelength == 750) %>%
   filter(replicate == 1) %>%
   group_by(well, plate_type, wavelength, column, row, timepoint) %>%
@@ -728,7 +860,7 @@ supp23 <- distribution_data %>%
   geom_tile() +
   labs(y = '', x = '', title = "UTEX2973 by Plate Type (T3 / replicate #1)") +
   facet_grid(rows = vars(plate_type), cols = vars(timepoint), scales = "free_y")
-supp23
+supp24
 ```
 
 
@@ -857,7 +989,7 @@ fig2f <- rel_distribution_data %>%
 fig2f
 
 # Heatmaps
-supp24 <- rel_distribution_data %>%
+supp25 <- rel_distribution_data %>%
   filter(timepoint == "T3") %>%
   filter(replicate == 1) %>%
   mutate(wavelength_name = paste0("OD", wavelength, " / OD750")) %>%
@@ -867,7 +999,7 @@ supp24 <- rel_distribution_data %>%
   geom_tile() +
   labs(y = '', x = '', title = "Relative Photopigment Abs by Plate Type (T3)") +
   facet_grid(cols = vars(plate_type), rows = vars(wavelength_name), scales = "free_y")
-supp24
+supp25
 ```
 
 ```{r fig2}
@@ -1243,6 +1375,7 @@ Related figures:
 
   - Figure 4B
   - Figure 4C
+  - Supplementary Figure 27
 
 ```{r BG11_opt_import}
 JMP_picklist <- read_csv("data/use-cases/BG11-RSM/BG11_JMP_layout.csv") %>%
@@ -1450,8 +1583,8 @@ nat_fig4
 ## Bioactive molecule screen
 
   - Figure 5
-  - Supplementary Figure ***
-  - Supplementary Figure ***
+  - Supplementary Figure 28
+  - Supplementary Figure 29
 
 ```{r screening_data_import}
 # Screen 1
