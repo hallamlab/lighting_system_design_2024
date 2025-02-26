@@ -53,5 +53,5 @@ The following table shows the contents of the repository and a brief description
 
 ## How to Cite
 Please cite this repository and associated publication as follows:
-> Noonan, A.J.C., Cameron, P.M.N., Dofher, K., Sukkasam, N., Liu, T., Rönn, L., Monshupanee, T., and Hallam, S.J. (2025). An automated high-throughput lighting system for screening photosynthetic microorganisms in plate-based formats.
+> Noonan, A.J.C., Cameron, P.M.N., Dofher, K., Sukkasam, N., Liu, T., Rönn, L., Monshupanee, T., and Hallam, S.J. (2025). An automated high-throughput lighting system for screening photosynthetic microorganisms in plate-based formats. [![DOI](https://zenodo.org/badge/757615570.svg)](https://doi.org/10.5281/zenodo.14928437)
 
