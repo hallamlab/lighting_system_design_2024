@@ -53,5 +53,5 @@ The following table shows the contents of the repository and a brief description
 
 ## How to Cite
 Please cite this repository and associated publication as follows:
-> Noonan, A.J.C., Cameron, P.M.N., Dofher, K., Sukkasam, N., Liu, T., Rönn, L., Monshupanee, T., and Hallam, S.J. (Year). An automated high-throughput lighting system for screening photosynthetic microorganisms in plate-based formats. [Repository Name/DOI]
+> Noonan, A.J.C., Cameron, P.M.N., Dofher, K., Sukkasam, N., Liu, T., Rönn, L., Monshupanee, T., and Hallam, S.J. (2025). An automated high-throughput lighting system for screening photosynthetic microorganisms in plate-based formats.
 
