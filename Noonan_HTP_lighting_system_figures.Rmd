@@ -16,6 +16,7 @@ library(moments)
 library(scales)
 library(ggh4x)
 library(RColorBrewer)
+library(effsize)
 
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 knitr::opts_knit$set(root.dir = '.')
@@ -33,7 +34,7 @@ mets <- c('hvi', 'atp', 'nadph', 'pre', 'lip')
 mems <- c("thy", "cpm")
 
 model_data_import <- read_csv("data/system-design/protein_economy_steady_state_output.csv") %>%
-  select(-c(rep, `...1`)) %>%
+  select(-c(rep, X1)) %>%
   group_by(time, hv) %>%
   summarise_if(is.numeric, mean, na.rm = TRUE) %>%
   filter(time != 0) %>%
@@ -417,6 +418,81 @@ supp19 <- spectrum_growth_data %>%
 supp19
 ```
 
+```{r spectrum_calcs}
+# ANOVA for each timepoint
+T1_aov <- aov(OD ~ Plate, data = spectrum_growth_data %>% 
+              filter(Timepoint == "T1", Wavelength == "750nm"))
+T1_aov
+T2_aov <- aov(OD ~ Plate, data = spectrum_growth_data %>% 
+              filter(Timepoint == "T2", Wavelength == "750nm"))
+T2_aov
+T3_aov <- aov(OD ~ Plate, data = spectrum_growth_data %>% 
+              filter(Timepoint == "T3", Wavelength == "750nm"))
+T3_aov
+T4_aov <- aov(OD ~ Plate, data = spectrum_growth_data %>% 
+              filter(Timepoint == "T4", Wavelength == "750nm"))
+T4_aov
+T5_aov <- aov(OD ~ Plate, data = spectrum_growth_data %>% 
+              filter(Timepoint == "T5", Wavelength == "750nm"))
+T5_aov
+T6_aov <- aov(OD ~ Plate, data = spectrum_growth_data %>% 
+              filter(Timepoint == "T6", Wavelength == "750nm"))
+T6_aov
+
+# Tukey tests
+T1_tukey <- data.frame(TukeyHSD(T1_aov, conf.level = 0.95)$Plate) %>%
+  mutate(timepoint = "T1") %>%
+  filter(p.adj <= 0.05) %>%
+  rownames_to_column(var = "comparison")
+T1_tukey
+
+T2_tukey <- data.frame(TukeyHSD(T2_aov, conf.level = 0.95)$Plate) %>%
+  mutate(timepoint = "T2") %>%
+  filter(p.adj <= 0.05) %>%
+  rownames_to_column(var = "comparison")
+T2_tukey
+
+T3_tukey <- data.frame(TukeyHSD(T3_aov, conf.level = 0.95)$Plate) %>%
+  mutate(timepoint = "T3") %>%
+  filter(p.adj <= 0.05) %>%
+  rownames_to_column(var = "comparison")
+T3_tukey
+
+T4_tukey <- data.frame(TukeyHSD(T4_aov, conf.level = 0.95)$Plate) %>%
+  mutate(timepoint = "T4") %>%
+  filter(p.adj <= 0.05) %>%
+  rownames_to_column(var = "comparison")
+T4_tukey
+
+T5_tukey <- data.frame(TukeyHSD(T5_aov, conf.level = 0.95)$Plate) %>%
+  mutate(timepoint = "T5") %>%
+  filter(p.adj <= 0.05) %>%
+  rownames_to_column(var = "comparison")
+T5_tukey
+
+T6_tukey <- data.frame(TukeyHSD(T6_aov, conf.level = 0.95)$Plate) %>%
+  mutate(timepoint = "T6") %>%
+  filter(p.adj <= 0.05) %>%
+  rownames_to_column(var = "comparison")
+T6_tukey
+
+# Combine all Tukey results
+tukey_data <- bind_rows(T1_tukey, T2_tukey, T3_tukey, T4_tukey, T5_tukey, T6_tukey)
+
+# Create summary table
+tukey_data_table <- tukey_data %>%
+  select(timepoint, comparison, p.adj)
+
+# For effect size, we can use the effectsize package
+eta_T6 <- eta_squared(T6_aov)
+eta_T6
+
+# View results
+kable(tukey_data_table)
+summary(T6_aov)
+eta_T6
+```
+
 \newpage
 
 ## Cultivation Setup
@@ -451,6 +527,60 @@ supp20 <- seal_growth_data %>%
   labs(y = '', x = '', title = "UTEX2973 by Plate Seal (T3)", fill = bquote(OD[750])) +
   facet_grid(rows = vars(Plate))
 supp20
+```
+
+```{r seal_types_calcs}
+# ANOVA for each timepoint
+T1_seal_aov <- aov(OD ~ Plate, data = seal_growth_data %>% 
+                   filter(Timepoint == "T1", Wavelength == "750nm"))
+T1_seal_aov
+T2_seal_aov <- aov(OD ~ Plate, data = seal_growth_data %>% 
+                   filter(Timepoint == "T2", Wavelength == "750nm"))
+T2_seal_aov
+T3_seal_aov <- aov(OD ~ Plate, data = seal_growth_data %>% 
+                   filter(Timepoint == "T3", Wavelength == "750nm"))
+T3_seal_aov
+T4_seal_aov <- aov(OD ~ Plate, data = seal_growth_data %>% 
+                   filter(Timepoint == "T4", Wavelength == "750nm"))
+T4_seal_aov
+
+# Tukey tests
+T1_seal_tukey <- data.frame(TukeyHSD(T1_seal_aov, conf.level = 0.95)$Plate) %>%
+  mutate(timepoint = "T1") %>%
+  filter(p.adj <= 0.05) %>%
+  rownames_to_column(var = "comparison")
+
+T2_seal_tukey <- data.frame(TukeyHSD(T2_seal_aov, conf.level = 0.95)$Plate) %>%
+  mutate(timepoint = "T2") %>%
+  filter(p.adj <= 0.05) %>%
+  rownames_to_column(var = "comparison")
+
+T3_seal_tukey <- data.frame(TukeyHSD(T3_seal_aov, conf.level = 0.95)$Plate) %>%
+  mutate(timepoint = "T3") %>%
+  filter(p.adj <= 0.05) %>%
+  rownames_to_column(var = "comparison")
+T3_seal_tukey
+
+T4_seal_tukey <- data.frame(TukeyHSD(T4_seal_aov, conf.level = 0.95)$Plate) %>%
+  mutate(timepoint = "T4") %>%
+  filter(p.adj <= 0.05) %>%
+  rownames_to_column(var = "comparison")
+
+# Combine all Tukey results
+seal_tukey_data <- bind_rows(T1_seal_tukey, T2_seal_tukey, T3_seal_tukey, 
+                            T4_seal_tukey)
+
+# Create summary table
+seal_tukey_data_table <- seal_tukey_data %>%
+  select(timepoint, comparison, p.adj)
+
+# For effect size at T3 (since plot shows T3 data)
+eta_T3_seal <- eta_squared(T3_seal_aov)
+
+# View results
+kable(seal_tukey_data_table)
+summary(T3_seal_aov)
+eta_T3_seal
 ```
 
 ```{r supp17}
@@ -559,42 +689,103 @@ supp21
 
 
 ```{r evaporation_stats_calcs}
+library(effectsize)
 stats_data <- evaporation_data
 
 PermASeal_aov <- aov(volume ~ factor(Section), data = stats_data %>% filter(Seal == "PermASeal", day == 4))
+summary(PermASeal_aov)
 
 nunc_aov <- aov(volume ~ factor(Section), data = stats_data %>% filter(Seal == "Nunc Lid", day == 4))
+summary(nunc_aov)
 
 AeraSeal_aov <- aov(volume ~ factor(Section), data = stats_data %>% filter(Seal == "AeraSeal", day == 4))
+summary(AeraSeal_aov)
 
 BreatheEasy_aov <- aov(volume ~ factor(Section), data = stats_data %>% filter(Seal == "Breathe-Easy", day == 4))
+summary(BreatheEasy_aov)
 
 PermASeal_tukey <- data.frame(TukeyHSD(PermASeal_aov, conf.level = 0.95)$`factor(Section)`) %>%
   mutate(day = 4, Seal = "PermASeal") %>%
   filter(p.adj <= 0.05) %>%
   rownames_to_column(var = "comparison")
+TukeyHSD(PermASeal_aov, conf.level = 0.95)$`factor(Section)`
 
 nunc_tukey <- data.frame(TukeyHSD(nunc_aov, conf.level = 0.95)$`factor(Section)`) %>%
-  mutate(timepoint = 4, Seal = "Nunc Lid") %>%
+  mutate(day = 4, Seal = "Nunc Lid") %>%
   filter(p.adj <= 0.05) %>%
   rownames_to_column(var = "comparison")
+TukeyHSD(nunc_aov, conf.level = 0.95)$`factor(Section)`
 
 AeraSeal_tukey <- data.frame(TukeyHSD(AeraSeal_aov, conf.level = 0.95)$`factor(Section)`) %>%
   mutate(day = 4, Seal = "AeraSeal") %>%
   filter(p.adj <= 0.05) %>%
   rownames_to_column(var = "comparison")
+TukeyHSD(AeraSeal_aov, conf.level = 0.95)$`factor(Section)`
 
 BreatheEasy_tukey <- data.frame(TukeyHSD(BreatheEasy_aov, conf.level = 0.95)$`factor(Section)`) %>%
   mutate(day = 4, Seal = "Breathe-Easy") %>%
   filter(p.adj <= 0.05) %>%
   rownames_to_column(var = "comparison")
+TukeyHSD(BreatheEasy_aov, conf.level = 0.95)$`factor(Section)`
 
 tukey_data <- bind_rows(PermASeal_tukey, nunc_tukey, AeraSeal_tukey, BreatheEasy_tukey)
 
 tukey_data_table <- tukey_data %>%
   select(Seal, day, comparison, p.adj)
 
-kable(tukey_data_table)
+kable(tukey_data)
+
+cohens_f_perm <- cohens_f(PermASeal_aov)
+cohens_f_perm
+cohens_f_aera <- cohens_f(AeraSeal_aov)
+cohens_f_aera
+cohens_f_nunc <- cohens_f(nunc_aov)
+cohens_f_nunc
+cohens_f_breathe <- cohens_f(BreatheEasy_aov)
+cohens_f_breathe
+```
+
+```{r evaporation_stats2}
+PermASeal_aov <- aov(volume ~ factor(Section), data = stats_data %>% filter(Seal == "PermASeal", day == 3))
+summary(PermASeal_aov)
+nunc_aov <- aov(volume ~ factor(Section), data = stats_data %>% filter(Seal == "Nunc Lid", day == 3))
+summary(nunc_aov)
+AeraSeal_aov <- aov(volume ~ factor(Section), data = stats_data %>% filter(Seal == "AeraSeal", day == 3))
+summary(AeraSeal_aov)
+BreatheEasy_aov <- aov(volume ~ factor(Section), data = stats_data %>% filter(Seal == "Breathe-Easy", day == 3))
+summary(BreatheEasy_aov)
+PermASeal_tukey <- data.frame(TukeyHSD(PermASeal_aov, conf.level = 0.95)$`factor(Section)`) %>%
+  mutate(day = 3, Seal = "PermASeal") %>%
+  filter(p.adj <= 0.05) %>%
+  rownames_to_column(var = "comparison")
+TukeyHSD(PermASeal_aov, conf.level = 0.95)$`factor(Section)`
+nunc_tukey <- data.frame(TukeyHSD(nunc_aov, conf.level = 0.95)$`factor(Section)`) %>%
+  mutate(day = 3, Seal = "Nunc Lid") %>%
+  filter(p.adj <= 0.05) %>%
+  rownames_to_column(var = "comparison")
+TukeyHSD(nunc_aov, conf.level = 0.95)$`factor(Section)`
+AeraSeal_tukey <- data.frame(TukeyHSD(AeraSeal_aov, conf.level = 0.95)$`factor(Section)`) %>%
+  mutate(day = 3, Seal = "AeraSeal") %>%
+  filter(p.adj <= 0.05) %>%
+  rownames_to_column(var = "comparison")
+TukeyHSD(AeraSeal_aov, conf.level = 0.95)$`factor(Section)`
+BreatheEasy_tukey <- data.frame(TukeyHSD(BreatheEasy_aov, conf.level = 0.95)$`factor(Section)`) %>%
+  mutate(day = 3, Seal = "Breathe-Easy") %>%
+  filter(p.adj <= 0.05) %>%
+  rownames_to_column(var = "comparison")
+TukeyHSD(BreatheEasy_aov, conf.level = 0.95)$`factor(Section)`
+tukey_data <- bind_rows(PermASeal_tukey, nunc_tukey, AeraSeal_tukey, BreatheEasy_tukey)
+tukey_data_table <- tukey_data %>%
+  select(Seal, day, comparison, p.adj)
+kable(tukey_data)
+cohens_f_perm <- cohens_f(PermASeal_aov)
+cohens_f_perm
+cohens_f_aera <- cohens_f(AeraSeal_aov)
+cohens_f_aera
+cohens_f_nunc <- cohens_f(nunc_aov)
+cohens_f_nunc
+cohens_f_breathe <- cohens_f(BreatheEasy_aov)
+cohens_f_breathe
 ```
 
 ### Photodiode Array Evenness Testing
@@ -729,18 +920,11 @@ Related figures:
 ```{r plate_type_import}
 layout_info <- read_csv('data/system-design/layout_info.csv')
 
-OD_data_distribution <- read_csv('data/system-design/2973_plate-type_growth_data.csv') %>%
+OD_data_distribution <- read_csv('data/system-design-mod/2973_plate-type_growth_data.csv') %>%
   mutate(time = ymd_hms(time), timepoint = factor(timepoint, levels = c('T0', 'T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12', 'T13', 'T14', 'T15', 'T16', 'T17', 'T18'))) %>%
-  select(-c(datetime)) %>%
-  pivot_longer(-c(measurement_ID, plate_ID, timepoint, time, wavelength, well), names_to = 'quadrant', values_to = 'OD') %>%
   mutate(OD = as.numeric(OD)) %>%
   mutate(measurement_ID = paste(plate_ID, wavelength, sep = "_")) %>%
-  mutate(value_ID = interaction(measurement_ID, well)) %>%
-  group_by(plate_ID, timepoint, time, well, wavelength) %>%
-  slice_min(order_by = OD, n = 2) %>%
-  summarise(OD = median(OD)) %>%
-  # summarise(OD = min(OD)) %>%
-  ungroup() %>%
+  mutate(value_ID = paste(measurement_ID, well, sep = ".")) %>%
   separate(well, into = c('row', 'column'), sep = 1, remove = FALSE) %>%
   separate(plate_ID, sep = "_", into = c('plate_type', 'replicate'), remove = F) %>%
   right_join(layout_info, by = 'well') %>%
@@ -796,6 +980,15 @@ distribution_data_min_max <- distribution_data %>%
 OD750_data <- distribution_data %>%
   filter(wavelength == 750)
 
+t.test_T1 <- t.test(OD ~ plate_type, data = OD750_data %>% filter(timepoint == "T1"))
+t.test_T1
+
+t.test_T2 <- t.test(OD ~ plate_type, data = OD750_data %>% filter(timepoint == "T2"))
+t.test_T2
+
+t.test_T3 <- t.test(OD ~ plate_type, data = OD750_data %>% filter(timepoint == "T3"))
+t.test_T3
+
 t.test_T4 <- t.test(OD ~ plate_type, data = OD750_data %>% filter(timepoint == "T4"))
 t.test_T4
 
@@ -807,6 +1000,22 @@ t.test_T6
 
 t.test_T7 <- t.test(OD ~ plate_type, data = OD750_data %>% filter(timepoint == "T7"))
 t.test_T7
+
+# For each timepoint
+t1_effect <- cohen.d(OD ~ plate_type, data = OD750_data %>% filter(timepoint == "T1"))
+t1_effect
+t2_effect <- cohen.d(OD ~ plate_type, data = OD750_data %>% filter(timepoint == "T2"))
+t2_effect
+t3_effect <- cohen.d(OD ~ plate_type, data = OD750_data %>% filter(timepoint == "T3"))
+t3_effect
+t4_effect <- cohen.d(OD ~ plate_type, data = OD750_data %>% filter(timepoint == "T4"))
+t4_effect
+t5_effect <- cohen.d(OD ~ plate_type, data = OD750_data %>% filter(timepoint == "T5"))
+t5_effect
+t6_effect <- cohen.d(OD ~ plate_type, data = OD750_data %>% filter(timepoint == "T6"))
+t6_effect
+t7_effect <- cohen.d(OD ~ plate_type, data = OD750_data %>% filter(timepoint == "T7"))
+t7_effect
 ```
 
 ```{r plate_type_plots_OD750}
@@ -1042,181 +1251,483 @@ fig2
 
 
 ```{r plate_type_plots_stats_calcs}
+calculate_partial_eta_squared <- function(aov_model) {
+  anova_table <- summary(aov_model)[[1]]
+  ss_effect <- anova_table[1, "Sum Sq"]
+  ss_total <- sum(anova_table[, "Sum Sq"])
+  partial_eta_squared <- ss_effect / ss_total
+  return(partial_eta_squared)
+}
+
 stats_data <- distribution_data %>%
   filter(wavelength == 750)
 
 clear_aov_t2 <- aov(OD ~ factor(Section), data = stats_data %>% filter(plate_type == "clear", timepoint == "T2"))
+summary(clear_aov_t2)
 black_aov_t2 <- aov(OD ~ factor(Section), data = stats_data %>% filter(plate_type == "black", timepoint == "T2"))
+summary(black_aov_t2)
 
 clear_aov_t3 <- aov(OD ~ factor(Section), data = stats_data %>% filter(plate_type == "clear", timepoint == "T3"))
+summary(clear_aov_t3)
 black_aov_t3 <- aov(OD ~ factor(Section), data = stats_data %>% filter(plate_type == "black", timepoint == "T3"))
+summary(black_aov_t3)
 
 clear_aov_t4 <- aov(OD ~ factor(Section), data = stats_data %>% filter(plate_type == "clear", timepoint == "T4"))
+summary(clear_aov_t4)
 black_aov_t4 <- aov(OD ~ factor(Section), data = stats_data %>% filter(plate_type == "black", timepoint == "T4"))
+summary(black_aov_t4)
 
 clear_aov_t5 <- aov(OD ~ factor(Section), data = stats_data %>% filter(plate_type == "clear", timepoint == "T5"))
+summary(clear_aov_t5)
 black_aov_t5 <- aov(OD ~ factor(Section), data = stats_data %>% filter(plate_type == "black", timepoint == "T5"))
+summary(black_aov_t5)
 
 clear_aov_t6 <- aov(OD ~ factor(Section), data = stats_data %>% filter(plate_type == "clear", timepoint == "T6"))
+summary(clear_aov_t6)
 black_aov_t6 <- aov(OD ~ factor(Section), data = stats_data %>% filter(plate_type == "black", timepoint == "T6"))
+summary(black_aov_t6)
+
+# Clear plates
+cohens_f_clear_t2 <- cohens_f(clear_aov_t2)
+cohens_f_clear_t2
+cohens_f_clear_t3 <- cohens_f(clear_aov_t3)
+cohens_f_clear_t3
+cohens_f_clear_t4 <- cohens_f(clear_aov_t4)
+cohens_f_clear_t4
+cohens_f_clear_t5 <- cohens_f(clear_aov_t5)
+cohens_f_clear_t5
+cohens_f_clear_t6 <- cohens_f(clear_aov_t6)
+cohens_f_clear_t6
+
+# Black plates
+cohens_f_black_t2 <- cohens_f(black_aov_t2)
+cohens_f_black_t2
+cohens_f_black_t3 <- cohens_f(black_aov_t3)
+cohens_f_black_t3
+cohens_f_black_t4 <- cohens_f(black_aov_t4)
+cohens_f_black_t4
+cohens_f_black_t5 <- cohens_f(black_aov_t5)
+cohens_f_black_t5
+cohens_f_black_t6 <- cohens_f(black_aov_t6)
+cohens_f_black_t6
 ```
 
-```{r plate_type_plots_stats_summary}
-anova_results <- data.frame(`Plate Type` = c("clear", 'black', "clear", 'black', "clear", 'black', "clear", 'black', "clear", 'black'),
-                            Timepoint = c("T2", "T2", "T3", "T3", "T4", "T4", "T5", "T5", "T6", "T6"),
-                            p = c(
-                              summary(clear_aov_t2)[[1]][["Pr(>F)"]][1],
-                              summary(black_aov_t2)[[1]][["Pr(>F)"]][1],
-                              summary(clear_aov_t3)[[1]][["Pr(>F)"]][1],
-                              summary(black_aov_t3)[[1]][["Pr(>F)"]][1],
-                              summary(clear_aov_t4)[[1]][["Pr(>F)"]][1],
-                              summary(black_aov_t4)[[1]][["Pr(>F)"]][1],
-                              summary(clear_aov_t5)[[1]][["Pr(>F)"]][1],
-                              summary(black_aov_t5)[[1]][["Pr(>F)"]][1],
-                              summary(clear_aov_t6)[[1]][["Pr(>F)"]][1],
-                              summary(black_aov_t6)[[1]][["Pr(>F)"]][1]
-                            )) %>%
-  mutate(Significant = case_when(p < 0.05 ~ "*",
-                                 p > 0.05 ~ "-"))
 
-kable(anova_results)
+```{r plate_type_plots_stats_summary_tukey}
+calculate_cohens_d <- function(data, group_var, value_var, group1, group2) {
+  group1_data <- data[data[[group_var]] == group1, ][[value_var]]
+  group2_data <- data[data[[group_var]] == group2, ][[value_var]]
+  
+  n1 <- length(group1_data)
+  n2 <- length(group2_data)
+  
+  mean_diff <- mean(group1_data) - mean(group2_data)
+  pooled_sd <- sqrt(((n1 - 1) * var(group1_data) + (n2 - 1) * var(group2_data)) / (n1 + n2 - 2))
+  
+  cohens_d <- mean_diff / pooled_sd
+  return(cohens_d)
+}
 
 clear_tukey_t2 <- data.frame(TukeyHSD(clear_aov_t3, conf.level = 0.95)$`factor(Section)`) %>%
-  mutate(timepoint = "T2", plate_type = "clear") %>%
+  mutate(
+    timepoint = "T2", 
+    plate_type = "clear",
+    cohens_d = sapply(rownames(.), function(comp) {
+      groups <- strsplit(comp, "-")[[1]]
+      calculate_cohens_d(
+        stats_data %>% filter(plate_type == "clear", timepoint == "T2"),
+        "Section", "OD", groups[1], groups[2]
+      )
+    })
+  ) %>%
   filter(p.adj <= 0.05) %>%
   rownames_to_column(var = "comparison")
+
 black_tukey_t2 <- data.frame(TukeyHSD(black_aov_t3, conf.level = 0.95)$`factor(Section)`) %>%
-  mutate(timepoint = "T2", plate_type = "black") %>%
+  mutate(
+    timepoint = "T2", 
+    plate_type = "black",
+    cohens_d = sapply(rownames(.), function(comp) {
+      groups <- strsplit(comp, "-")[[1]]
+      calculate_cohens_d(
+        stats_data %>% filter(plate_type == "black", timepoint == "T2"),
+        "Section", "OD", groups[1], groups[2]
+      )
+    })
+  ) %>%
   filter(p.adj <= 0.05) %>%
   rownames_to_column(var = "comparison")
 
+# T3
 clear_tukey_t3 <- data.frame(TukeyHSD(clear_aov_t3, conf.level = 0.95)$`factor(Section)`) %>%
-  mutate(timepoint = "T3", plate_type = "clear") %>%
+  mutate(
+    timepoint = "T3", 
+    plate_type = "clear",
+    cohens_d = sapply(rownames(.), function(comp) {
+      groups <- strsplit(comp, "-")[[1]]
+      calculate_cohens_d(
+        stats_data %>% filter(plate_type == "clear", timepoint == "T3"),
+        "Section", "OD", groups[1], groups[2]
+      )
+    })
+  ) %>%
   filter(p.adj <= 0.05) %>%
   rownames_to_column(var = "comparison")
+
 black_tukey_t3 <- data.frame(TukeyHSD(black_aov_t3, conf.level = 0.95)$`factor(Section)`) %>%
-  mutate(timepoint = "T3", plate_type = "black") %>%
+  mutate(
+    timepoint = "T3", 
+    plate_type = "black",
+    cohens_d = sapply(rownames(.), function(comp) {
+      groups <- strsplit(comp, "-")[[1]]
+      calculate_cohens_d(
+        stats_data %>% filter(plate_type == "black", timepoint == "T3"),
+        "Section", "OD", groups[1], groups[2]
+      )
+    })
+  ) %>%
   filter(p.adj <= 0.05) %>%
   rownames_to_column(var = "comparison")
 
-clear_tukey_t4 <- data.frame(TukeyHSD(clear_aov_t5, conf.level = 0.95)$`factor(Section)`) %>%
-  mutate(timepoint = "T4", plate_type = "clear") %>%
-  filter(p.adj <= 0.05) %>%
-  rownames_to_column(var = "comparison")
-black_tukey_t4 <- data.frame(TukeyHSD(black_aov_t5, conf.level = 0.95)$`factor(Section)`) %>%
-  mutate(timepoint = "T4", plate_type = "black") %>%
+# T4
+clear_tukey_t4 <- data.frame(TukeyHSD(clear_aov_t4, conf.level = 0.95)$`factor(Section)`) %>%
+  mutate(
+    timepoint = "T4", 
+    plate_type = "clear",
+    cohens_d = sapply(rownames(.), function(comp) {
+      groups <- strsplit(comp, "-")[[1]]
+      calculate_cohens_d(
+        stats_data %>% filter(plate_type == "clear", timepoint == "T4"),
+        "Section", "OD", groups[1], groups[2]
+      )
+    })
+  ) %>%
   filter(p.adj <= 0.05) %>%
   rownames_to_column(var = "comparison")
 
+black_tukey_t4 <- data.frame(TukeyHSD(black_aov_t4, conf.level = 0.95)$`factor(Section)`) %>%
+  mutate(
+    timepoint = "T4", 
+    plate_type = "black",
+    cohens_d = sapply(rownames(.), function(comp) {
+      groups <- strsplit(comp, "-")[[1]]
+      calculate_cohens_d(
+        stats_data %>% filter(plate_type == "black", timepoint == "T4"),
+        "Section", "OD", groups[1], groups[2]
+      )
+    })
+  ) %>%
+  filter(p.adj <= 0.05) %>%
+  rownames_to_column(var = "comparison")
+
+# T5
 clear_tukey_t5 <- data.frame(TukeyHSD(clear_aov_t5, conf.level = 0.95)$`factor(Section)`) %>%
-  mutate(timepoint = "T5", plate_type = "clear") %>%
+  mutate(
+    timepoint = "T5", 
+    plate_type = "clear",
+    cohens_d = sapply(rownames(.), function(comp) {
+      groups <- strsplit(comp, "-")[[1]]
+      calculate_cohens_d(
+        stats_data %>% filter(plate_type == "clear", timepoint == "T5"),
+        "Section", "OD", groups[1], groups[2]
+      )
+    })
+  ) %>%
   filter(p.adj <= 0.05) %>%
   rownames_to_column(var = "comparison")
+
 black_tukey_t5 <- data.frame(TukeyHSD(black_aov_t5, conf.level = 0.95)$`factor(Section)`) %>%
-  mutate(timepoint = "T5", plate_type = "black") %>%
+  mutate(
+    timepoint = "T5", 
+    plate_type = "black",
+    cohens_d = sapply(rownames(.), function(comp) {
+      groups <- strsplit(comp, "-")[[1]]
+      calculate_cohens_d(
+        stats_data %>% filter(plate_type == "black", timepoint == "T5"),
+        "Section", "OD", groups[1], groups[2]
+      )
+    })
+  ) %>%
   filter(p.adj <= 0.05) %>%
   rownames_to_column(var = "comparison")
 
-clear_tukey_t6 <- data.frame(TukeyHSD(clear_aov_t5, conf.level = 0.95)$`factor(Section)`) %>%
-  mutate(timepoint = "T6", plate_type = "clear") %>%
-  filter(p.adj <= 0.05) %>%
-  rownames_to_column(var = "comparison")
-black_tukey_t6 <- data.frame(TukeyHSD(black_aov_t5, conf.level = 0.95)$`factor(Section)`) %>%
-  mutate(timepoint = "T6", plate_type = "black") %>%
+# T6
+clear_tukey_t6 <- data.frame(TukeyHSD(clear_aov_t6, conf.level = 0.95)$`factor(Section)`) %>%
+  mutate(
+    timepoint = "T6", 
+    plate_type = "clear",
+    cohens_d = sapply(rownames(.), function(comp) {
+      groups <- strsplit(comp, "-")[[1]]
+      calculate_cohens_d(
+        stats_data %>% filter(plate_type == "clear", timepoint == "T6"),
+        "Section", "OD", groups[1], groups[2]
+      )
+    })
+  ) %>%
   filter(p.adj <= 0.05) %>%
   rownames_to_column(var = "comparison")
 
-tukey_data <- bind_rows(clear_tukey_t2, black_tukey_t2, clear_tukey_t3, black_tukey_t3, clear_tukey_t4, black_tukey_t4, clear_tukey_t5, black_tukey_t5, clear_tukey_t6, black_tukey_t6)
+black_tukey_t6 <- data.frame(TukeyHSD(black_aov_t6, conf.level = 0.95)$`factor(Section)`) %>%
+  mutate(
+    timepoint = "T6", 
+    plate_type = "black",
+    cohens_d = sapply(rownames(.), function(comp) {
+      groups <- strsplit(comp, "-")[[1]]
+      calculate_cohens_d(
+        stats_data %>% filter(plate_type == "black", timepoint == "T6"),
+        "Section", "OD", groups[1], groups[2]
+      )
+    })
+  ) %>%
+  filter(p.adj <= 0.05) %>%
+  rownames_to_column(var = "comparison")
 
+# Combine all results
+tukey_data <- bind_rows(clear_tukey_t2, black_tukey_t2, clear_tukey_t3, black_tukey_t3, 
+                       clear_tukey_t4, black_tukey_t4, clear_tukey_t5, black_tukey_t5, 
+                       clear_tukey_t6, black_tukey_t6)
+
+# Create final table with effect sizes
 tukey_data_table <- tukey_data %>%
-  select(plate_type, timepoint, comparison, p.adj) %>%
+  select(plate_type, timepoint, comparison, p.adj, cohens_d) %>%
   rename(`Plate Type` = plate_type,
          Timepoint = timepoint,
-         `Section Comparison` = comparison)
+         `Section Comparison` = comparison,
+         `p-value (adj)` = p.adj,
+         `Cohen's d` = cohens_d) %>%
+  mutate(`Cohen's d` = round(`Cohen's d`, 3))
 
+# Display results
 kable(tukey_data_table)
 ```
 
 ```{r plate_type_plots_stats_photopigment_calcs}
+calculate_cohens_d_ttest <- function(t_test_result) {
+  t <- t_test_result$statistic
+  df <- t_test_result$parameter
+  d <- t * sqrt(1/df + 1/(df + 2))
+  return(d)
+}
+
+calculate_partial_eta_squared <- function(aov_model) {
+  anova_table <- summary(aov_model)[[1]]
+  ss_effect <- anova_table[1, "Sum Sq"]
+  ss_total <- sum(anova_table[, "Sum Sq"])
+  partial_eta_squared <- ss_effect / ss_total
+  return(partial_eta_squared)
+}
+
+# Data preparation
 stats_data_pigment <- rel_distribution_data %>%
   filter(timepoint == "T4") %>%
   filter(wavelength != 684)
 
+# T-tests with effect sizes
 t.test_444 <- t.test(OD ~ plate_type, data = stats_data_pigment %>% filter(wavelength == 444))
 t.test_444
+d_444 <- calculate_cohens_d_ttest(t.test_444)
+d_444
+
 t.test_495 <- t.test(OD ~ plate_type, data = stats_data_pigment %>% filter(wavelength == 495))
 t.test_495
+d_495 <- calculate_cohens_d_ttest(t.test_495)
+d_495
+
 t.test_634 <- t.test(OD ~ plate_type, data = stats_data_pigment %>% filter(wavelength == 634))
 t.test_634
+d_634 <- calculate_cohens_d_ttest(t.test_634)
+d_634
+
+# T-test results summary
+ttest_results <- data.frame(
+  Wavelength = c("444", "495", "634"),
+  p_value = c(t.test_444$p.value, t.test_495$p.value, t.test_634$p.value),
+  cohens_d = c(d_444, d_495, d_634)
+) %>%
+  mutate(
+    Significant = case_when(
+      p_value < 0.05 ~ "Yes",
+      TRUE ~ "No"
+    ),
+    # Format p-values to show scientific notation for very small values
+    p_value = format(p_value, scientific = TRUE, digits = 3),
+    cohens_d = round(cohens_d, 3)
+  )
+
+kable(ttest_results)
 
 
 clear_aov_t5_444 <- aov(OD ~ factor(Section), data = stats_data_pigment %>% filter(plate_type == "clear", wavelength == 444))
 black_aov_t5_444 <- aov(OD ~ factor(Section), data = stats_data_pigment %>% filter(plate_type == "black", wavelength == 444))
 summary(clear_aov_t5_444)
-summary(black_aov_t5_444)
+# summary(black_aov_t5_444)
 
 clear_aov_t5_495 <- aov(OD ~ factor(Section), data = stats_data_pigment %>% filter(plate_type == "clear", wavelength == 495))
 black_aov_t5_495 <- aov(OD ~ factor(Section), data = stats_data_pigment %>% filter(plate_type == "black", wavelength == 495))
 summary(clear_aov_t5_495)
-summary(black_aov_t5_495)
+# summary(black_aov_t5_495)
 
 clear_aov_t5_634 <- aov(OD ~ factor(Section), data = stats_data_pigment %>% filter(plate_type == "clear", wavelength == 634))
 black_aov_t5_634 <- aov(OD ~ factor(Section), data = stats_data_pigment %>% filter(plate_type == "black", wavelength == 634))
 summary(clear_aov_t5_634)
-summary(black_aov_t5_634)
+# summary(black_aov_t5_634)
 ```
 
 ```{r plate_type_plots_stats_photopigment_summary}
-anova_results_pigment <- data.frame(`Plate Type` = c("clear", 'black', "clear", 'black', "clear", 'black'),
-                            Wavelength = c("444", "444", "495", "495", "634", "634"),
-                            p = c(
-                              summary(clear_aov_t5_444)[[1]][["Pr(>F)"]][1],
-                              summary(black_aov_t5_444)[[1]][["Pr(>F)"]][1],
-                              summary(clear_aov_t5_495)[[1]][["Pr(>F)"]][1],
-                              summary(black_aov_t5_495)[[1]][["Pr(>F)"]][1],
-                              summary(clear_aov_t5_634)[[1]][["Pr(>F)"]][1],
-                              summary(black_aov_t5_634)[[1]][["Pr(>F)"]][1]
-                            )) %>%
-  mutate(Significant = case_when(p < 0.05 ~ "Yes",
-                                 p > 0.05 ~ "No"))
+anova_results_pigment <- data.frame(
+  `Plate Type` = c("clear", 'black', "clear", 'black', "clear", 'black'),
+  Wavelength = c("444", "444", "495", "495", "634", "634"),
+  p = c(
+    summary(clear_aov_t5_444)[[1]][["Pr(>F)"]][1],
+    summary(black_aov_t5_444)[[1]][["Pr(>F)"]][1],
+    summary(clear_aov_t5_495)[[1]][["Pr(>F)"]][1],
+    summary(black_aov_t5_495)[[1]][["Pr(>F)"]][1],
+    summary(clear_aov_t5_634)[[1]][["Pr(>F)"]][1],
+    summary(black_aov_t5_634)[[1]][["Pr(>F)"]][1]
+  ),
+  partial_eta_squared = c(
+    calculate_partial_eta_squared(clear_aov_t5_444),
+    calculate_partial_eta_squared(black_aov_t5_444),
+    calculate_partial_eta_squared(clear_aov_t5_495),
+    calculate_partial_eta_squared(black_aov_t5_495),
+    calculate_partial_eta_squared(clear_aov_t5_634),
+    calculate_partial_eta_squared(black_aov_t5_634)
+  )
+) %>%
+  mutate(
+    Significant = case_when(
+      p < 0.05 ~ "Yes",
+      p > 0.05 ~ "No"
+    ),
+    partial_eta_squared = round(partial_eta_squared, 3)
+  )
+
+cohens_f(clear_aov_t5_444)
+# cohens_f(black_aov_t5_444)
+cohens_f(clear_aov_t5_495)
+# cohens_f(black_aov_t5_495)
+cohens_f(clear_aov_t5_634)
+# cohens_f(black_aov_t5_634)
 
 kable(anova_results_pigment)
+```
 
+```{r plate_type_plots_stats_photopigment_summary_tukey}
 clear_tukey_444 <- data.frame(TukeyHSD(clear_aov_t5_444, conf.level = 0.95)$`factor(Section)`) %>%
-  mutate(Wavelength = 444, plate_type = "clear") %>%
+  mutate(
+    Wavelength = 444, 
+    plate_type = "clear",
+    cohens_d = sapply(rownames(.), function(comp) {
+      groups <- strsplit(comp, "-")[[1]]
+      calculate_cohens_d(
+        stats_data_pigment %>% filter(plate_type == "clear", wavelength == 444),
+        "Section", "OD", groups[1], groups[2]
+      )
+    })
+  ) %>%
   filter(p.adj <= 0.05) %>%
   rownames_to_column(var = "comparison")
+
+# 444nm Black
 black_tukey_444 <- data.frame(TukeyHSD(black_aov_t5_444, conf.level = 0.95)$`factor(Section)`) %>%
-  mutate(Wavelength = 444, plate_type = "black") %>%
+  mutate(
+    Wavelength = 444, 
+    plate_type = "black",
+    cohens_d = sapply(rownames(.), function(comp) {
+      groups <- strsplit(comp, "-")[[1]]
+      calculate_cohens_d(
+        stats_data_pigment %>% filter(plate_type == "black", wavelength == 444),
+        "Section", "OD", groups[1], groups[2]
+      )
+    })
+  ) %>%
   filter(p.adj <= 0.05) %>%
   rownames_to_column(var = "comparison")
 
+# 495nm Clear
 clear_tukey_495 <- data.frame(TukeyHSD(clear_aov_t5_495, conf.level = 0.95)$`factor(Section)`) %>%
-  mutate(Wavelength = 494, plate_type = "clear") %>%
+  mutate(
+    Wavelength = 495, 
+    plate_type = "clear",
+    cohens_d = sapply(rownames(.), function(comp) {
+      groups <- strsplit(comp, "-")[[1]]
+      calculate_cohens_d(
+        stats_data_pigment %>% filter(plate_type == "clear", wavelength == 495),
+        "Section", "OD", groups[1], groups[2]
+      )
+    })
+  ) %>%
   filter(p.adj <= 0.05) %>%
   rownames_to_column(var = "comparison")
+
+# 495nm Black
 black_tukey_495 <- data.frame(TukeyHSD(black_aov_t5_495, conf.level = 0.95)$`factor(Section)`) %>%
-  mutate(Wavelength = 495, plate_type = "black") %>%
+  mutate(
+    Wavelength = 495, 
+    plate_type = "black",
+    cohens_d = sapply(rownames(.), function(comp) {
+      groups <- strsplit(comp, "-")[[1]]
+      calculate_cohens_d(
+        stats_data_pigment %>% filter(plate_type == "black", wavelength == 495),
+        "Section", "OD", groups[1], groups[2]
+      )
+    })
+  ) %>%
   filter(p.adj <= 0.05) %>%
   rownames_to_column(var = "comparison")
 
+# 634nm Clear
 clear_tukey_634 <- data.frame(TukeyHSD(clear_aov_t5_634, conf.level = 0.95)$`factor(Section)`) %>%
-  mutate(Wavelength = 634, plate_type = "clear") %>%
+  mutate(
+    Wavelength = 634, 
+    plate_type = "clear",
+    cohens_d = sapply(rownames(.), function(comp) {
+      groups <- strsplit(comp, "-")[[1]]
+      calculate_cohens_d(
+        stats_data_pigment %>% filter(plate_type == "clear", wavelength == 634),
+        "Section", "OD", groups[1], groups[2]
+      )
+    })
+  ) %>%
   filter(p.adj <= 0.05) %>%
   rownames_to_column(var = "comparison")
+
+# 634nm Black
 black_tukey_634 <- data.frame(TukeyHSD(black_aov_t5_634, conf.level = 0.95)$`factor(Section)`) %>%
-  mutate(Wavelength = 634, plate_type = "black") %>%
+  mutate(
+    Wavelength = 634, 
+    plate_type = "black",
+    cohens_d = sapply(rownames(.), function(comp) {
+      groups <- strsplit(comp, "-")[[1]]
+      calculate_cohens_d(
+        stats_data_pigment %>% filter(plate_type == "black", wavelength == 634),
+        "Section", "OD", groups[1], groups[2]
+      )
+    })
+  ) %>%
   filter(p.adj <= 0.05) %>%
   rownames_to_column(var = "comparison")
 
-tukey_data_pigment <- bind_rows(clear_tukey_444, black_tukey_444, clear_tukey_495, black_tukey_495, clear_tukey_634, black_tukey_634)
+# Combine all results
+tukey_data_pigment <- bind_rows(
+  clear_tukey_444, black_tukey_444,
+  clear_tukey_495, black_tukey_495,
+  clear_tukey_634, black_tukey_634
+)
 
+# Create final table with effect sizes
 tukey_data_table_pigment <- tukey_data_pigment %>%
-  select(plate_type, Wavelength, comparison, p.adj) %>%
+  select(plate_type, Wavelength, comparison, p.adj, cohens_d) %>%
   rename(`Plate Type` = plate_type,
-         `Section Comparison` = comparison)
+         `Section Comparison` = comparison,
+         `p-value (adj)` = p.adj,
+         `Cohen's d` = cohens_d) %>%
+  mutate(`Cohen's d` = round(`Cohen's d`, 3))
 
-kable(tukey_data_table_pigment)
+# Display results
+kable(ttest_results, caption = "T-test Results with Effect Sizes")
+kable(anova_results_pigment, caption = "ANOVA Results with Effect Sizes")
+kable(tukey_data_table_pigment, caption = "Tukey Test Results with Effect Sizes")
 ```
 
 \newpage
@@ -1270,7 +1781,7 @@ T0_BG11_data <- BG11_data %>%
 ```{r BG11_plots}
 fig3a <- BG11_data %>%
   group_by(compound, concentration, timepoint) %>%
-  summarize(OD750 = median(OD)) %>%
+  summarise(OD750 = median(OD)) %>%
   ggplot(aes(x=timepoint, y=OD750, colour = concentration, group = concentration)) +
   geom_line() + 
   facet_wrap(~compound, scales = 'free_y', ncol = 2) +
@@ -1321,8 +1832,6 @@ OD_data_antibiotics <- read_csv('data/use-cases/primary/antibiotics_growth_data.
   mutate(Concentration = Concentration * 50, concentration_labs = factor(as.character(Concentration), levels = c('0', '0.5', '2.5', '5', '10', '25', '50', '75', '100', '250', '500'))) %>%
   mutate(Antibiotic = case_when(Antibiotic == "Carbanicillin" ~ "Carbenicillin",
                                 TRUE ~ Antibiotic))
-# %>%
-  # filter(Strain == "UTEX2973")
 ```
 
 ```{r antibiotics_plots}
@@ -1390,20 +1899,13 @@ JMP_picklist <- read_csv("data/use-cases/BG11-RSM/BG11_JMP_layout.csv") %>%
   select(JMP_value, well, compound) %>%
   pivot_wider(names_from = "compound", values_from = "JMP_value")
 
-OD_data_output <- read_csv("data/use-cases/BG11-RSM/BG11_opt_OD_data.csv") %>%
-  mutate(time = ymd_hms(time), timepoint = factor(timepoint, levels = c('T0', 'T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12', 'T13', 'T14', 'T15', 'T16', 'T17', 'T18'))) %>%
+
+OD_data_output <- read_csv("data/use-cases-mod/BG11-RSM/BG11_opt_OD_data.csv", col_types = cols(plate_ID = col_character())) %>%
   select(-c(datetime, measurement_ID)) %>%
-  # right_join(plate_metadata, by = 'plate_location') %>%
-  # right_join(layout_info, by = 'well') %>%
-  pivot_longer(-c(plate_ID, timepoint, time, wavelength, well), names_to = 'quadrant', values_to = 'OD') %>%
-  mutate(OD = as.numeric(OD)) %>%
+  mutate(time = ymd_hms(time), timepoint = factor(timepoint, levels = c('T0', 'T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12', 'T13', 'T14', 'T15', 'T16', 'T17', 'T18'))) %>%
   filter(wavelength == 750) %>%
-  group_by(plate_ID, timepoint, well) %>%
-  # slice_min(order_by = OD, n = 2) %>%
-  # summarise(OD = median(OD)) %>%
-  summarise(OD = min(OD)) %>%
-  ungroup() %>%
-  # filter(timepoint != "T1") %>%
+  select(-c(time, wavelength)) %>%
+  mutate(OD = as.numeric(OD)) %>%
   pivot_wider(names_from = timepoint, values_from = OD) %>%
   mutate(OD = T3-T0) %>%
   select(plate_ID, well, OD) %>%
@@ -1598,15 +2100,10 @@ library_data <- read_csv("data/use-cases/bioactive-screening/bioactive_library_i
   rename(well = "384-Well") %>%
   mutate(plate_ID = as.numeric(plate_ID))
 
-screen1_OD_data <- read_csv('data/use-cases/bioactive-screening/bioactive_screen1_OD_data.csv') %>%
+screen1_OD_data <- read_csv('data/use-cases-mod/bioactive-screening/bioactive_screen1_OD_data.csv') %>%
   mutate(time = ymd_hms(time), timepoint = factor(timepoint, levels = c('T0', 'T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12', 'T13', 'T14', 'T15', 'T16', 'T17', 'T18'))) %>%
   select(-c(datetime)) %>%
-  # right_join(plate_metadata, by = 'plate_location') %>%
-  # right_join(layout_info, by = 'well') %>%
-  tidyr::pivot_longer(-c(measurement_ID, plate_ID, timepoint, time, wavelength, well), names_to = 'quadrant', values_to = 'OD') %>%
-  mutate(OD = as.numeric(OD)) %>%
   mutate(value_ID = interaction(measurement_ID, well)) %>%
-  filter(plate_ID != 1233) %>%
   mutate(round = case_when(plate_ID %in% c(1209, 1212, 1215, 1221, 1224, 1227, 1230, 1243, 1247) ~ "Set 1",
                   plate_ID %in% c(1236, 1239, 1251, 1255, 1258) ~ "Set 2")) %>%
   mutate(Day = case_when(timepoint == "T0" ~ "0",
@@ -1634,8 +2131,6 @@ compound_list <- screening_data %>%
 hit_tally <- screen1_OD_data %>%
   filter(str_detect(well, '01', negate = TRUE), str_detect(well, '24', negate = TRUE)) %>%
   filter(wavelength == 750, timepoint == "T2") %>%
-  group_by(measurement_ID, plate_ID, timepoint, time, wavelength, well, value_ID) %>%
-  summarise(OD = min(OD)) %>%
   ungroup() %>%
   group_by(plate_ID) %>%
   mutate(z_score = (OD-mean(OD))/sd(OD)) %>%
@@ -1658,8 +2153,6 @@ kbl(hit_tally)
 hit_overview <- screen1_OD_data %>%
   filter(str_detect(well, '01', negate = TRUE), str_detect(well, '24', negate = TRUE)) %>%
   filter(wavelength == 750, timepoint == "T2") %>%
-  group_by(measurement_ID, plate_ID, timepoint, time, wavelength, well, value_ID) %>%
-  summarise(OD = min(OD)) %>%
   ungroup() %>%
   group_by(plate_ID) %>%
   mutate(z_score = (OD-mean(OD))/sd(OD)) %>%
@@ -1682,8 +2175,6 @@ mycolors = colorRampPalette(brewer.pal(name="Dark2", n = 8))(14)
 primary_figA <- screen1_OD_data %>%
   filter(str_detect(well, '01', negate = TRUE), str_detect(well, '24', negate = TRUE)) %>%
   filter(wavelength == 750, timepoint == "T2") %>%
-  group_by(measurement_ID, plate_ID, timepoint, time, wavelength, well, value_ID, round) %>%
-  summarise(OD = min(OD)) %>%
   group_by(round) %>%
   mutate(median = median(OD)) %>%
   ggplot() +
@@ -1699,8 +2190,6 @@ primary_figA
 z_score_data <- screen1_OD_data %>%
   filter(str_detect(well, '01', negate = TRUE), str_detect(well, '24', negate = TRUE)) %>%
   filter(wavelength == 750, timepoint == "T2") %>%
-  group_by(measurement_ID, plate_ID, timepoint, time, wavelength, well, value_ID) %>%
-  summarise(OD = min(OD)) %>%
   ungroup() %>%
   group_by(plate_ID) %>%
   mutate(z_score = (OD-mean(OD))/sd(OD))
@@ -1708,8 +2197,6 @@ z_score_data <- screen1_OD_data %>%
 round1_supp_distribution <- screen1_OD_data %>%
   filter(str_detect(well, '01', negate = TRUE), str_detect(well, '24', negate = TRUE)) %>%
   filter(wavelength == 750, timepoint == "T2") %>%
-  group_by(measurement_ID, plate_ID, timepoint, time, wavelength, well, value_ID) %>%
-  summarise(OD = min(OD)) %>%
   ungroup() %>%
   group_by(plate_ID) %>%
   mutate(z_score = (OD-mean(OD))/sd(OD)) %>%
@@ -1722,8 +2209,6 @@ round1_supp_distribution
 primary_figB <- screen1_OD_data %>%
   filter(str_detect(well, '01', negate = TRUE), str_detect(well, '24', negate = TRUE)) %>%
   filter(wavelength == 750, timepoint == "T2") %>%
-  group_by(measurement_ID, plate_ID, timepoint, time, wavelength, well, value_ID, round) %>%
-  summarise(OD = min(OD)) %>%
   ungroup() %>%
   group_by(plate_ID) %>%
   mutate(z_score = (OD-mean(OD))/sd(OD)) %>%
@@ -1758,8 +2243,6 @@ skewness_OD_full
 primary_figC <- screen1_OD_data %>%
   filter(str_detect(well, '01', negate = TRUE), str_detect(well, '24', negate = TRUE)) %>%
   filter(wavelength == 750, timepoint == "T2") %>%
-  group_by(measurement_ID, plate_ID, timepoint, time, wavelength, well, value_ID) %>%
-  summarise(OD = min(OD)) %>%
   ungroup() %>%
   group_by(plate_ID) %>%
   mutate(z_score = (OD-mean(OD))/sd(OD)) %>%
@@ -1780,8 +2263,6 @@ primary_figC
 select_hits_OD750 <- screen1_OD_data %>%
   filter(str_detect(well, '01', negate = TRUE), str_detect(well, '24', negate = TRUE)) %>%
   filter(wavelength == 750, timepoint == "T2") %>%
-  group_by(measurement_ID, plate_ID, timepoint, time, wavelength, well, value_ID) %>%
-  summarise(OD = min(OD)) %>%
   ungroup() %>%
   group_by(plate_ID) %>%
   mutate(z_score = (OD-mean(OD))/sd(OD)) %>%
@@ -1800,8 +2281,6 @@ supp_fig_screen1 <- screen1_OD_data %>%
   filter(wavelength == 750, timepoint == "T2") %>%
   mutate(row = str_sub(well, start = 1L, end = 1L),
          column = as.numeric(str_sub(well, start = 2L, end = 3L))) %>%
-  group_by(well, column, row, timepoint, plate_ID) %>%
-  summarise(OD = min(OD)) %>%
   ggplot(aes(x=column, y = reorder(row, desc(row)), fill = OD)) +
   geom_tile() +
   labs(y = '', x = '', fill = bquote(OD[750]), title = "OD750 by well") +
@@ -1868,6 +2347,27 @@ round2_OD_hits <- round2_OD_data %>%
   summarise(med_OD = median(OD), med_p.value= median(p.value)) %>%
   left_join(hit_function_info, by = 'Chemical name')
 
+round2_OD_p_values <- round2_OD_data %>%
+  left_join(round2_control_data_summary, by = "plate_ID") %>%
+  ungroup() %>%
+  group_by(well) %>%
+  mutate(hit_type = case_when(median(OD) > median(control_mean) ~ "higher",
+                              median(OD) < median(control_mean) ~ "lower")) %>%
+  ungroup() %>%
+  
+  rowwise() %>%
+  mutate(p.value = case_when(hit_type == "lower" ~ pnorm(q = OD, mean = control_mean, sd = control_sd),
+                            hit_type == "higher" ~ pnorm(q = OD, mean = control_mean, sd = control_sd, lower.tail = FALSE))) %>%
+  filter(`Chemical name` %in% round2_OD_hits$`Chemical name`) %>%
+  mutate(Reading = case_when(plate_ID == 'rescreen1' ~ 'Rep 1 (p-value)',
+                             plate_ID == 'rescreen2' ~ 'Rep 2 (p-value)',
+                             plate_ID == 'rescreen3' ~ 'Rep 3 (p-value)')) %>%
+  select(c(`Chemical name`, Reading, `p.value`)) %>%
+  mutate(p.value = case_when(p.value <= 0.00095 ~ formatC(p.value, format = "e", digits = 2),
+                             T ~ as.character(round(p.value, 3)))) %>%
+  # mutate(p.value = formatC(p.value, format = "e", digits = 2)) %>%
+  pivot_wider(names_from = 'Reading', values_from = 'p.value')
+
 round2_OD_hit_info <- round2_OD_hits %>%
   ungroup() %>%
   select(well, `Chemical name`, n, hit_type)
@@ -1885,6 +2385,7 @@ round2_OD_hits_data <- round2_OD_data %>%
   select(-plate_ID) %>%
   mutate(fold_OD = OD/control_mean) %>%
   select(-c(OD, control_mean)) %>%
+  mutate(fold_OD = round(fold_OD, 3)) %>%
   pivot_wider(names_from = "Reading", values_from = "fold_OD") %>%
   rename(`Significant Measurements` = "n") %>%
   arrange(desc(`Rep 1 (x-fold)`))
@@ -1896,7 +2397,10 @@ round2_OD_hits_select <- round2_OD_hits_data %>%
   mutate(rank = abs(dif)) %>%
   group_by(hit_type) %>%
   slice_max(order_by = rank, n = 8) %>%
-  select(-c(dif, rank))
+  select(-c(dif, rank)) %>%
+  inner_join(round2_OD_p_values, by = 'Chemical name') %>%
+  select(`Chemical name`, `Significant Measurements`, hit_type, `Rep 1 (x-fold)`, `Rep 1 (p-value)`, `Rep 2 (x-fold)`, `Rep 2 (p-value)`, `Rep 3 (x-fold)`, `Rep 3 (p-value)`)
+write_csv(round2_OD_hits_select, 'round2_hits_coverview.csv')
 round2_OD_hits_select
 ```
 
@@ -1904,7 +2408,7 @@ round2_OD_hits_select
 ```{r screen2_OD750}
 round2_hit_overview_OD <- round2_OD_data %>%
   mutate(hit = case_when(well %in% round2_OD_hits_select$well ~ "hit", well_type == "Control" ~ "Control")) %>%
-  filter(hit == "hit" || hit == "Control")
+  filter(hit == "hit" | hit == "Control")
 
 round2_hits_info <- round2_OD_hits_select %>%
     select(`Chemical name`, `Significant Measurements`, hit_type) %>%
@@ -2009,16 +2513,12 @@ round3_layout <- read_csv("data/use-cases/bioactive-screening/bioactive_screen_r
   select(well, Compound, Concentration) %>%
   mutate(plate_type = "gradient", Concentration = as.character(Concentration))
 
-round3_OD_data <- read_csv("data/use-cases/bioactive-screening/bioactive_screen_round3_OD_data.csv") %>%
+round3_OD_data <- read_csv("data/use-cases-mod/bioactive-screening/bioactive_screen_round3_OD_data.csv") %>%
   filter(str_detect(well, '01', negate = TRUE), str_detect(well, '24', negate = TRUE), str_detect(well, 'A', negate = TRUE), str_detect(well, 'P', negate = TRUE)) %>%
-  filter(wavelength == 750) %>%
-  group_by(measurement_ID, plate_ID, timepoint, wavelength, well, value_ID, well_type, Compound, Concentration) %>%
-  summarise(OD = min(OD)) %>%
-  ungroup()
+  filter(wavelength == 750)
 
 round3_OD_control_data <- round3_OD_data %>%
   filter(Compound == "DMSO")
-
 
 mercury_compounds = c("PHENYLMERCURIC ACETATE", "THIMEROSAL")
 

@@ -19,6 +19,7 @@ The following table shows the contents of the repository and a brief description
 | **PHERAstar_standard_data_processing.py** | Python | . | Script for processing standard PHERAstar data |
 | **varioskan_data_parsing.py** | Python | . | Script for parsing Varioskan data |
 | **LED_driver.ino** | Arduino | . | Arduino script for controlling LED intensity |
+| **parts-list.csv** | System | system-design/ | Parts list |
 | **2973_plate-type_growth_data.csv** | Design / Validation | data/system-design/ | Culture OD data |
 | **2973_seal_growth_data.csv** | Design / Validation | data/system-design/ | Culture OD data |
 | **2973_spectrum_growth_data.csv** | Design / Validation | data/system-design/ | Culture OD data |

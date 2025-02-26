@@ -1,0 +1,24 @@
+Part Name,Manufacturer*,Retailer,Cost Per Unit,Current Rating,Voltage Rating,Key Specifications,Purpose,Verified URL
+384-LED Array,"Guangzhou Juhong Optoelectronics Co., Ltd.",-,$68.50 USD,150 mA,48 V,"5000K light temp, 40-60°C optimal temp range, superconducting aluminum",Provide light to microplate wells,-
+3D Printed LightBox,-,-,-,-,-,"18mm H x 85.47mm W x 121.09mm L, ~5mm LED-to-plate distance",Hold LED array and align with microplate,-
+3D Printed Connector Piece,-,-,-,-,-,Connects slip ring to fan,Mount slip ring to fan,-
+Banana Jack to Spade Lug (Red),Mueller Electric Co.,DigiKey,$1.90 ,36 A,30 VAC/60 VDC,4mm connectors,Connect LED arrays to terminal strip,https://www.digikey.ca/en/products/detail/mueller-electric-co/BU-30211A-2/5800990
+Banana Jack to Spade Lug (Black),Mueller Electric Co.,DigiKey,$1.90 ,36 A,30 VAC/60 VDC,4mm connectors,Connect LED arrays to terminal strip,https://www.digikey.ca/en/products/detail/mueller-electric-co/BU-30211A-0/5800989
+12 Position Terminal Strip (25A),-,Lee's Electronics,$4.69 ,25 A,600 V,19mm H x 28mm W x 165mm L,Distribute power to LED arrays,https://leeselectronic.com/en/product/647-terminal-12-position-25a-600v-tb-2512.html
+12 Position Terminal Strip (15A),-,Lee's Electronics,$4.25 ,15 A,600 V,18mm H x 22mm W x 126mm L,Distribute power to LED arrays,https://leeselectronic.com/en/product/650-terminal-12-position-15a-tb-1512.html
+Terminal Bus (15A) Red,-,Lee's Electronics,$2.75 ,15 A,-,-,Connect terminal strip positions,https://leeselectronic.com/en/product/3032-terminal-bus-small-12-pin-red.html
+Terminal Bus (15A) Black,-,Lee's Electronics,$2.75 ,15 A,-,-,Connect terminal strip positions,https://leeselectronic.com/en/product/3030-terminal-bus-small-12-pin-black.html
+18 AWG Wire,Penn Elcom,-,$1.55/m,4.2 A,300 V,18 AWG flat cable,Connect system components,https://www.pennelcomonline.com/us/Penn-Elcom-Led-2-Core-Flat-Cable-18awg-Stranded-Copper-CA2F18/m-9714.aspx
+Luminaire Wire Connector,Ideal,Home Depot,$10.27/5-pack,-,600 V,Two-pole connector,Connect wires,https://www.homedepot.ca/product/ideal-luminaire-disconnect-5-pack-/1000511513
+Crimp-free Butt Splice,Ideal,Home Depot,$5.86/10-pack,-,600 V,For stranded/solid core wires,Connect wires,https://www.homedepot.ca/product/ideal-crimp-free-butt-splice-10-pack-/1000663495
+Slip Ring,SparkFun,-,$29.95 ,10:00 AM,380 VDC/AC,"3 wires, 16 AWG, 250 RPM, IP51",Allow 360 degree rotation with electrical connection,https://www.sparkfun.com/products/13063
+Machine Screws (M5),Paulin,Home Depot,$0.36 + $0.19,-,-,"M5 diameter, 16mm length",Attach slip ring to connector piece,https://www.homedepot.ca/product/paulin-m5-80-x-16mm-class-8-8-metric-hex-cap-screw-din-933-zinc-plated/1000128423
+Machine Screws (6-32),Paulin,Home Depot,$0.16 + $0.18,-,-,"6-32 diameter, 1 inch length",Attach terminal strips to stackers,https://www.homedepot.ca/product/paulin-6-32-x-1-inch-round-head-slot-machine-screw-solid-brass/1000128179
+MeanWell LED Driver,Mean Well USA Inc.,DigiKey,$48.67 ,2.5 A,48 V,"120W, IP67, 90-305 VAC input",Power source for LED arrays,https://www.digikey.ca/en/products/detail/mean-well-usa-inc/PWM-120-48/7705925
+Arduino Uno,Arduino,-,$29.47 ,-,5 V operating,"14 digital I/O, 6 PWM pins",Control LED array current,https://store.arduino.cc/usa/arduino-uno-rev3
+12V Power Supply,TMEZON,Amazon,$13.99 ,2:00 AM,12 V,"100-240V AC input, 2.1mm plug",Power dimming circuit,https://www.amazon.ca/TMEZON-Power-Adapter-Supply-2-1mm/dp/B00Q2E5IXW
+Barrel Jack Breakout,Dale Wheat,-,$3.00 ,-,-,2.1mm version,Connect power supply to circuit,https://www.dalewheat.com/product/barrel-jack-breakout-board-kit/
+1kOhm Resistor,-,Lee's Electronics,-,-,-,1/8W 1kOhm,PWM current control (diming circuit),https://leeselectronic.com/en/product/95116-resistor-1-8w-1kohm-5-10pcs.html
+NPN Transistor,-,Lee's Electronics,-,-,-,2N3904,PWM current control (diming circuit),https://leeselectronic.com/en/product/7178-7178TRANSISTOR2N3904NPN5PCS.html
+PNP Transistor,-,Lee's Electronics,-,-,-,2N3906,PWM current control (diming circuit),https://leeselectronic.com/en/product/7175-7175TRANSISTOR2N3906PNP5PCSPKG.html
+Perma-Proto Board,Adafruit,Adafruit,-,-,-,Quarter-sized breadboard,Mount dimming circuit components,https://www.adafruit.com/product/1608
